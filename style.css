@@ -218,6 +218,11 @@ h1 {
 .button:active {
   transform: translateY(0);
 }
+.store-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 @media (prefers-reduced-motion: reduce) {
   .button {
     transition: none;
