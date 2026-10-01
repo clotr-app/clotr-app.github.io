@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Clotr: clot your data leaks</title>
+    <meta
+      name="description"
+      content="Clotr is a free browser extension that catches passwords, Social Security numbers, addresses and other private details before you send them: in AI chats, your email, Discord and Slack. For you, a parent or a whole office. It all stays on your computer."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content="Clotr" />
+    <meta
+      property="og:description"
+      content="Clot your data leaks: in AI chats, your email, Discord and Slack. Free, open source, and it all stays on your computer."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/" />
+    <meta property="og:image" content="https://clotr.app/assets/social-card.png" />
+    <meta
+      property="og:image:alt"
+      content="Clotr: a mind map where a bandage stops each personal detail on its way to AI chats, email, Discord and Slack"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top">
+      <a class="brand" href="index.html" aria-label="Clotr, home">
+        <img src="assets/tile.svg" alt="" width="32" height="32" />
+        <span>Clotr</span>
+      </a>
+      <nav aria-label="On this page">
+        <a href="#everywhere">Where it helps</a>
+        <a href="#catches">What it catches</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#install">Install</a>
+        <a href="#teams">For teams</a>
+        <a href="#who">About</a>
+        <a href="https://github.com/BilliamBaSH/clotr">Code</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-text">
+          <h1 id="hero-title">Clot your data leaks.</h1>
+          <p class="lede">
+            Your Social Security number in a tax question. Your address in an email to the landlord. A password in a
+            Discord chat. Clotr notices before you hit send and lets you hide it. It all happens on your computer.
+          </p>
+          <p class="actions">
+            <a class="button" href="#install">Get Clotr</a>
+            <a class="quiet" href="https://github.com/BilliamBaSH/clotr">Look at the code</a>
+          </p>
+          <p class="fine">Free and open source, and still early. Works in Chrome, Brave, Edge and Firefox on a computer.</p>
+        </div>
+        <figure class="hero-map">
+          <img
+            src="assets/map.svg"
+            width="860"
+            height="480"
+            alt="A mind map: from You, branches lead to AI chats, Email, and Discord and Slack. On each branch a bandage stops a detail before it goes out: a bank account, a password, a home address, a card number, a phone number, a date of birth."
+          />
+        </figure>
+      </section>
+
+      <div class="branches">
+        <section id="everywhere" aria-labelledby="everywhere-title">
+          <h2 id="everywhere-title">Wherever you type something private</h2>
+          <p>
+            People ask AI for help with everything now, and write to each other all day across social media and work
+            chats. Private details slip into both. Clotr's goal is a "suit of armor around the world" for all devices,
+            but today starts with the browser extension. Here's what Clotr catches in ordinary moments like these.
+          </p>
+          <div class="places">
+            <section class="place" aria-labelledby="home-title">
+              <h3 id="home-title">At home</h3>
+              <figure class="moment">
+                <figcaption><b>Doing taxes</b> <span class="app">ChatGPT</span></figcaption>
+                <p class="bubble" data-finds="us_ssn">
+                  Is this right? My Social Security number is <mark>219-09-9999</mark> and I made $41,200 last year.
+                </p>
+                <p class="caught">Clotr caught a Social Security number</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>Writing to the landlord</b> <span class="app">Gmail</span></figcaption>
+                <p class="bubble" data-finds="phone_number">
+                  The heater is broken again. I'm at Oak Street, Apt 4B. Call me at <mark>937-555-0123</mark> when you
+                  get this.
+                </p>
+                <p class="caught">Clotr caught a phone number</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>A call from "the bank"</b> <span class="app">Microsoft Copilot</span></figcaption>
+                <p class="bubble" data-finds="password">
+                  The bank is on the phone asking for the code they texted me: <mark>482913</mark>. Should I read it to
+                  them?
+                </p>
+                <p class="caught">Clotr caught a sign-in code, the thing scammers ask for</p>
+              </figure>
+            </section>
+
+            <section class="place" aria-labelledby="everyday-title">
+              <h3 id="everyday-title">Everyday use</h3>
+              <figure class="moment">
+                <figcaption><b>Picking a restaurant</b> <span class="app">Gemini</span></figcaption>
+                <p class="bubble" data-finds="street_address">
+                  Find me some great pizza places in Chicago, somewhere near <mark>123 Ashland Avenue</mark>.
+                </p>
+                <p class="caught">Clotr caught a home address</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>A group project</b> <span class="app">Discord</span></figcaption>
+                <p class="bubble" data-finds="password">
+                  just log in as me lol, the password is <mark>Sunflower2009</mark>
+                </p>
+                <p class="caught">Clotr caught a password</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>A birthday invite</b> <span class="app">WhatsApp</span></figcaption>
+                <p class="bubble" data-finds="date_of_birth street_address">
+                  omg my birthday is <mark>March 14, 2013</mark>!! party at <mark>18 Birch Lane</mark> on saturday,
+                  everyone come
+                </p>
+                <p class="caught">Clotr caught a date of birth and a home address</p>
+              </figure>
+            </section>
+
+            <section class="place" aria-labelledby="work-title">
+              <h3 id="work-title">At work</h3>
+              <figure class="moment">
+                <figcaption><b>Billing a customer</b> <span class="app">Outlook</span></figcaption>
+                <p class="bubble" data-finds="credit_card">
+                  Please charge the card on file, <mark>4111 1111 1111 1111</mark>, for the March invoice.
+                </p>
+                <p class="caught">Clotr caught a card number</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>A patient summary</b> <span class="app">Gemini</span></figcaption>
+                <p class="bubble" data-finds="medical_record date_of_birth">
+                  Summarize for the chart: patient MRN <mark>00482913</mark>, DOB <mark>02/11/1961</mark>, chest pain
+                  since Monday.
+                </p>
+                <p class="caught">Clotr caught a medical record number and a date of birth</p>
+              </figure>
+              <figure class="moment">
+                <figcaption><b>A broken deploy</b> <span class="app">Slack</span></figcaption>
+                <p class="bubble" data-finds="aws_access_key">
+                  deploy still fails, here is the key I used: <mark>AKIA4HPQ7XZ2R6TWLJ3N</mark>
+                </p>
+                <p class="caught">Clotr caught a cloud access key</p>
+              </figure>
+            </section>
+          </div>
+
+          <dl class="where">
+            <div>
+              <dt>Built in</dt>
+              <dd>
+                <span class="app">ChatGPT</span> <span class="app">Gemini</span>
+                <span class="app">Microsoft Copilot</span> <span class="app">Claude</span>
+                <span class="app">Meta AI</span> <span class="app">Perplexity</span>
+                <span class="app">Character.AI</span> <span class="app">DeepSeek</span> <span class="app">Grok</span>
+                and 9 more AI chats
+              </dd>
+            </div>
+            <div>
+              <dt>One click in Settings</dt>
+              <dd>
+                <span class="app">Gmail</span> <span class="app">Outlook</span> <span class="app">Yahoo Mail</span>
+                <span class="app">Discord</span> <span class="app">Slack</span> <span class="app">WhatsApp</span>
+                <span class="app">Messenger</span> <span class="app">Microsoft Teams</span>, or any site you're on.
+                Planned: built in like the AI chats, so there's nothing to switch on.
+              </dd>
+            </div>
+          </dl>
+          <p class="fine">
+            The numbers above are made up. On email and chat apps, Clotr warns and hides the same way, but it never
+            reads other people's messages.
+          </p>
+        </section>
+
+        <section id="how" aria-labelledby="how-title">
+          <h2 id="how-title">What happens when you type something private</h2>
+          <div class="split">
+            <ol class="steps">
+              <li>You type or paste like you always do: in an AI chat, an email, or a message on Discord or Slack.</li>
+              <li>
+                If there's a password, a key or something personal in there, Clotr catches it. Even when it's written
+                out, like "nine three seven…". Nothing leaves your computer to do this.
+              </li>
+              <li>
+                A little note pops up in the corner and tells you what it found. Hide it, or leave it in and send
+                anyway. It's your call. Clotr only stops a message if you've told it to.
+              </li>
+            </ol>
+            <figure>
+              <img
+                src="assets/warning.png"
+                width="1000"
+                height="680"
+                loading="lazy"
+                alt="A note in the corner of an AI chat: your message contains a US Social Security number; if you send it, this AI gets it. Leave it in or Hide it"
+              />
+            </figure>
+          </div>
+        </section>
+
+        <section id="catches" aria-labelledby="catches-title">
+          <h2 id="catches-title">What it catches</h2>
+          <dl class="catches">
+            <div>
+              <dt>Passwords and keys</dt>
+              <dd>Passwords, however you word them, and keys for OpenAI, GitHub, AWS, Stripe and a lot more.</dd>
+            </div>
+            <div>
+              <dt>Personal stuff</dt>
+              <dd>Phone numbers, emails, home addresses and birthdays. In digits, in words, or a mix.</dd>
+            </div>
+            <div>
+              <dt>ID and money numbers</dt>
+              <dd>
+                Card numbers, bank accounts, Social Security and Medicare numbers, medical record numbers and national
+                IDs.
+              </dd>
+            </div>
+            <div>
+              <dt>What scammers ask for</dt>
+              <dd>
+                A code someone texted you, the security code on your card, a remote access code. If someone's asking
+                for it, it's worth a second look.
+              </dd>
+            </div>
+            <div>
+              <dt>Your own list</dt>
+              <dd>
+                Add your name, your family, your address, where you work. Clotr keeps a scrambled fingerprint of each,
+                never the words themselves.
+              </dd>
+            </div>
+            <div>
+              <dt>Files you attach</dt>
+              <dd>Text files, PDFs, and Word, Excel and PowerPoint files you drop into a chat.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section id="privacy" aria-labelledby="privacy-title">
+          <h2 id="privacy-title">It all stays on your computer</h2>
+          <ul class="promises">
+            <li>
+              <strong>No servers, no analytics.</strong> Clotr doesn't send anything anywhere. There's a test that
+              checks that every single time the code changes.
+            </li>
+            <li>
+              <strong>It never saves what you typed.</strong> Just what kind of thing it found, on which site, when,
+              and what you did about it. You can look at all of it and delete it whenever you want.
+            </li>
+            <li>
+              <strong>It only runs where you say.</strong> Out of the box, only on AI chats. On your email or a chat app
+              only once you switch it on, one site at a time, and your browser asks you first. Never on every website
+              at once.
+            </li>
+          </ul>
+          <h3>Check it yourself</h3>
+          <ul class="promises">
+            <li>
+              <strong>See what it keeps.</strong> Clotr's own page <em>What Clotr stores</em> shows every record it
+              keeps, and what your browser allows it to reach: nothing outside the browser.
+            </li>
+            <li>
+              <strong>Watch it stay quiet.</strong> Open <code>chrome://extensions</code>, switch on Developer mode, and
+              under Clotr click <em>service worker</em>. Its Network tab stays empty while you use it.
+            </li>
+            <li>
+              <strong>Read the tests.</strong> A
+              <a href="https://github.com/BilliamBaSH/clotr/blob/main/tests/rules.test.js">rule check</a>
+              fails every build that adds code able to send data anywhere.
+            </li>
+            <li>
+              <strong>Rebuild it.</strong> Every release can be rebuilt from the code, byte for byte: its checksum
+              matches the release's <code>SHA256SUMS.txt</code>.
+            </li>
+          </ul>
+          <p>
+            <a href="https://github.com/BilliamBaSH/clotr/blob/main/PRIVACY.md">Read the privacy policy</a>
+          </p>
+        </section>
+
+        <section id="report" aria-labelledby="report-title">
+          <h2 id="report-title">See what you've already shared</h2>
+          <div class="split">
+            <p>
+              Click Clotr's button to see what it caught this week and where. The full report draws a mind map of what
+              each site already knows about you, what Clotr stopped, and where it can't see, plus what you can do about
+              it now.
+            </p>
+            <figure>
+              <img
+                src="assets/dashboard.png"
+                width="1280"
+                height="800"
+                loading="lazy"
+                alt="Clotr's dashboard: leaks stopped this week, what was found per day, and on which site"
+              />
+            </figure>
+          </div>
+        </section>
+
+        <section id="install" aria-labelledby="install-title">
+          <h2 id="install-title">Install</h2>
+          <p>Clotr is headed to the Chrome Web Store. For now, here's how to install the early version:</p>
+          <ol class="steps">
+            <li>
+              Grab the latest <code>clotr-&lt;version&gt;.zip</code> from
+              <a href="https://github.com/BilliamBaSH/clotr/releases">Releases</a> and unzip it.
+            </li>
+            <li>Open <code>chrome://extensions</code> (or <code>brave://extensions</code>) and switch on Developer mode.</li>
+            <li>Click <strong>Load unpacked</strong> and pick the folder you unzipped.</li>
+            <li>
+              Pin Clotr to your toolbar. A welcome page opens with a practice box so you can try it out. For your email
+              or chat apps too, open Clotr's Settings and switch them on.
+            </li>
+          </ol>
+          <p>
+            Setting it up for a parent or a friend? <a href="guide.html">Print the one-page guide</a> to leave next to
+            their computer. Libraries and senior centers are welcome to hand it out.
+          </p>
+          <p class="fine">
+            Works in Chrome, Brave and Microsoft Edge on Windows, Mac and Linux. There's a Firefox version too. On
+            phones, only Firefox for Android can run extensions.
+          </p>
+        </section>
+
+        <section id="made" aria-labelledby="made-title">
+          <h2 id="made-title">How it's made</h2>
+          <p><strong>No AI inside, no network, no accounts, open code, free for people.</strong></p>
+          <ul class="promises">
+            <li>
+              <strong>Clotr has absolutely NO AI.</strong> My basic software engineering education has taught me that our most reliable results come from deterministic calculations. While there is AI implementation in the creation and maintenance of Clotr (I'm just one guy, but honestly I want to provide the best protection I can while continuously learning), there's absolutely no AI within or around Clotr. I've used Claude Code to help teach me best practices, project management, coding practices, and so much more. NO AI will ever be used within Clotr; it defeats the point. I use AI to combat AI, but I want to isolate it as much as possible. If you have any questions, please reach out to me on GitHub or with the Report a problem button.
+            </li>
+            <li>
+              <strong>Deterministic patterns.</strong> Clotr spots private stuff with plain pattern matching that anyone
+              can read. It doesn't talk to any AI service.
+            </li>
+            <li>
+              <strong>Free, and it stays free.</strong> Use it, change it, share it. It's under the GNU Affero General
+              Public License.
+            </li>
+            <li>
+              <strong>Tested every time.</strong> Detection tests, privacy tests and real browser tests run on every
+              change, and every release can be rebuilt byte for byte.
+            </li>
+          </ul>
+        </section>
+
+        <section id="teams" aria-labelledby="teams-title">
+          <h2 id="teams-title">For organizations, and supporting Clotr</h2>
+          <p>
+            Clotr is free at work too. An office can roll it out to every computer through browser policy, with ready-made
+            presets for developers, for offices that handle client names, and for clinics, plus a printable page that
+            shows the policy is applied. Nothing is ever reported to the organization: everyone's Clotr is the same free
+            one. Planned for teams that want more: a small-team pack with a one-page use policy, a checklist for
+            cyber-insurance renewals, install guides and email support, at $299 a year for up to 25 people ($999 up to
+            100; $1,499 for IT providers), free for schools, libraries and nonprofits.
+          </p>
+          <p>
+            People never pay for Clotr. It's funded by grants and by organizations that buy the pack, never by ads or
+            data. <a href="https://github.com/BilliamBaSH/clotr/blob/main/docs/team-rollout.md">Roll it out to a team</a>
+            ·
+            <a href="https://github.com/BilliamBaSH/clotr/issues/new?template=commercial-license.yml">Ask about the pack or a commercial license</a>
+          </p>
+        </section>
+
+        <section id="who" aria-labelledby="who-title">
+          <h2 id="who-title">Who's making this</h2>
+          <p>
+            I'm Alex, a computer science student. I started Clotr because AI chats make it effortless to share things
+            that should stay private, and the people most likely to do it (parents and grandparents, kids, anyone who
+            trusts the friendly box on the screen) are the least likely to know where their words end up.
+          </p>
+          <p>
+            It started with me. I was using AI so naturally that I stopped filtering what I said. My curiosity takes
+            me down wild rabbit holes, and I began to notice how much the AI was noticing about me. When it brought up
+            things I'd only been thinking about, the implications frightened me.
+          </p>
+          <p>
+            I started this project in 2025, after finishing my Google IT Professional certificate, and grew it during
+            my freshman year at university. I'm using it to learn how real software gets made and shipped, security
+            and privacy, Git, and how to work well with AI tools. I organize the project and lay its foundations, and
+            an AI coding assistant writes much of the code with me. That's the point for me, but there's no AI in
+            Clotr itself: nothing from this project runs AI on your computer.
+          </p>
+          <p>
+            Clotr will always be free for people. It runs only on your computer, never sends anything anywhere, and
+            its code is open, so you don't have to take my word for it. Every release has to pass hundreds of
+            automated checks before it ships. I build it with my own time and money, so if Clotr misses something, or
+            warns you about nothing, please tell me: every report makes it better for the next person. The more you use Clotr, the more you report bugs, the better it gets. For free.
+          </p>
+          <p class="fine">Alex (BilliamBaSH)</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <img src="assets/tile.svg" alt="" width="24" height="24" />
+      <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+      <nav aria-label="Project">
+        <a href="https://github.com/BilliamBaSH/clotr">Code</a>
+        <a href="https://github.com/BilliamBaSH/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+        <a href="https://github.com/BilliamBaSH/clotr/issues/new/choose">Report a problem</a>
+      </nav>
+    </footer>
+  </body>
+</html>
