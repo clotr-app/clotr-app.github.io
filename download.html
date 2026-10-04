@@ -1,0 +1,157 @@
+<!doctype html>
+<!-- The suite website, not live (D190). Only the browser extension is available; everything else says "coming". -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Get Clotr</title>
+    <meta
+      name="description"
+      content="Get Clotr's browser extension, free from your browser's own store. Clotr for Windows, the Android keyboard and Safari on iPhone and iPad are coming."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#3a2f29" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fdf8f2" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body class="glow">
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top glass-bar">
+      <div class="wrap">
+        <a class="brand" href="index.html" aria-label="Clotr, home">
+          <img src="assets/tile.svg" alt="" width="32" height="32" />
+          <span>Clotr</span>
+        </a>
+        <nav class="links" aria-label="Site">
+          <a href="antibody.html">Clotr Antibody</a>
+          <a href="privacy.html">How it works</a>
+          <a href="teams.html">Teams</a>
+          <a href="download.html" aria-current="page">Download</a>
+        </nav>
+        <a class="btn primary sm" href="#extension">Get the extension<svg class="go" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="stack-lg">
+            <h1 id="hero-title" class="rise">Get Clotr</h1>
+            <p class="lede rise d1">
+              The browser extension is ready today. The rest of the suite is on its way, on the same engine.
+            </p>
+          </div>
+        </section>
+
+        <section id="extension" class="sec" aria-labelledby="ext-title">
+          <div class="card get" data-product="extension">
+            <div class="stack">
+              <span class="tag good">Available</span>
+              <h2 id="ext-title">The browser extension</h2>
+              <p class="say">Free, from your browser's own store. Chrome, Brave, Edge and Firefox on a computer.</p>
+              <!-- The stores' official badges, only resized: each links to its own listing, no effects on them. -->
+              <p class="store-badges">
+                <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
+                  <img
+                    src="assets/stores/chrome-web-store-border.png"
+                    width="185"
+                    height="56"
+                    alt="Available in the Chrome Web Store"
+                  />
+                </a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
+                  <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
+                </a>
+                <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
+                  <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
+                </a>
+              </p>
+              <p class="fine">Brave uses the Chrome Web Store.</p>
+              <p class="fine">
+                Then pin Clotr to your toolbar. A welcome page opens with a practice box, and asks which email and chat
+                apps you use.
+              </p>
+            </div>
+            <div class="stack">
+              <h3>Or install it by hand</h3>
+              <p class="fine">On Firefox, or want the newest version first?</p>
+              <ol class="steps">
+                <li>
+                  Download the latest <code>clotr-&lt;version&gt;.zip</code> from
+                  <a href="https://github.com/clotr-app/clotr/releases">Releases</a> and unzip it.
+                </li>
+                <li>
+                  Open <code>chrome://extensions</code> (or <code>brave://extensions</code>) and switch on Developer
+                  mode.
+                </li>
+                <li>Click <strong>Load unpacked</strong> and pick the folder you unzipped.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section class="sec" aria-labelledby="coming-title">
+          <div class="head">
+            <h2 id="coming-title">Coming next</h2>
+            <p class="say">None of these is ready to download yet. Each runs the same engine as the extension.</p>
+          </div>
+          <ul class="list coming">
+            <li data-product="antibody">
+              <span class="dot soon" aria-hidden="true"></span>
+              <span
+                ><b><a href="antibody.html">Clotr Antibody</a></b
+                ><small
+                  >Coming in the next update: who really asks for a code, a second look at a message that worries you,
+                  30 days of stronger settings after a scam, and practice.</small
+                ></span
+              >
+              <span class="tag soon">Coming</span>
+            </li>
+            <li data-product="windows">
+              <span class="dot test" aria-hidden="true"></span>
+              <span><b>Clotr for Windows</b><small>For the AI apps on your desktop. Being tested now.</small></span>
+              <span class="tag test">Coming</span>
+            </li>
+            <li data-product="android">
+              <span class="dot test" aria-hidden="true"></span>
+              <span
+                ><b>Android keyboard</b
+                ><small>A keyboard with Clotr's engine inside and no internet permission. Being tested now.</small></span
+              >
+              <span class="tag test">Coming</span>
+            </li>
+            <li data-product="iphone">
+              <span class="dot soon" aria-hidden="true"></span>
+              <span><b>iPhone and iPad</b><small>Clotr in Safari on iPhone and iPad.</small></span>
+              <span class="tag soon">Coming</span>
+            </li>
+          </ul>
+          <p class="sec-link">
+            <a class="btn text" href="https://github.com/clotr-app/clotr/releases">Follow the releases on GitHub</a>
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <img src="assets/tile.svg" alt="" width="24" height="24" />
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
