@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- The suite website, not live (D190). Only the browser extension is available; everything else says "coming". -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -9,56 +8,66 @@
       content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
-    <title>Get Clotr</title>
+    <title>Get Clotr for your browser</title>
     <meta
       name="description"
-      content="Get Clotr's browser extension, free from your browser's own store. Clotr for Windows, the Android keyboard and Safari on iPhone and iPad are coming."
+      content="Get Clotr's browser extension, free from your browser's own store, for Chrome, Edge and Firefox."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/download.html" />
+    <meta property="og:title" content="Get Clotr for your browser" />
+    <meta
+      property="og:description"
+      content="Get Clotr's browser extension, free from your browser's own store, for Chrome, Edge and Firefox."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Get Clotr for your browser" />
+    <meta
+      name="twitter:description"
+      content="Get Clotr's browser extension, free from your browser's own store, for Chrome, Edge and Firefox."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card.png" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#3a2f29" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#fdf8f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
   </head>
-  <body class="glow">
+  <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top glass-bar">
+    <header class="top field">
       <div class="wrap">
-        <a class="brand" href="index.html" aria-label="Clotr, home">
-          <img src="assets/tile.svg" alt="" width="32" height="32" />
-          <span>Clotr</span>
-        </a>
-        <nav class="links" aria-label="Site">
-          <a href="antibody.html">Clotr Antibody</a>
-          <a href="privacy.html">How it works</a>
-          <a href="teams.html">Teams</a>
-          <a href="download.html" aria-current="page">Download</a>
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="90" height="39" />
+          </a>
+          <div class="links">
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="download.html" aria-current="page">Download</a>
+          </div>
         </nav>
-        <a class="btn primary sm" href="#extension">Get the extension<svg class="go" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
       </div>
     </header>
 
     <main id="main">
       <div class="wrap">
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="stack-lg">
-            <h1 id="hero-title" class="rise">Get Clotr</h1>
-            <p class="lede rise d1">
-              The browser extension is ready today. The rest of the suite is on its way, on the same engine.
-            </p>
-          </div>
+        <section class="sec" aria-labelledby="hero-title">
+          <h1 id="hero-title">Get Clotr</h1>
+          <p class="lede">Free, from your browser's own store, for Chrome, Brave, Edge and Firefox on a computer.</p>
         </section>
 
         <section id="extension" class="sec" aria-labelledby="ext-title">
-          <div class="card get" data-product="extension">
-            <div class="stack">
-              <span class="tag good">Available</span>
+          <div class="card box pair">
+            <div>
               <h2 id="ext-title">The browser extension</h2>
               <p class="say">Free, from your browser's own store. Chrome, Brave, Edge and Firefox on a computer.</p>
-              <!-- The stores' official badges, only resized: each links to its own listing, no effects on them. -->
               <p class="store-badges">
                 <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
                   <img
@@ -77,11 +86,11 @@
               </p>
               <p class="fine">Brave uses the Chrome Web Store.</p>
               <p class="fine">
-                Then pin Clotr to your toolbar. A welcome page opens with a practice box, and asks which email and chat
-                apps you use.
+                Then pin Clotr to your toolbar. A welcome page opens with a practice box, and asks which email and
+                chat apps you use.
               </p>
             </div>
-            <div class="stack">
+            <div>
               <h3>Or install it by hand</h3>
               <p class="fine">On Firefox, or want the newest version first?</p>
               <ol class="steps">
@@ -97,44 +106,7 @@
               </ol>
             </div>
           </div>
-        </section>
-
-        <section class="sec" aria-labelledby="coming-title">
-          <div class="head">
-            <h2 id="coming-title">Coming next</h2>
-            <p class="say">None of these is ready to download yet. Each runs the same engine as the extension.</p>
-          </div>
-          <ul class="list coming">
-            <li data-product="antibody">
-              <span class="dot soon" aria-hidden="true"></span>
-              <span
-                ><b><a href="antibody.html">Clotr Antibody</a></b
-                ><small
-                  >Coming in the next update: who really asks for a code, a second look at a message that worries you,
-                  30 days of stronger settings after a scam, and practice.</small
-                ></span
-              >
-              <span class="tag soon">Coming</span>
-            </li>
-            <li data-product="windows">
-              <span class="dot test" aria-hidden="true"></span>
-              <span><b>Clotr for Windows</b><small>For the AI apps on your desktop. Being tested now.</small></span>
-              <span class="tag test">Coming</span>
-            </li>
-            <li data-product="android">
-              <span class="dot test" aria-hidden="true"></span>
-              <span
-                ><b>Android keyboard</b
-                ><small>A keyboard with Clotr's engine inside and no internet permission. Being tested now.</small></span
-              >
-              <span class="tag test">Coming</span>
-            </li>
-            <li data-product="iphone">
-              <span class="dot soon" aria-hidden="true"></span>
-              <span><b>iPhone and iPad</b><small>Clotr in Safari on iPhone and iPad.</small></span>
-              <span class="tag soon">Coming</span>
-            </li>
-          </ul>
+          <p class="fine sec-note">Clotr for Windows, Android and iPhone are on the way, on the same engine.</p>
           <p class="sec-link">
             <a class="btn text" href="https://github.com/clotr-app/clotr/releases">Follow the releases on GitHub</a>
           </p>
@@ -144,7 +116,6 @@
 
     <footer class="bottom">
       <div class="wrap">
-        <img src="assets/tile.svg" alt="" width="24" height="24" />
         <p>Clotr is free software, under AGPL-3.0-or-later.</p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>

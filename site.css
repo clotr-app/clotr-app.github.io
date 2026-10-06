@@ -1,682 +1,300 @@
-/* The suite website's layout (website-test/, D190). Colours, type, buttons, cards, rows, tags, the warning card and
-   the motion come from the suite kit in kit/ (a copy of design/suite/: `npm run suite-kit`); this file only places
-   things on the page. No script, nothing loaded from other sites. */
+/* The website's own layout, on top of kit/tokens.css and kit/components.css. Flat: no gradients, shadows, glass or
+   glows. */
 
-/* ---------- The page ---------- */
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: 17px;
 }
 main {
   flex: 1 0 auto;
 }
-.wrap {
-  width: 100%;
-  max-width: 1168px;
-  margin: 0 auto;
-  padding-inline: 16px;
-}
-@media (min-width: 760px) {
-  .wrap {
-    padding-inline: 24px;
-  }
-}
-h1,
-h2,
-h3 {
-  margin: 0;
-  color: var(--ink);
-  font-weight: 700;
-  text-wrap: balance;
-}
-h1 {
-  font-size: clamp(40px, 6.4vw, 72px);
-  line-height: 1.04;
-  letter-spacing: -0.028em;
-}
-h2 {
-  font-size: clamp(27px, 3.4vw, var(--text-3xl));
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-}
-h3 {
-  font-size: var(--text-xl);
-  line-height: 1.3;
-  letter-spacing: -0.005em;
-}
-p {
-  margin: 0;
-}
-.lede {
-  max-width: 36em;
-  color: var(--ink-2);
-  font-size: clamp(17px, 1.6vw, 19px);
-  line-height: 1.55;
-}
-.say {
-  max-width: 40em;
-  color: var(--ink-2);
-}
-.fine {
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-}
-.stack {
-  display: grid;
-  gap: var(--s-4);
-  align-content: start;
-}
-.stack-lg {
-  display: grid;
-  gap: var(--s-5);
-  align-content: start;
-}
-.sec {
-  margin-top: clamp(72px, 9vw, 120px);
-}
-.sec > .head {
-  display: grid;
-  gap: var(--s-3);
-  margin-bottom: var(--s-6);
-}
-.gap {
-  padding: 0 4px;
-  border-radius: 4px;
-  background: var(--lemon-wash);
-  color: var(--lemon-ink);
-  font-weight: 700;
-}
 
-/* ---------- The glass top bar ---------- */
-.top {
-  position: sticky;
-  top: 0;
-  z-index: 20;
+/* ---------- Header field: brushed steel, holds the wordmark, nav and hero ---------- */
+.field {
+  background: var(--field);
+  color: var(--field-ink);
 }
-.top .wrap {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--s-3) var(--s-6);
-  min-height: 64px;
-  padding-block: 10px;
+.field a {
+  color: var(--field-ink);
 }
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--ink);
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-}
-.brand img {
-  display: block;
-  transition: transform 0.5s var(--ease-pop);
-  transform-origin: 50% 80%;
-}
-.brand:hover img {
-  transform: rotate(-8deg) scale(1.06);
-}
-.links {
+.top nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 6px;
-}
-.links a {
-  padding: 6px 10px;
-  border-radius: 8px;
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-  font-weight: 700;
-  text-decoration: none;
-  transition: background-color 0.15s;
-}
-.links a:hover {
-  background: var(--wash);
-  color: var(--ink);
-}
-.links a[aria-current="page"] {
-  color: var(--brand);
-  text-decoration: underline 2px;
-  text-underline-offset: 6px;
-}
-@media (max-width: 759px) {
-  .top .wrap {
-    grid-template-columns: 1fr auto;
-    gap: 6px var(--s-3);
-  }
-  .links {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    flex-wrap: nowrap;
-    margin-inline: -10px;
-    gap: 0;
-  }
-  .links a {
-    padding: 6px 9px;
-    white-space: nowrap;
-  }
-  .top .btn {
-    min-height: 40px;
-    padding: 7px 14px;
-    font-size: var(--text-sm);
-  }
-}
-
-/* ---------- Heroes ---------- */
-.hero {
-  display: grid;
+  align-items: center;
   gap: var(--s-6);
-  align-items: center;
-  padding-top: clamp(40px, 7vw, 96px);
+  padding: var(--s-5) 0;
 }
-.hero .stack-lg {
-  max-width: 640px;
-}
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3);
-}
-.promise-line {
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-  font-weight: 700;
-}
-@media (min-width: 1000px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) 440px;
-    gap: 64px;
-  }
-}
-
-/* The suite panel: a glass sidebar over the light. The engine on top, each part of the suite a row. */
-.suite {
-  padding: var(--s-4) 14px 14px;
-  border-radius: var(--r-panel);
-  box-shadow: var(--edge), var(--lift);
-}
-.suite .engine {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  margin: 0 0 var(--s-3);
-  padding: 2px 6px 0;
-}
-.suite .engine img {
+.top .wordmark {
   display: block;
-  border-radius: var(--r-tile);
-  box-shadow: 0 6px 14px rgba(255, 103, 0, 0.35);
-}
-.suite .engine b {
-  display: block;
-  color: var(--ink);
-}
-.suite .engine small {
-  color: var(--muted);
-  font-size: var(--text-xs);
-}
-.suite .row b {
-  font-size: 15.5px;
-}
-@media (max-width: 420px) {
-  .suite .row {
-    grid-template-columns: 12px minmax(0, 1fr);
-  }
-  .suite .row .tag {
-    grid-column: 2;
-    justify-self: start;
-  }
-}
-
-/* ---------- What the engine notices ---------- */
-.pair {
-  display: grid;
-  gap: var(--s-5);
-}
-@media (min-width: 860px) {
-  .pair {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.pair .card {
-  display: grid;
-  gap: var(--s-3);
-  align-content: start;
-}
-.pair .card p {
-  color: var(--ink-2);
-}
-
-/* A real screen of Clotr (assets/shots/, taken by the browser suite at 2×, dark and light): framed like a window, and
-   never shown bigger than it was. */
-.shot {
-  display: grid;
-  gap: var(--s-2);
-  justify-items: center;
-  margin: 0;
-}
-.shot img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border: 1px solid var(--faint);
-  border-radius: 12px;
-  box-shadow: var(--edge), var(--shadow);
-}
-.shot figcaption {
-  color: var(--muted);
-  font-size: var(--text-xs);
-  text-align: center;
-}
-
-/* ---------- The feature band (Clotr Antibody on the home page, the last call on its own page) ---------- */
-.band {
-  display: grid;
-  gap: var(--s-6);
-  align-items: center;
-  padding: clamp(24px, 4vw, 48px);
-  border: 1px solid color-mix(in srgb, var(--signal) 32%, var(--faint));
-  border-radius: 24px;
-  background-color: var(--surface);
-  /* No gloss here: the tint is as warm as text can sit on (tokens.css). */
-  background-image: linear-gradient(120deg, var(--tint), var(--surface) 70%);
-  box-shadow: var(--edge), var(--lift);
-}
-.band .stack {
-  justify-items: start;
-}
-@media (min-width: 900px) {
-  .band {
-    grid-template-columns: minmax(0, 1fr) 440px;
-    gap: 56px;
-  }
-  .band.slim {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-}
-/* Clotr Antibody's four parts, each a short line under its name. */
-.four {
-  display: grid;
-  gap: var(--s-4) var(--s-5);
-  margin: var(--s-2) 0;
-  padding: 0;
-  list-style: none;
-}
-.four li {
-  padding-left: 14px;
-  border-left: 3px solid color-mix(in srgb, var(--signal) 50%, var(--faint));
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-}
-.four b {
-  display: block;
-  color: var(--ink);
-  font-size: var(--text);
-}
-@media (min-width: 600px) and (max-width: 899px), (min-width: 1200px) {
-  .four {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Real screenshots of the team pack's own papers (.shot, shared with the other picture examples). */
-.quotes {
-  display: grid;
-  gap: var(--s-4) var(--s-5);
-  margin: var(--s-2) 0;
-}
-@media (min-width: 900px) {
-  .quotes {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* ---------- The Clotr Antibody page ---------- */
-/* A place on a page that a link leads to stops below the glass bar (two rows on a phone). */
-main [id] {
-  scroll-margin-top: 120px;
-}
-.jump {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2) var(--s-4);
-  font-size: var(--text-sm);
-  font-weight: 700;
-}
-.list.who > li {
-  grid-template-columns: minmax(0, 1fr);
-}
-.list.who small {
-  margin-top: 2px;
-  color: var(--ink-2);
-}
-
-/* ---------- The suite's parts: the one that's here is lit, the coming ones are quiet ---------- */
-.parts {
-  display: grid;
-  gap: var(--s-4);
-}
-.parts .card {
-  display: grid;
-  gap: var(--s-3);
-  align-content: start;
-  justify-items: start;
-}
-.parts .card p {
-  color: var(--ink-2);
-}
-.parts .here {
-  border-color: color-mix(in srgb, var(--signal) 32%, var(--faint));
-}
-.parts .soon {
-  background: color-mix(in srgb, var(--surface) 45%, transparent);
-  box-shadow: var(--edge);
-}
-@media (min-width: 760px) {
-  .parts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .parts .here {
-    grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: var(--s-6);
-  }
-  .parts .here > .btn {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-  }
-}
-
-/* ---------- Promises, honesty ---------- */
-.promises {
-  max-width: 46em;
-}
-.promises li {
-  color: var(--ink-2);
-}
-.promises strong {
-  color: var(--ink);
-}
-.measure {
-  max-width: 54em;
-}
-.side-line {
-  display: grid;
-  gap: var(--s-2);
-  justify-items: start;
-  max-width: 44em;
-  padding-left: var(--s-5);
-  border-left: 4px solid var(--signal);
-}
-.side-line p {
-  color: var(--ink-2);
-}
-/* The maintainer's note, in their words: a quote with its signature under it. */
-.from-me {
-  display: grid;
-  gap: var(--s-2);
-  margin: 0;
-}
-.from-me p {
-  font-size: var(--text-lg);
-}
-.from-me strong {
-  color: var(--ink);
-}
-.from-me footer {
-  color: var(--muted);
-  font-size: var(--text-sm);
-  font-weight: 700;
-}
-
-/* ---------- Grids of cards ---------- */
-.grid2 {
-  display: grid;
-  gap: var(--s-5);
-}
-@media (min-width: 760px) {
-  .grid2 {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.grid2 .card {
-  display: grid;
-  gap: var(--s-2);
-  align-content: start;
-}
-.grid2 .card p {
-  color: var(--ink-2);
-}
-.card.quiet {
-  background: color-mix(in srgb, var(--surface) 45%, transparent);
-  box-shadow: var(--edge);
-}
-.split {
-  display: grid;
-  gap: var(--s-6);
-  align-items: start;
-}
-@media (min-width: 900px) {
-  .split {
-    grid-template-columns: minmax(0, 1fr) 440px;
-    gap: 64px;
-  }
-}
-.steps > li {
-  color: var(--ink-2);
-}
-.steps strong {
-  color: var(--ink);
-}
-
-/* ---------- Lists in a panel: prices, coming next ---------- */
-.list {
-  max-width: 54em;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: 1px solid color-mix(in srgb, var(--signal) 10%, var(--faint));
-  border-radius: var(--r-card);
-  background-color: var(--surface);
-  background-image: var(--gloss), linear-gradient(180deg, var(--surface), var(--surface-2));
-  box-shadow: var(--edge), var(--lift);
-  overflow: hidden;
-}
-.list > li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 4px var(--s-4);
-  align-items: center;
-  padding: 14px 20px;
-}
-.list > li + li {
-  border-top: 1px solid var(--faint);
-}
-.list b {
-  display: block;
-  color: var(--ink);
-}
-.list small {
-  display: block;
-  color: var(--muted);
-  font-size: var(--text-sm);
-}
-.list .end {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--s-2) var(--s-3);
-}
-.list .price {
-  color: var(--ink);
-  font-weight: 700;
-  white-space: nowrap;
-}
-.list.coming > li {
-  grid-template-columns: 12px minmax(0, 1fr) auto;
-  gap: 4px var(--s-3);
-}
-@media (max-width: 560px) {
-  .list > li,
-  .list.coming > li {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .list.coming > li {
-    grid-template-columns: 12px minmax(0, 1fr);
-  }
-  .list .end {
-    justify-content: flex-start;
-  }
-  .list.coming .tag {
-    grid-column: 2;
-    justify-self: start;
-  }
-}
-
-/* ---------- The download page ---------- */
-.get {
-  display: grid;
-  gap: var(--s-6);
-  padding: clamp(20px, 4vw, 40px);
-  border-color: color-mix(in srgb, var(--signal) 32%, var(--faint));
-  border-radius: var(--r-panel);
-}
-@media (min-width: 900px) {
-  .get {
-    grid-template-columns: minmax(0, 1fr) 440px;
-    gap: 56px;
-  }
-}
-.store-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3);
-}
-.store-badges a {
-  display: inline-block;
-  border-radius: 8px;
-}
-.store-badges img {
-  display: block;
-  height: 56px;
+  height: 32px;
   width: auto;
 }
-
-/* ---------- Teams ---------- */
-.box {
-  display: grid;
-  gap: var(--s-2);
-  max-width: 46em;
-  border-color: color-mix(in srgb, var(--signal) 32%, var(--faint));
-}
-.sec .note {
-  max-width: 54em;
-}
-.box p {
-  color: var(--ink-2);
-}
-.flow-links {
+.top .links {
+  margin-left: auto;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2) var(--s-5);
+  gap: var(--s-5);
+  font-size: var(--text);
+}
+.top .links a {
+  text-decoration: none;
+}
+.top .links a[aria-current="page"] {
+  font-weight: 700;
 }
 
-/* ---------- Draft pages (the terms of sale, the buyers' privacy note) ---------- */
-.doc {
-  max-width: 46em;
-  padding-top: clamp(32px, 5vw, 64px);
-}
-.doc h1 {
-  font-size: clamp(34px, 4.6vw, 50px);
-  margin: var(--s-5) 0 var(--s-3);
-}
-.doc h2 {
-  margin: var(--s-6) 0 var(--s-3);
-  font-size: var(--text-2xl);
-}
-.doc p,
-.doc li {
-  color: var(--ink-2);
-}
-.doc p + p {
-  margin-top: var(--s-3);
-}
-.doc ul {
+.hero {
   display: grid;
-  gap: var(--s-2);
-  padding-left: 1.2em;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+  padding: var(--s-6) 0 var(--s-8);
 }
-.doc strong {
-  color: var(--ink);
+.hero h1 {
+  font-size: var(--text-4xl);
+  line-height: 1.1;
 }
-.doc mark.gap {
+.hero .lede {
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  margin-top: var(--s-4);
+  max-width: 46ch;
+}
+.hero .buttons {
+  display: flex;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+  flex-wrap: wrap;
+}
+.hero .fine {
+  font-size: var(--text-sm);
+  margin-top: var(--s-4);
+  color: var(--field-ink);
+}
+.hero .buttons .btn.ghost {
+  color: var(--field-ink);
+  border-color: var(--field-ink);
+}
+.hero .shot {
+  margin: 0;
+  justify-self: end;
+}
+.hero .shot img {
+  border-radius: var(--r-card);
+  border: 1px solid var(--frame);
+  width: 100%;
+  height: auto;
+}
+.hero .shot figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--field-ink);
+}
+
+/* ---------- Generic section rhythm ---------- */
+.sec {
+  padding: var(--s-8) 0;
+  border-top: 1px solid var(--rule);
+}
+.sec:first-child {
+  border-top: none;
+}
+.head h2,
+.sec > h2 {
+  font-size: var(--text-3xl);
+}
+.head .lede,
+.sec .lede {
+  font-size: var(--text-lg);
+  color: var(--soft);
+  margin-top: var(--s-3);
+  max-width: var(--measure);
+}
+.say {
+  font-size: var(--text-lg);
+  margin-top: var(--s-3);
+  max-width: var(--measure);
+}
+
+/* ---------- Home: what it looks for ---------- */
+.looks dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--s-7);
+  margin-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+.looks dl div {
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.looks dt {
   font-weight: 700;
+  font-size: var(--text-lg);
+}
+.looks dd {
+  color: var(--soft);
+  margin-top: var(--s-1);
+}
+.looks .more {
+  margin-top: var(--s-5);
+  color: var(--soft);
+}
+
+/* ---------- Home: trust (what anyone can check) ---------- */
+.trust {
+  background: var(--side);
+}
+.trust h2 {
+  font-size: var(--text-3xl);
+}
+.trust ul {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: 0;
+  max-width: 80ch;
+}
+.trust li {
+  padding: var(--s-3) 0;
+  font-size: var(--text-lg);
+}
+
+/* ---------- Home: the maker ---------- */
+.maker blockquote {
+  margin: var(--s-4) 0 var(--s-4);
+  padding-left: var(--s-4);
+  border-left: 3px solid var(--rule);
+  max-width: var(--measure);
+}
+.maker blockquote p {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+.maker blockquote footer {
+  margin-top: var(--s-3);
+  color: var(--soft);
+  font-size: var(--text-sm);
 }
 
 /* ---------- Footer ---------- */
-.bottom {
-  margin-top: clamp(88px, 10vw, 136px);
-  border-top: 1px solid color-mix(in srgb, var(--signal) 12%, var(--faint));
-  background: color-mix(in srgb, var(--page) 70%, transparent);
+footer.bottom {
+  border-top: 1px solid var(--rule);
+  padding: var(--s-5) 0;
 }
-.bottom .wrap {
+footer.bottom .wrap {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-3) var(--s-5);
-  padding-block: 28px 40px;
-}
-.bottom p {
-  flex: 1 1 260px;
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-}
-.bottom nav {
-  display: flex;
+  gap: var(--s-5);
   flex-wrap: wrap;
-  gap: var(--s-2) var(--s-5);
+  color: var(--soft);
   font-size: var(--text-sm);
-  font-weight: 700;
+}
+footer.bottom nav {
+  margin-left: auto;
+  display: flex;
+  gap: var(--s-5);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .brand img,
-  .links a {
-    transition: none;
-  }
-  .brand:hover img {
-    transform: none;
-  }
+/* ---------- Cards, lists, steps (download, teams, how it works) ---------- */
+.card.box {
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  padding: var(--s-5);
 }
-
-/* ---------- Small pieces ---------- */
-.sec-note {
+.pair,
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
+  margin-top: var(--s-5);
+}
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+  align-items: start;
+  margin-top: var(--s-5);
+}
+.card.quiet {
+  background: var(--side);
+  border-radius: var(--r-card);
+  padding: var(--s-5);
+}
+.card.quiet h3 {
+  font-size: var(--text-lg);
+}
+.card.quiet p {
+  margin-top: var(--s-2);
+  color: var(--soft);
+}
+.card.measure p.score {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+.promises {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-4);
+}
+.promises li {
+  padding: var(--s-3) 0;
+  border-top: 1px solid var(--rule);
+}
+.promises li p {
+  margin-top: var(--s-1);
+}
+.store-badges {
+  display: flex;
+  gap: var(--s-4);
+  flex-wrap: wrap;
   margin-top: var(--s-4);
+}
+.sec-note {
+  margin-top: var(--s-3);
 }
 .sec-link {
-  margin-top: var(--s-4);
+  margin-top: var(--s-5);
 }
-.side-line h2 {
-  font-size: var(--text-2xl);
+.four {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
 }
-.h-small {
-  font-size: var(--text-xl);
+.four li b {
+  display: block;
+  margin-bottom: var(--s-1);
 }
-/* A draft page says so first (the same line site/'s drafts carry). */
-.draft {
-  margin: 0;
-  padding: 10px 14px;
-  border-left: 4px solid var(--signal);
-  border-radius: 4px var(--r-control) var(--r-control) 4px;
-  background: var(--signal-wash);
-  color: var(--ink);
-  font-size: var(--text-sm);
-  font-weight: 700;
+.quotes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-5);
+  margin-top: var(--s-5);
+}
+
+@media (max-width: 760px) {
+  .hero,
+  .pair,
+  .grid2,
+  .split,
+  .four,
+  .quotes {
+    grid-template-columns: 1fr;
+  }
+  .hero .shot {
+    justify-self: stretch;
+  }
+  .looks dl {
+    grid-template-columns: 1fr;
+  }
+  footer.bottom .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  footer.bottom nav {
+    margin-left: 0;
+  }
 }

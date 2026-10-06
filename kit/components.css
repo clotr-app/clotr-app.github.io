@@ -1,688 +1,162 @@
-/* Clotr's suite look: the components (D190). Load tokens.css first. Motion moves only transform and opacity, keyed
-   to --ease; under reduced motion everything stands still (the last block). */
+/* Clotr's suite look: the components. Flat: no gradients, shadows, glass, glows, pill tags or arrows. */
 
-/* ---------- Base ---------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
 body {
   margin: 0;
   background: var(--page);
   color: var(--ink);
-  font: 400 var(--text) / var(--leading) var(--font);
-  -webkit-font-smoothing: antialiased;
+  font: var(--text) / var(--leading) var(--font);
+  font-variation-settings: var(--linear);
 }
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
+h1,
+h2,
+h3 {
+  font-family: var(--font-casual);
+  font-variation-settings: var(--casual);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+p {
+  margin: 0;
 }
 a {
-  color: var(--brand);
-  text-decoration-thickness: 2px;
+  color: var(--link);
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
-a:hover {
-  text-decoration-color: var(--signal);
+img {
+  max-width: 100%;
+  display: block;
 }
-:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-::selection {
-  background: var(--signal-wash);
-  color: var(--ink);
-}
-code,
-kbd {
-  font: 0.9em var(--mono);
-  padding: 1px 6px;
-  border-radius: 6px;
-  background: var(--chip);
-  color: var(--ink);
-  overflow-wrap: anywhere;
-}
-[hidden] {
-  display: none !important;
-}
+
 .skip {
   position: absolute;
-  left: var(--s-4);
-  top: -60px;
-  z-index: 50;
-  padding: var(--s-2) var(--s-4);
-  border-radius: var(--r-control);
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow);
+  left: -999px;
+  top: 0;
+  padding: var(--s-2) var(--s-3);
+  background: var(--main);
+  color: #fff;
+  text-decoration: none;
 }
 .skip:focus {
-  top: var(--s-3);
+  left: var(--s-2);
+  top: var(--s-2);
+  z-index: 10;
 }
 
-/* ---------- The glow: no grid, no black; soft lights behind everything, drifting very slowly ----------
-   Put class="glow" on <body>. Two fixed layers, moved only by transform; the page's text never depends on them. */
-body.glow {
-  position: relative;
-  isolation: isolate;
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
-body.glow::before,
-body.glow::after {
-  content: "";
-  position: fixed;
-  z-index: -1;
-  pointer-events: none;
-  will-change: transform;
-}
-body.glow::before {
-  inset: -10vmax;
-  background:
-    radial-gradient(46vmax 36vmax at 82% 6%, var(--glow-top), transparent 70%),
-    radial-gradient(76vmax 38vmax at 60% 106%, var(--glow-dawn), transparent 70%),
-    radial-gradient(40vmax 34vmax at 4% 6%, var(--glow-soft), transparent 70%);
-  animation: glow-drift var(--drift) ease-in-out infinite alternate;
-}
-body.glow::after {
-  inset: -12vmax;
-  background:
-    radial-gradient(34vmax 28vmax at 28% 58%, var(--glow-4), transparent 70%),
-    radial-gradient(30vmax 24vmax at 92% 64%, color-mix(in srgb, var(--glow-top) 60%, transparent), transparent 70%);
-  animation: glow-drift-2 var(--drift-2) ease-in-out infinite alternate;
-}
-@keyframes glow-drift {
-  to {
-    transform: translate3d(-2.5vmax, 2vmax, 0) scale(1.05);
-  }
-}
-@keyframes glow-drift-2 {
-  from {
-    transform: translate3d(2vmax, -1.5vmax, 0);
-    opacity: 0.7;
-  }
-  to {
-    transform: translate3d(-3vmax, 2vmax, 0) scale(1.08);
-    opacity: 1;
-  }
+/* The field's steel is the same colour in both themes, so its focus ring stays plum rather than following --focus,
+   which turns light in dark mode and would all but disappear on steel. */
+.field a:focus-visible,
+.field button:focus-visible {
+  outline-color: var(--field-ink);
 }
 
-/* ---------- Glass (a sidebar, a top bar): the light shows through, never darker than the page ---------- */
-.glass {
-  background: linear-gradient(180deg, var(--glass-top), var(--glass) 300px);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  backdrop-filter: blur(14px) saturate(1.2);
-  border: 1px solid color-mix(in srgb, var(--signal) 14%, var(--faint));
-}
-.glass-bar {
-  background: color-mix(in srgb, var(--page) 72%, transparent);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  backdrop-filter: blur(12px) saturate(1.2);
-  border-bottom: 1px solid color-mix(in srgb, var(--signal) 12%, var(--faint));
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
 }
 
-/* ---------- Buttons: the main one is a drop of the brand's orange, lit like the tile; it gives when pressed ---------- */
 .btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  min-height: 44px;
-  padding: 9px 18px;
-  border: 2px solid var(--faint);
-  border-radius: var(--r-control);
-  background: linear-gradient(180deg, color-mix(in srgb, #fff 6%, var(--surface)), var(--surface));
-  box-shadow: var(--btn-lift);
-  color: var(--ink);
+  display: inline-block;
+  font-family: var(--font);
+  font-variation-settings: var(--linear);
   font-weight: 700;
-  line-height: 1.2;
+  font-size: var(--text);
+  padding: 12px 20px;
+  border-radius: var(--r-control);
   text-decoration: none;
+  background: var(--btn);
+  color: var(--btn-text);
+  border: none;
   cursor: pointer;
-  transition:
-    transform var(--t-fast) var(--ease),
-    border-color 0.2s,
-    box-shadow 0.2s;
 }
-.btn:hover {
-  border-color: color-mix(in srgb, var(--signal) 40%, var(--faint));
-  transform: translateY(-1px);
+.btn.ghost {
+  background: none;
+  color: var(--ink);
+  border: 1.5px solid var(--frame);
+  padding: 10.5px 18.5px;
 }
-.btn:active {
-  transform: scale(0.97);
-  transition-duration: var(--t-press);
+.btn.on-field {
+  background: var(--main);
+  color: #fff;
 }
-/* Gradients, shadows and an inline SVG only, so it stays sharp at any zoom. A glow under it and a gloss on its top
-   half brighten on hover while it lifts; pressed, it settles and both dim. They fade: only transform and opacity move. */
-.btn.primary {
-  isolation: isolate;
-  padding: 11px 22px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--sheen);
-  box-shadow: var(--sheen-shadow);
-  color: var(--on-signal);
-}
-.btn.primary::before,
-.btn.primary::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  transition: opacity var(--t-med) var(--ease);
-}
-.btn.primary::before {
-  z-index: -1;
-  box-shadow: var(--sheen-glow);
-  opacity: 0.6;
-}
-.btn.primary::after {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 52%);
-  opacity: 0.75;
-}
-.btn.primary:is(:hover, :focus-visible)::before,
-.btn.primary:is(:hover, :focus-visible)::after {
-  opacity: 1;
-}
-.btn.primary:active {
-  transform: translateY(0) scale(0.98);
-}
-.btn.primary:active::before {
-  opacity: 0.25;
-  transition-duration: var(--t-press);
-}
-.btn.primary:active::after {
-  opacity: 0.15;
-  transition-duration: var(--t-press);
-}
-/* The arrow on a link that gets the extension: an inline SVG that steps forward on hover. */
-.btn .go {
-  flex: none;
-  width: 1em;
-  height: 1em;
-  margin-right: -2px;
-  transition: transform var(--t-fast) var(--ease);
-}
-.btn .go path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.btn:is(:hover, :focus-visible) .go {
-  transform: translateX(3px);
-}
-.btn.primary:disabled {
-  border-color: color-mix(in srgb, var(--signal) 38%, var(--faint));
-  background: color-mix(in srgb, var(--signal) 12%, var(--surface));
-  box-shadow: none;
-  color: var(--ink-2);
-  cursor: default;
-  transform: none;
-}
-.btn.primary:disabled::before,
-.btn.primary:disabled::after {
-  display: none;
+.btn.small {
+  font-size: var(--text-sm);
+  padding: 8px 14px;
 }
 .btn.text {
-  min-height: 0;
-  padding: 8px 2px;
-  border: 0;
   background: none;
-  box-shadow: none;
-  color: var(--brand);
-  text-decoration: underline 2px;
-  text-underline-offset: 4px;
-}
-.btn.text:hover {
-  text-decoration-color: var(--signal);
-  transform: none;
-}
-.btn.sm {
-  min-height: 36px;
-  padding: 6px 14px;
-  font-size: var(--text-sm);
-}
-.btn.primary.sm {
-  padding: 8px 16px;
-  border-radius: var(--r-control);
-}
-
-/* ---------- Cards: a lit top edge, a warm rim, a gloss on the top half ---------- */
-.card {
-  padding: var(--s-5);
-  border: 1px solid color-mix(in srgb, var(--signal) 10%, var(--faint));
-  border-radius: var(--r-card);
-  background-color: var(--surface);
-  background-image: var(--gloss), linear-gradient(180deg, var(--surface), var(--surface-2));
-  box-shadow: var(--edge), var(--lift);
-}
-/* A card you can open lifts a little toward you. */
-a.card,
-.card.go {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  transition:
-    transform var(--t-med) var(--ease),
-    box-shadow var(--t-med) var(--ease),
-    border-color 0.25s;
-}
-a.card:hover,
-.card.go:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--lift-hover);
-  border-color: color-mix(in srgb, var(--signal) 34%, var(--faint));
-}
-a.card:active,
-.card.go:active {
-  transform: translateY(0);
-  transition-duration: var(--t-press);
-}
-.panel {
-  border-radius: var(--r-panel);
-}
-
-/* ---------- List rows: a dot, a title, one line, a tag ---------- */
-.rows {
-  display: grid;
-  gap: 2px;
-  margin: 0;
+  color: var(--link);
   padding: 0;
-  list-style: none;
-}
-.row {
-  position: relative;
-  display: grid;
-  grid-template-columns: 12px minmax(0, 1fr) auto;
-  gap: var(--s-3);
-  align-items: center;
-  padding: 10px 12px;
-  border-radius: var(--r-row);
-  color: var(--ink-2);
-  text-decoration: none;
-  transition: background-color 0.15s;
-}
-a.row:hover {
-  background: var(--wash);
-  color: var(--ink);
-}
-.row b {
-  display: block;
-  color: var(--ink);
-  font-size: var(--text);
-}
-.row small {
-  display: block;
-  color: var(--muted);
-  font-size: var(--text-xs);
-  line-height: 1.4;
-}
-/* The one you're on (or the one that's here now) is a lit card with an orange mark. */
-.row.lit {
-  background:
-    var(--gloss), linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--signal) 7%, var(--surface)));
-  box-shadow:
-    var(--edge),
-    0 8px 18px -14px rgba(184, 74, 12, 0.55);
-}
-.row.lit::before {
-  content: "";
-  position: absolute;
-  left: -2px;
-  top: 10px;
-  bottom: 10px;
-  width: 4px;
-  border-radius: 0 4px 4px 0;
-  background: var(--signal);
-  box-shadow: 0 0 12px rgba(255, 103, 0, 0.6);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-/* ---------- Tags: status in a word; the colour repeats the word, never replaces it ---------- */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  justify-self: start;
-  gap: 6px;
-  padding: 2px 10px;
-  border-radius: var(--r-pill);
-  background: var(--chip);
-  color: var(--ink-2);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-.tag.good {
-  background: var(--good-wash);
-  color: var(--good);
-}
-.tag.soon {
-  background: var(--signal-wash);
-  color: var(--brand);
-}
-.tag.test {
-  background: var(--lemon-wash);
-  color: var(--lemon-ink);
-}
-.tag.err {
-  background: var(--err-wash);
-  color: var(--err);
-}
-
-/* ---------- Status dots: available is a green drop, in testing a lemon one, coming an open ring ---------- */
-.dot {
-  position: relative;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--faint);
-  box-shadow: inset 0 0 0 1.5px var(--line);
-}
-.dot.good {
-  background: var(--good);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--good) 20%, transparent);
-}
-.dot.test {
-  background: var(--lemon);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--lemon) 22%, transparent);
-}
-.dot.soon {
-  background: transparent;
-  box-shadow: inset 0 0 0 2px var(--brand);
-}
-/* Something happening now: a ring that grows and fades (transform and opacity, not a moving shadow). */
-.dot.live {
-  background: var(--signal);
-  box-shadow: none;
-}
-.dot.live::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--signal);
-  animation: dot-ring 2.4s var(--ease) infinite;
-}
-@keyframes dot-ring {
-  from {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  80%,
-  to {
-    transform: scale(2.6);
-    opacity: 0;
-  }
-}
-
-/* ---------- The plaster: Clotr's bandage, a glossy orange strip with its pad, the mark beside a promise ---------- */
-.plaster {
-  position: relative;
-  display: inline-block;
-  flex: none;
-  width: 8px;
-  height: 18px;
-  border-radius: 4px;
-  background: linear-gradient(180deg, #ff9550, #e85500);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  transform: rotate(-18deg);
-}
-.plaster::after {
-  content: "";
-  position: absolute;
-  left: 1.5px;
-  right: 1.5px;
-  top: 6px;
-  height: 6px;
-  border-radius: 1.5px;
-  background: rgba(255, 248, 240, 0.7);
-}
-
-/* ---------- The tile: the brand's orange square; .breathe makes anything breathe slowly ---------- */
-.tile {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--r-tile);
-  background: var(--sheen);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 6px 14px rgba(255, 103, 0, 0.35);
-  color: var(--on-signal);
-}
-.breathe {
-  animation: tile-breathe 5s ease-in-out infinite;
-}
-@keyframes tile-breathe {
-  50% {
-    transform: scale(1.035);
-  }
-}
-
-/* ---------- The warning card: Clotr's note in the corner, in the suite's look ----------
-   Variants: .scam (what a scammer asks for: orange), .high (a key or ID number: red), .caution (lemon). */
-.warn {
-  --accent: var(--signal);
-  position: relative;
-  display: grid;
-  gap: var(--s-3);
-  max-width: 400px;
-  padding: var(--s-4) var(--s-5) var(--s-4) calc(var(--s-5) + 4px);
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--faint));
+.card {
+  border: 1px solid var(--rule);
   border-radius: var(--r-card);
-  background-color: var(--surface);
-  background-image:
-    var(--gloss), linear-gradient(180deg, color-mix(in srgb, var(--accent) 7%, var(--surface)), var(--surface) 120px);
-  box-shadow:
-    inset 4px 0 0 var(--accent),
-    var(--edge),
-    var(--shadow);
+  padding: var(--s-5);
+  background: var(--surface);
+}
+
+.fine {
   font-size: var(--text-sm);
+  color: var(--soft);
 }
-.warn.high {
-  --accent: var(--err);
-}
-.warn.caution {
-  --accent: var(--lemon);
-}
-.warn-head {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
+
+.shot {
   margin: 0;
-  color: var(--ink-2);
-  font-size: var(--text-xs);
-  font-weight: 700;
 }
-.warn-head .tile {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
+.shot figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--soft);
 }
-.warn-head .tag {
+
+.list {
+  list-style: none;
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.list li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.list li .end {
   margin-left: auto;
 }
-.warn-title {
-  margin: 0;
-  color: var(--ink);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  line-height: 1.3;
-}
-.warn-body {
-  margin: 0;
-  color: var(--ink-2);
-}
-.warn-who {
-  margin: 0;
-  padding: 10px 12px;
-  border-radius: var(--r-control);
-  background: var(--signal-wash);
-  color: var(--ink);
-}
-.warn.high .warn-who {
-  background: var(--err-wash);
-}
-.warn.caution .warn-who {
-  background: var(--lemon-wash);
-}
-.warn-who b {
+.list li small {
   display: block;
-  color: var(--ink);
-}
-.warn-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-.warn-foot {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--text-xs);
-}
-
-/* ---------- Steps: only for things that happen in order ---------- */
-.steps {
-  display: grid;
-  gap: var(--s-4);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
-}
-.steps > li {
-  position: relative;
-  padding-left: 48px;
-  counter-increment: step;
-}
-.steps > li::before {
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  top: -2px;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--signal) 45%, var(--faint));
-  background: var(--surface);
-  color: var(--brand);
-  font-weight: 700;
-}
-
-/* ---------- Promises: a list whose marks are plasters ---------- */
-.promises {
-  display: grid;
-  gap: var(--s-4);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.promises > li {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  gap: var(--s-3);
-  align-items: start;
-}
-.promises > li > .plaster {
-  margin: 4px 0 0 6px;
-}
-
-/* ---------- A note at the top of a page (a draft, a preview) ---------- */
-.note {
-  margin: 0;
-  padding: 10px 14px;
-  border-left: 4px solid var(--signal);
-  border-radius: 4px var(--r-control) var(--r-control) 4px;
-  background: var(--signal-wash);
-  color: var(--ink);
+  color: var(--soft);
   font-size: var(--text-sm);
 }
-
-/* ---------- One moment on arrival: things marked .rise come up in order (--i sets each one's turn) ---------- */
-.rise {
-  animation: rise var(--t-slow) var(--ease) backwards;
-  animation-delay: calc(var(--i, 0) * 70ms);
-}
-/* Turns as classes, for pages whose security policy allows no inline styles. */
-.d1 {
-  --i: 1;
-}
-.d2 {
-  --i: 2;
-}
-.d3 {
-  --i: 3;
-}
-.d4 {
-  --i: 4;
-}
-.d5 {
-  --i: 5;
-}
-.d6 {
-  --i: 6;
-}
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-.pop {
-  animation: pop 0.5s var(--ease-pop) backwards;
-  animation-delay: calc(var(--i, 0) * 70ms + 200ms);
-}
-@keyframes pop {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
-  }
+.price {
+  font-weight: 700;
 }
 
-/* ---------- Reduced motion: everything stands still ---------- */
-@media (prefers-reduced-motion: reduce) {
-  body.glow::before,
-  body.glow::after,
-  .dot.live::after,
-  .breathe,
-  .rise,
-  .pop {
-    animation: none;
-  }
-  .btn,
-  .btn.primary::before,
-  .btn.primary::after,
-  .btn .go,
-  a.card,
-  .card.go,
-  .row {
-    transition: none;
-  }
-  .btn:hover,
-  .btn:active,
-  a.card:hover,
-  a.card:active,
-  .card.go:hover,
-  .card.go:active {
-    transform: none;
-  }
-  .btn:is(:hover, :focus-visible) .go {
-    transform: none;
-  }
+.steps {
+  margin: var(--s-4) 0 0;
+  padding-left: 1.2em;
+}
+.steps li {
+  padding: var(--s-1) 0;
+}
+
+.measure {
+  max-width: var(--measure);
 }

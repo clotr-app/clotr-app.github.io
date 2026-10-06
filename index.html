@@ -1,6 +1,4 @@
 <!doctype html>
-<!-- The suite website, not live (D190): a private preview kept apart from site/, which stays the extension's launch
-     site. Same promise as site/: no script, nothing loaded from other sites (tests/suite-kit.test.js). -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -10,286 +8,156 @@
       content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
-    <title>Clotr: catch leaks and scams before you hit send</title>
+    <title>Clotr warns you before personal details go into an AI chat</title>
     <meta
       name="description"
-      content="Clotr is one engine for privacy and scam detection: it notices a password, an ID number or a code a scammer asked for before you send it. Free, open source, and on your own devices, never in a cloud."
+      content="Clotr spots a password, a card number or an ID number as you type in ChatGPT, Claude, Gemini and 16 more, and warns you before you send it. Free, open source, and on your own device, never in a cloud."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/" />
+    <meta property="og:title" content="Clotr warns you before personal details go into an AI chat" />
+    <meta
+      property="og:description"
+      content="Clotr spots a password, a card number or an ID number as you type, and warns you before you send it. Free, open source, and on your own device, never in a cloud."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Clotr warns you before personal details go into an AI chat" />
+    <meta
+      name="twitter:description"
+      content="Clotr spots a password, a card number or an ID number as you type, and warns you before you send it."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card.png" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#3a2f29" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#fdf8f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-    <link rel="preload" href="kit/fonts/atkinson-hyperlegible-400.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="kit/fonts/atkinson-hyperlegible-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="kit/fonts/Recursive-var-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
   </head>
-  <body class="glow">
+  <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top glass-bar">
+    <header class="top field">
       <div class="wrap">
-        <a class="brand" href="index.html" aria-label="Clotr, home">
-          <img src="assets/tile.svg" alt="" width="32" height="32" />
-          <span>Clotr</span>
-        </a>
-        <nav class="links" aria-label="Site">
-          <a href="antibody.html">Clotr Antibody</a>
-          <a href="privacy.html">How it works</a>
-          <a href="teams.html">Teams</a>
-          <a href="download.html">Download</a>
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="90" height="39" />
+          </a>
+          <div class="links">
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="download.html">Download</a>
+          </div>
         </nav>
-        <a class="btn primary sm" href="download.html">Get the extension<svg class="go" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="copy">
+            <h1 id="hero-title">Clotr warns you before personal details go into an AI chat.</h1>
+            <p class="lede">
+              A password, a card number, your address: Clotr spots them as you type in ChatGPT, Claude, Gemini and 16
+              more, and warns you before you send them.
+            </p>
+            <p class="buttons">
+              <a class="btn on-field" href="download.html">Get the extension</a>
+              <a class="btn ghost" href="how-it-works.html">How it works</a>
+            </p>
+            <p class="fine">Free and open source. It runs on your device and sends nothing anywhere.</p>
+          </div>
+          <figure class="shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
+              <img
+                src="assets/hero/warning-light.png"
+                width="900"
+                height="480"
+                alt="ChatGPT with “Can you check my booking? My card is 4111 1111 1111 1111 exp 08/29” typed in the message box, and Clotr’s warning in the corner: Heads up. Your message contains Credit Card Number (4111…11). If you send it, this AI gets it. Buttons: Leave it in, Hide it. Below, an offer to swap details like this for cover names."
+              />
+            </picture>
+            <figcaption>Clotr’s warning, before a card number typed into ChatGPT is sent.</figcaption>
+          </figure>
+        </section>
       </div>
     </header>
 
     <main id="main">
       <div class="wrap">
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="stack-lg">
-            <h1 id="hero-title" class="rise">Catch leaks and scams before you hit send.</h1>
-            <p class="lede rise d1">
-              Clotr is one engine for privacy and scam detection. It notices a password, an ID number or a code a
-              scammer asked for, and lets you take it out first. It runs on your own devices, never in a cloud. Free,
-              and open source.
-            </p>
-            <p class="actions rise d2">
-              <a class="btn primary" href="download.html">Get the extension<svg class="go" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
-              <a class="btn" href="privacy.html">How it works</a>
-            </p>
-            <p class="promise-line rise d3">No AI inside. No network. No accounts. Open code. Free for people.</p>
-          </div>
-
-          <aside class="suite glass rise d2" aria-labelledby="suite-title">
-            <p class="engine">
-              <img class="breathe" src="assets/tile.svg" alt="" width="44" height="44" />
-              <span><b id="suite-title">One engine</b><small>The same answers on every device</small></span>
-            </p>
-            <ul class="rows">
-              <li class="row lit" data-product="extension">
-                <span class="dot good" aria-hidden="true"></span>
-                <span><b>Browser extension</b><small>Chrome, Brave, Edge and Firefox</small></span>
-                <span class="tag good">Available</span>
-              </li>
-              <li class="row" data-product="antibody">
-                <span class="dot soon" aria-hidden="true"></span>
-                <span><b>Clotr Antibody</b><small>In the next update</small></span>
-                <span class="tag soon">Coming</span>
-              </li>
-              <li class="row" data-product="windows">
-                <span class="dot test" aria-hidden="true"></span>
-                <span><b>Clotr for Windows</b><small>Being tested now</small></span>
-                <span class="tag test">Coming</span>
-              </li>
-              <li class="row" data-product="android">
-                <span class="dot test" aria-hidden="true"></span>
-                <span><b>Android keyboard</b><small>Being tested now</small></span>
-                <span class="tag test">Coming</span>
-              </li>
-              <li class="row" data-product="iphone">
-                <span class="dot soon" aria-hidden="true"></span>
-                <span><b>iPhone and iPad</b><small>Clotr in Safari</small></span>
-                <span class="tag soon">Coming</span>
-              </li>
-            </ul>
-          </aside>
-        </section>
-
-        <section class="sec" aria-labelledby="notices-title">
-          <div class="head">
-            <h2 id="notices-title">What the engine notices</h2>
-          </div>
-          <div class="pair">
-            <article class="card" aria-labelledby="private-title">
-              <h3 id="private-title">Private details</h3>
-              <p>
-                Passwords and keys, card and bank numbers, Social Security and other ID numbers, phone numbers,
-                emails, home addresses and birthdays. In digits, in words, or a mix.
-              </p>
-              <figure class="shot">
-                <picture>
-                  <source media="(prefers-color-scheme: dark)" srcset="assets/shots/taxes-dark.png" />
-                  <img src="assets/shots/taxes-light.png" width="480" height="400" alt="An AI chat with a message about taxes that has a Social Security number in it. Clotr's note in the corner: Heads up. Your message contains US Social Security Number (219-…99). If you send it, this AI gets it. Buttons: Leave it in, Hide it." />
-                </picture>
-                <figcaption>Doing taxes, in an AI chat: Clotr's note in the corner, as it looks today.</figcaption>
-              </figure>
-            </article>
-            <article class="card" aria-labelledby="scams-title">
-              <h3 id="scams-title">What scammers ask for</h3>
-              <p>
-                Codes, card numbers and gift cards scammers ask for. If someone is asking you for one, it's worth a
-                second look.
-              </p>
-              <p class="fine">
-                Gift cards join in the next update, with <a href="#antibody">Clotr Antibody</a>.
-              </p>
-              <figure class="shot">
-                <picture>
-                  <source media="(prefers-color-scheme: dark)" srcset="assets/shots/bank-code-dark.png" />
-                  <img src="assets/shots/bank-code-light.png" width="480" height="400" alt="An AI chat with a message about a call from the bank that has the code they texted in it. Clotr's note in the corner: Heads up. Your message contains Password or Secret (••••••). If you send it, this AI gets it. Buttons: Leave it in, Hide it." />
-                </picture>
-                <figcaption>A call from "the bank", in an AI chat. Today the note calls the code a password or secret.</figcaption>
-              </figure>
-            </article>
-          </div>
-          <p class="fine sec-note">The numbers above are made up.</p>
-        </section>
-
-        <section class="sec" id="antibody" aria-labelledby="antibody-title">
-          <div class="band">
-            <div class="stack">
-              <span class="tag soon">Coming in the next update</span>
-              <h2 id="antibody-title">Clotr Antibody: when someone asks for something</h2>
-              <p class="say">
-                Most scams end with a request: a code, your card's numbers, gift cards, or a command to paste into your
-                computer. Clotr Antibody will be there at that moment, on your computer.
-              </p>
-              <ul class="four">
-                <li>
-                  <b>In the moment</b>
-                  The warning tells you who's really asking. A code your bank texts you is for typing into your bank's
-                  own app or website, never into a chat or to someone who messaged you.
-                </li>
-                <li>
-                  <b>A second look</b>
-                  Paste a message you got and see the warning signs Clotr knows. It will never tell you a message is
-                  fine, because no list knows every scam.
-                </li>
-                <li>
-                  <b>Afterwards</b>
-                  For 30 days after a scam, Clotr will ask before money and ID numbers go out. Scammers often come
-                  back.
-                </li>
-                <li>
-                  <b>Practice</b>
-                  Six made-up scam messages to answer, checked by the real engine.
-                </li>
-              </ul>
-              <a class="btn text" href="antibody.html">See what Clotr Antibody will do</a>
+        <section class="sec looks" aria-labelledby="looks-title">
+          <h2 id="looks-title">What it looks for</h2>
+          <dl>
+            <div>
+              <dt>Passwords and keys</dt>
+              <dd>API keys, tokens, webhook links, connection strings and seed phrases.</dd>
             </div>
-            <figure class="shot">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/shots/who-asks-dark.png" />
-                <img src="assets/shots/who-asks-light.png" width="480" height="580" alt="An AI chat with a message saying someone from the bank wants the 3 numbers on the back of a card. Clotr's note in the corner: Your message contains Card Security Code (•••). Who asks for the 3 numbers on the back of your card? Not your card company: it already has them. Type them only into a checkout page you opened yourself. Buttons: Leave it in, Hide it." />
-              </picture>
-              <figcaption>A preview of the next update: the warning says who really asks.</figcaption>
-            </figure>
-          </div>
+            <div>
+              <dt>Card and bank numbers</dt>
+              <dd>Card numbers, Social Security and ITIN numbers, bank accounts, IBANs and medical record numbers.</dd>
+            </div>
+            <div>
+              <dt>Personal details</dt>
+              <dd>However you write them: in digits, number words, misspellings or a mix.</dd>
+            </div>
+            <div>
+              <dt>What scammers ask for</dt>
+              <dd>Texted sign-in codes, card security codes and remote-access codes.</dd>
+            </div>
+            <div>
+              <dt>Your own list</dt>
+              <dd>Names and details you add yourself, kept only as one-way fingerprints.</dd>
+            </div>
+            <div>
+              <dt>Text in files</dt>
+              <dd>Text, PDF, Word, Excel and PowerPoint files you attach.</dd>
+            </div>
+          </dl>
+          <p class="more">
+            It's on for 19 AI chat sites out of the box. Email and chat sites only when you switch them on.
+          </p>
         </section>
+      </div>
 
-        <section class="sec" aria-labelledby="parts-title">
-          <div class="head">
-            <h2 id="parts-title">Everywhere you type</h2>
-            <p class="lede">Starting with the browser. Each part runs the same engine and keeps the same promise.</p>
-          </div>
-          <div class="parts">
-            <article class="card here" data-product="extension" aria-labelledby="ext-title">
-              <span class="tag good">Available</span>
-              <h3 id="ext-title">Browser extension</h3>
-              <p>
-                In AI chats out of the box, and in your email and chat apps when you switch them on. Chrome, Brave,
-                Edge and Firefox on a computer.
-              </p>
-              <p class="fine">
-                Coming next: Look back, to see what you've already told ChatGPT, Claude or Gemini from your own
-                export, and Extension check, to see which extensions can read your AI chats.
-              </p>
-              <a class="btn primary" href="download.html">Get the extension<svg class="go" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" /></svg></a>
-            </article>
-            <article class="card soon" data-product="windows" aria-labelledby="win-title">
-              <span class="tag test">Coming</span>
-              <h3 id="win-title">Clotr for Windows</h3>
-              <p>The same engine for the AI apps on your desktop. Being tested now.</p>
-            </article>
-            <article class="card soon" data-product="android" aria-labelledby="android-title">
-              <span class="tag test">Coming</span>
-              <h3 id="android-title">Android keyboard</h3>
-              <p>The same engine inside a keyboard, with no internet permission at all. Being tested now.</p>
-            </article>
-            <article class="card soon" data-product="iphone" aria-labelledby="iphone-title">
-              <span class="tag soon">Coming</span>
-              <h3 id="iphone-title">iPhone and iPad</h3>
-              <p>Clotr in Safari on iPhone and iPad.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="sec" aria-labelledby="honest-title">
-          <div class="head">
-            <h2 id="honest-title">Honest about what it does</h2>
-          </div>
-          <ul class="promises">
+      <section class="sec trust" aria-labelledby="trust-title">
+        <div class="wrap">
+          <h2 id="trust-title">What anyone can check</h2>
+          <ul>
             <li>
-              <span class="plaster" aria-hidden="true"></span>
-              <p>
-                <strong>Nothing leaves your device.</strong> No servers, no analytics, no accounts. A test checks it
-                every time the code changes.
-              </p>
+              There's no network code in Clotr, and a test fails the build if any is added.
+              <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">How the test works</a>
             </li>
             <li>
-              <span class="plaster" aria-hidden="true"></span>
-              <p>
-                <strong>It never saves what you typed.</strong> Only what kind of thing it found, where, when, and what
-                you did about it.
-              </p>
-            </li>
-            <li class="score">
-              <span class="plaster" aria-hidden="true"></span>
-              <p>
-                <strong>Tested, not just promised.</strong> I hid 6,200 personal details in 10,000 made-up messages.
-                This build caught 5,027 of them, with 30 false alarms on the 3,800 that had nothing to catch.
-                Messages typed on a phone are messier: there it caught 205 of 310. Real life is messier still, so if
-                it misses something or warns about nothing, tell me.
-              </p>
+              Clotr has absolutely NO AI. It spots private details with plain pattern matching that anyone can read,
+              it doesn't talk to any AI service, and there's no account either.
+              <a href="https://github.com/clotr-app/clotr/blob/main/extension/patterns.js">Read the patterns</a>
             </li>
             <li>
-              <span class="plaster" aria-hidden="true"></span>
-              <p>
-                <strong>No AI inside, and open code.</strong> Plain rules that anyone can read. Free for people,
-                always.
-              </p>
+              The build is reproducible, so you can compare the store's zip with its SHA256SUMS yourself.
+              <a href="https://github.com/clotr-app/clotr/releases">Check a release</a>
             </li>
           </ul>
-          <p class="sec-link"><a class="btn text" href="privacy.html">How it works, and your privacy</a></p>
-        </section>
+        </div>
+      </section>
 
-        <section class="sec" aria-labelledby="teams-title">
-          <div class="side-line">
-            <h2 id="teams-title">Free at work too</h2>
+      <div class="wrap">
+        <section class="sec maker" aria-labelledby="who-title">
+          <h2 id="who-title">About development</h2>
+          <blockquote>
             <p>
-              An office can roll Clotr out to every computer, with presets for its kind of work. Everyone's Clotr is
-              the same free one, and it reports nothing to the organization.
+              I'm Alex. I was a mechanic for 12 years before switching to IT at the end of 2025, and I'm a student
+              now. A small oil leak can eventually throw a rod, and little bits of us leak out the same way, so I'm
+              trying to clot them.
             </p>
-            <a class="btn text" href="teams.html">Clotr for teams</a>
-          </div>
-        </section>
-
-        <section class="sec" aria-labelledby="who-title">
-          <div class="side-line">
-            <h2 id="who-title">Who am I?</h2>
-            <!-- The maintainer's own note, word for word as README.md publishes it, without its "A note from me."
-                 lead-in: the heading introduces it (tests/suite-kit.test.js). -->
-            <blockquote class="from-me">
-              <p>
-                I'm Alex, a computer science student. I caught myself telling AI chats
-                things I'd never tell a stranger, and when the AI started bringing up things I'd only been thinking
-                about, it scared me. Clotr will always be free for people. It runs only on your computer, never sends
-                anything anywhere, and its code is open, so you don't have to take my word for it. If it misses
-                something, or warns you about nothing, please tell me. The more you use Clotr, the more you report
-                bugs, the better it gets. For free.
-              </p>
-              <footer>— Alex (<a href="https://github.com/BilliamBaSH">BilliamBaSH</a>)</footer>
-            </blockquote>
-            <a class="btn text" href="https://github.com/clotr-app/clotr">Read the code</a>
-          </div>
+            <footer>Alex (<a href="https://github.com/BilliamBaSH">BilliamBaSH</a>)</footer>
+          </blockquote>
+          <p><a href="https://github.com/clotr-app/clotr">Read the source on GitHub</a></p>
         </section>
       </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <img src="assets/tile.svg" alt="" width="24" height="24" />
         <p>Clotr is free software, under AGPL-3.0-or-later.</p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
