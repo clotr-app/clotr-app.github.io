@@ -90,6 +90,35 @@ main {
   color: var(--field-ink);
 }
 
+/* ---------- The install button that matches the visitor's browser ---------- */
+/* CSS can tell Firefox apart from everything else (only Firefox understands -moz-appearance) and a
+   touch-only device from a mouse-driven one, but Chrome, Brave and Edge share the same rendering engine
+   and look identical to a stylesheet, so all three get the Chrome Web Store button below. */
+.install-firefox,
+.install-phone {
+  display: none;
+}
+@supports (-moz-appearance: none) {
+  .install-chrome {
+    display: none;
+  }
+  .install-firefox {
+    display: inline-block;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .install-chrome,
+  .install-firefox {
+    display: none;
+  }
+  .install-phone {
+    display: block;
+  }
+}
+.install-row {
+  margin-top: var(--s-5);
+}
+
 /* ---------- Generic section rhythm ---------- */
 .sec {
   padding: var(--s-8) 0;
