@@ -44,14 +44,20 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   gap: var(--s-7);
-  align-items: center;
+  align-items: start;
   padding: var(--s-6) 0 var(--s-8);
 }
+.hero .wordmark-big {
+  display: block;
+  height: 64px;
+  width: auto;
+  margin-bottom: var(--s-4);
+}
 .hero h1 {
-  font-size: var(--text-4xl);
-  line-height: 1.1;
+  font-size: var(--text-3xl);
+  line-height: 1.15;
 }
 .hero .lede {
   font-size: var(--text-lg);
@@ -93,8 +99,7 @@ main {
 /* ---------- The install button that matches the visitor's browser ---------- */
 /* CSS can tell Firefox apart from everything else (only Firefox understands -moz-appearance) and a
    touch-only device from a mouse-driven one, but Chrome, Brave and Edge share the same rendering engine
-   and look identical to a stylesheet, so all three get the Chrome Web Store button below, with a line for
-   Edge under it (Edge can install from the Chrome store, but only after an extra "allow other stores" step). */
+   and look identical to a stylesheet, so all three get the Chrome Web Store button below. */
 .install-firefox,
 .install-phone {
   display: none;

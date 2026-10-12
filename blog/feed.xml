@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Clotr's blog feed. A post is added here only once it's published, never while it's still a draft on the
+     blog's own page, so a feed reader never sees a post before it's out. -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Clotr's blog</title>
+  <subtitle>Notes on building Clotr: releases, what reports taught me, and the occasional scam taken apart.</subtitle>
+  <link href="https://clotr.app/blog/" />
+  <link href="https://clotr.app/blog/feed.xml" rel="self" />
+  <id>https://clotr.app/blog/</id>
+  <updated>2026-10-07T00:00:00Z</updated>
+</feed>

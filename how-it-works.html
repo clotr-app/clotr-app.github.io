@@ -7,7 +7,7 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="no-referrer" />
     <title>How Clotr works, and your privacy</title>
     <meta
       name="description"
@@ -46,12 +46,13 @@
       <div class="wrap">
         <nav>
           <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="90" height="39" />
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
             <a href="how-it-works.html" aria-current="page">How it works</a>
             <a href="teams.html">Teams</a>
             <a href="download.html">Download</a>
+            <a href="try.html">Try it</a>
           </div>
         </nav>
       </div>
@@ -90,8 +91,11 @@
             <h2 id="engine-title">One engine everywhere</h2>
             <p class="lede">
               Each part of Clotr runs the same engine, so a detail is caught the same way wherever you type: the
-              extension today, and the apps for Windows and Android as they come. <b>Clotr has absolutely NO AI.</b>
-              It's plain pattern matching that anyone can read, and it never talks to an AI service to do its job.
+              extension today, and Clotr for Windows and Android as they come. Clotr has no AI inside it, just
+              pattern checks you can read, and it never talks to an AI service to do its job.
+            </p>
+            <p class="lede">
+              <a href="https://github.com/clotr-app/clotr/blob/main/CONTRIBUTING.md#how-clotr-is-built">How Clotr is built</a>
             </p>
           </div>
         </section>
@@ -121,6 +125,45 @@
             </li>
             <li>
               <p>There's nothing to sign up for and nothing to sign in to.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sec" aria-labelledby="windows-title">
+          <div class="head">
+            <h2 id="windows-title">Clotr for Windows</h2>
+            <p class="lede">
+              Clotr for Windows isn't out yet: it's on its way to the Microsoft Store. Once it is, it watches beside
+              ChatGPT, Claude, Gemini and Copilot's own windows, once you've opened one, instead of in a browser
+              tab. What it reads still never leaves your computer.
+            </p>
+          </div>
+          <ul class="promises">
+            <li>
+              <p>
+                It checks your clipboard once, the moment you copy something while one of those apps is in front,
+                and a command the same way before it reaches the Run box or a terminal.
+              </p>
+            </li>
+            <li>
+              <p>
+                Check my files and Look back only read what you point them at: the folders you pick or Clotr
+                suggests, or the one export file you choose, and nothing on their own unless you turn on the
+                once-a-week check.
+              </p>
+            </li>
+            <li>
+              <p>
+                Everything it keeps lives in one file on this computer, under
+                <code>%LOCALAPPDATA%\Clotr\Desktop</code>, never a roaming profile that could follow you to
+                another PC.
+              </p>
+            </li>
+            <li>
+              <p>
+                It has no network code built in, and a test reads the program Windows actually runs and fails the
+                build if a network call ever shows up in it.
+              </p>
             </li>
           </ul>
         </section>
@@ -155,7 +198,10 @@
               <h3 id="rebuild-title">Rebuild it</h3>
               <p>
                 Every release can be rebuilt from the code, byte for byte: its checksum matches the release's
-                <code>SHA256SUMS.txt</code>.
+                <code>SHA256SUMS.txt</code>. Clone the tag, run <code>npm install</code> then
+                <code>npm run package</code>, and compare the line it writes in <code>dist/SHA256SUMS.txt</code>
+                against the one attached to that release on
+                <a href="https://github.com/clotr-app/clotr/releases">GitHub</a>.
               </p>
             </article>
           </div>
@@ -188,6 +234,7 @@
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; connect-src 'none'; img-src 'self' data:; style-src 'self'; frame-ancestors 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Try Clotr's scam check and practice drills</title>
+    <meta
+      name="description"
+      content="Paste a message and see the warning signs Clotr knows, or practice six made-up scams and a spot-the-leak drill. It runs in your browser; nothing you paste is sent anywhere, and you don't need the extension."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/try.html" />
+    <meta property="og:title" content="Try Clotr's scam check and practice drills" />
+    <meta
+      property="og:description"
+      content="Paste a message and see the warning signs Clotr knows, or practice six made-up scams and a spot-the-leak drill. It runs in your browser, with no extension and nothing sent anywhere."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Try Clotr's scam check and practice drills" />
+    <meta
+      name="twitter:description"
+      content="Paste a message and see the warning signs Clotr knows, or practice six made-up scams and a spot-the-leak drill."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="try.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="download.html">Download</a>
+            <a href="try.html" aria-current="page">Try it</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" aria-labelledby="hero-title">
+          <h1 id="hero-title">Try it, before you install anything</h1>
+          <p class="lede">
+            Paste a message below to see what Clotr would catch, or practice on made-up ones. Everything on this page
+            runs in your own browser; nothing you paste is sent anywhere, and you don't need the extension.
+          </p>
+          <p class="install-row">
+            <a class="btn install-chrome" href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab"
+              >Get the extension</a
+            >
+            <a class="btn install-firefox" href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/"
+              >Get the extension</a
+            >
+          </p>
+          <p class="fine install-edge">
+            On Edge?
+            <a href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj">Get it from Edge Add-ons</a>.
+          </p>
+          <p class="fine install-phone">Clotr runs on Chrome, Brave, Edge and Firefox on a computer today.</p>
+          <noscript>
+            <p class="note">
+              Both parts of this page need JavaScript turned on, since the check runs in your browser rather than on a
+              server. Nothing here ever leaves this page either way.
+            </p>
+          </noscript>
+        </section>
+      </div>
+
+      <section class="sec try-sec" id="scam-check" aria-labelledby="sc-heading">
+        <div class="wrap">
+          <h2 id="sc-heading">Is this a scam?</h2>
+          <p class="lede">
+            Paste a message you got, a text, an email or a chat, and Clotr points out the warning signs it knows. It
+            all stays on this computer, and nothing is kept.
+          </p>
+
+          <div id="sc-ask" class="ask">
+            <label for="sc-message" class="box-label">The message you got</label>
+            <textarea id="sc-message" rows="7" autocomplete="off" spellcheck="false" placeholder="Paste it here"></textarea>
+            <p id="sc-empty-note" class="note" role="status" hidden>Paste a message first.</p>
+            <div class="actions">
+              <button id="sc-check-it" class="btn primary" type="button">Check it</button>
+              <button id="sc-try-made-up" class="btn text" type="button">Try a made-up message</button>
+            </div>
+          </div>
+
+          <section id="sc-result" class="result" hidden aria-label="Is this a scam?">
+            <div id="sc-found" class="found" hidden>
+              <h3 id="sc-found-title" tabindex="-1"></h3>
+              <p class="sub">Each one is marked in the message.</p>
+            </div>
+            <div class="message-card">
+              <p class="card-label">The message you got</p>
+              <p id="sc-marked" class="marked"></p>
+            </div>
+            <div id="sc-none" class="none" hidden>
+              <span class="info" aria-hidden="true">i</span>
+              <div>
+                <h3 id="sc-none-title" tabindex="-1">Clotr didn't find any of the signs it knows</h3>
+                <p>That doesn't tell you the message is real: scams change, and no list knows them all.</p>
+              </div>
+            </div>
+            <div id="sc-signs"></div>
+
+            <section id="sc-before" class="before" aria-labelledby="sc-before-title">
+              <h3 id="sc-before-title">Before you answer</h3>
+              <ul>
+                <li>
+                  Don't use the phone number or link in the message. Call the company or person on a number you
+                  already know, like the one on your card or statement.
+                </li>
+                <li>Talk to someone you trust first.</li>
+                <li id="sc-has-phone" class="strong" hidden>It has a phone number: don't call it to check.</li>
+                <li id="sc-has-link" class="strong" hidden>It has a link: don't use it to check.</li>
+              </ul>
+              <p id="sc-before-sources" class="source"></p>
+            </section>
+
+            <button id="sc-check-another" class="btn" type="button">Check another message</button>
+          </section>
+
+          <p id="sc-failed" class="note" role="alert" hidden>Clotr couldn't check this. Nothing was kept.</p>
+          <p class="footnote">
+            Clotr reads only what you paste here, on this computer, and forgets it when you close the page. It never
+            says a message is fine: no list knows every scam.
+          </p>
+        </div>
+      </section>
+
+      <section class="sec try-sec" id="practice" aria-labelledby="pz-heading">
+        <div class="wrap">
+          <h2 id="pz-heading">Practice</h2>
+          <p class="lede">
+            Six made-up messages, like the ones scammers send, then ten made-up messages for an AI chat. Nothing you
+            type here leaves this page or is kept, so use made-up numbers.
+          </p>
+
+          <div id="pz-drill" aria-labelledby="pz-drill-step">
+            <h3 id="pz-title">What would you reply?</h3>
+            <p id="pz-drill-step" class="step"></p>
+            <div id="pz-segments" class="segments" aria-hidden="true"></div>
+            <figure class="chat">
+              <figcaption class="chat-from">
+                <span id="pz-drill-initial" class="avatar" aria-hidden="true"></span>
+                <cite id="pz-drill-from"></cite>
+                <span class="tag">made up</span>
+              </figcaption>
+              <blockquote id="pz-drill-message" class="chat-bubble"></blockquote>
+            </figure>
+            <div class="reply-field">
+              <label for="pz-reply">Your reply</label>
+              <textarea id="pz-reply" rows="3" autocomplete="off" spellcheck="false" placeholder="Type the reply you'd send"></textarea>
+            </div>
+            <p class="actions">
+              <button id="pz-check" class="btn primary" type="button">Check my reply</button>
+              <button id="pz-use-made-up" class="btn text" type="button">Or use a made-up reply</button>
+            </p>
+            <div id="pz-reveal" class="reveal" role="status" aria-live="polite"></div>
+            <p class="nav">
+              <button id="pz-next" class="btn primary" type="button" hidden></button>
+              <button id="pz-back" class="btn text" type="button" hidden>Back</button>
+            </p>
+          </div>
+
+          <div id="pz-leak" aria-labelledby="pz-leak-title" hidden>
+            <div class="leak-head">
+              <h3 id="pz-leak-title" class="step" tabindex="-1">Would you send this to a chatbot?</h3>
+              <span id="pz-leak-count" class="leak-count"></span>
+            </div>
+            <div id="pz-leak-body"></div>
+            <div id="pz-leak-end" class="leak-end" hidden>
+              <p id="pz-leak-score" class="leak-score" tabindex="-1"></p>
+              <p id="pz-leak-cheer" class="leak-cheer"></p>
+              <p class="leak-kept">Nothing about your answers is kept.</p>
+              <p class="leak-more">
+                Got a message that worries you? Clotr can give a second opinion.
+                <a href="#scam-check">Is this a scam?</a>
+              </p>
+              <p class="leak-more">
+                Want this for an office or a group?
+                <a href="teams.html">Clotr for teams</a>
+              </p>
+              <p class="nav"><button id="pz-leak-again" class="btn primary" type="button">Ten more messages</button></p>
+            </div>
+            <p class="nav"><button id="pz-leak-back" class="btn text" type="button">Back to the drills</button></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="try/chrome-shim.js"></script>
+    <script src="try/patterns.js"></script>
+    <script src="try/detector.js"></script>
+    <script src="try/decide.js"></script>
+    <script src="try/scam-signs.js"></script>
+    <script src="try/page-notice.js"></script>
+    <script src="try/practice-data.js"></script>
+    <script src="try/scam-check.js"></script>
+    <script src="try/practice.js"></script>
+  </body>
+</html>

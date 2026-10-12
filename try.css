@@ -1,0 +1,495 @@
+/* Try it: the scam check and the practice drills, the only page on the site that runs a script. Everything here
+   stays in the same flat, token-driven look as site.css; the warn-* and caught-* tokens exist in the kit for
+   exactly this page, so Clotr's own warning reads the same way here as it does for real. */
+
+.try-sec {
+  background: var(--side);
+}
+.try-sec:nth-of-type(odd) {
+  background: var(--page);
+}
+
+/* The kit's .btn sets its own display, which otherwise wins over the browser's default [hidden] rule and leaves a
+   hidden button showing as an empty box: practice.js toggles Next and Back this way between drills. */
+[hidden] {
+  display: none !important;
+}
+
+.btn.primary {
+  background: var(--main);
+  color: #fff;
+}
+
+.note {
+  font-size: var(--text-sm);
+  color: var(--soft);
+  margin-top: var(--s-3);
+}
+.note[role="alert"] {
+  color: var(--alarm);
+}
+
+/* ---------- The paste box (Is this a scam?) ---------- */
+
+.ask {
+  margin-top: var(--s-5);
+  max-width: var(--measure);
+}
+.box-label,
+.reply-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: var(--s-2);
+}
+textarea {
+  width: 100%;
+  font: var(--text) / var(--leading) var(--font);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--frame);
+  border-radius: var(--r-control);
+  padding: var(--s-3);
+  resize: vertical;
+}
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+.actions,
+.reply-field + .actions {
+  margin-top: var(--s-4);
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- The result ---------- */
+
+.result {
+  margin-top: var(--s-6);
+  max-width: var(--measure);
+}
+.result .found h3,
+.result .none h3 {
+  font-size: var(--text-xl);
+}
+.result .sub {
+  color: var(--soft);
+  margin-top: var(--s-1);
+}
+.message-card {
+  margin-top: var(--s-4);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.card-label {
+  font-size: var(--text-sm);
+  color: var(--soft);
+  margin-bottom: var(--s-2);
+}
+.marked {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+.marked mark {
+  background: var(--caught-hi);
+  color: var(--warn-ink);
+  border-radius: 3px;
+  padding: 0 2px;
+  box-shadow: inset 0 0 0 1px var(--caught-line);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.none {
+  margin-top: var(--s-4);
+  display: flex;
+  gap: var(--s-3);
+  background: var(--warn-paper);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-edge);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.none .info {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--warn-label);
+  color: var(--warn-label-ink);
+  font-weight: 700;
+  font-size: var(--text-sm);
+}
+.none h3 {
+  font-size: var(--text-lg);
+}
+.none p {
+  margin-top: var(--s-1);
+}
+
+/* ---------- Sign cards, grouped ---------- */
+
+#sc-signs {
+  margin-top: var(--s-5);
+  display: grid;
+  gap: var(--s-5);
+}
+.sign-group h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--s-3);
+}
+.sign-group {
+  display: grid;
+  gap: var(--s-3);
+}
+.sign-card {
+  background: var(--warn-paper);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-edge);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.sign-name {
+  margin: 0;
+  font-size: var(--text);
+  color: var(--warn-label);
+}
+.sign-words {
+  margin-top: var(--s-1);
+  font-style: italic;
+}
+.sign-means {
+  margin-top: var(--s-2);
+}
+.sign-source,
+.source {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.source a {
+  color: inherit;
+}
+
+/* ---------- Before you answer ---------- */
+
+.before {
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+.before h3 {
+  font-size: var(--text-lg);
+}
+.before ul {
+  margin: var(--s-3) 0 0;
+  padding-left: 1.2em;
+}
+.before li {
+  padding: var(--s-1) 0;
+}
+.before li.strong {
+  font-weight: 700;
+  color: var(--alarm);
+}
+.footnote {
+  margin-top: var(--s-6);
+  color: var(--soft);
+  font-size: var(--text-sm);
+  max-width: var(--measure);
+}
+#sc-check-another {
+  margin-top: var(--s-5);
+}
+
+/* ---------- Practice: the drills ---------- */
+
+.segments {
+  display: flex;
+  gap: var(--s-1);
+  margin: var(--s-3) 0 var(--s-5);
+  max-width: 24ch;
+}
+.segments span {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--rule);
+}
+.segments span.done {
+  background: var(--main);
+}
+.step {
+  color: var(--soft);
+  margin-top: var(--s-1);
+}
+.chat {
+  margin: var(--s-4) 0 0;
+  max-width: var(--measure);
+}
+.chat-from {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--frame);
+  color: var(--ink);
+  font-weight: 700;
+}
+.chat-from cite {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
+.chat-from .tag {
+  border: 1px solid var(--frame);
+  border-radius: var(--r-control);
+  padding: 1px 6px;
+}
+.chat-bubble {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.reply-field {
+  margin-top: var(--s-5);
+  max-width: var(--measure);
+}
+
+.reveal {
+  margin-top: var(--s-5);
+  max-width: var(--measure);
+}
+.reveal-label {
+  font-size: var(--text-sm);
+  color: var(--soft);
+  margin-bottom: var(--s-2);
+}
+.reveal-none {
+  font-weight: 700;
+}
+.reveal-hint {
+  margin-top: var(--s-1);
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+.safer {
+  margin-top: var(--s-4);
+  background: var(--side);
+  border-left: 3px solid var(--main);
+  border-radius: 0 var(--r-card) var(--r-card) 0;
+  padding: var(--s-4);
+}
+.try-sec:nth-of-type(odd) .safer {
+  background: var(--surface);
+}
+.safer h3 {
+  font-size: var(--text);
+}
+.safer-quote {
+  margin-top: var(--s-2);
+  font-style: italic;
+}
+.safer-why {
+  margin-top: var(--s-1);
+  color: var(--soft);
+}
+p.nav {
+  margin-top: var(--s-5);
+  display: flex;
+  gap: var(--s-4);
+  align-items: center;
+}
+
+/* ---------- The warning notice, built by the same code as a real chat's ---------- */
+
+.try-notice {
+  margin-top: var(--s-2);
+  background: var(--warn-paper);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-edge);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.notice-title {
+  display: block;
+  margin-bottom: var(--s-2);
+}
+.try-ask {
+  display: flex;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  align-items: baseline;
+}
+.ask-dot {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--warn-label);
+  color: var(--warn-label-ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+.notice-buttons {
+  margin-top: var(--s-4);
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.notice-buttons .btn {
+  background: #fff;
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-edge);
+}
+.notice-buttons .btn.primary {
+  background: var(--warn-label);
+  border-color: var(--warn-label);
+  color: var(--warn-label-ink);
+}
+.notice-left {
+  margin-top: var(--s-3);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Spot the leak ---------- */
+
+.leak-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+.leak-count {
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+.typed {
+  margin: var(--s-4) 0 0;
+  max-width: var(--measure);
+}
+.typed figcaption {
+  font-size: var(--text-sm);
+  color: var(--soft);
+  margin-bottom: var(--s-2);
+}
+.typed blockquote {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+}
+.answers {
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+}
+.btn.answer[aria-pressed="true"] {
+  background: var(--main);
+  color: #fff;
+}
+.btn.answer:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+.leak-card {
+  margin-top: var(--s-4);
+  border-radius: var(--r-card);
+  padding: var(--s-4);
+  max-width: var(--measure);
+}
+.leak-card.found {
+  background: var(--warn-paper);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-edge);
+}
+.leak-card.none {
+  background: var(--side);
+  border: 1px solid var(--rule);
+}
+.leak-card h3 {
+  font-size: var(--text);
+}
+.chips {
+  list-style: none;
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+.chip-find {
+  background: var(--warn-label);
+  color: var(--warn-label-ink);
+  border-radius: var(--r-control);
+  padding: 2px 10px;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+.leak-card p {
+  margin-top: var(--s-3);
+}
+.leak-end {
+  margin-top: var(--s-5);
+  max-width: var(--measure);
+}
+.leak-score {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+.leak-cheer {
+  margin-top: var(--s-2);
+  color: var(--soft);
+}
+.leak-kept {
+  margin-top: var(--s-4);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.leak-more {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+
+@media (max-width: 480px) {
+  .segments {
+    max-width: none;
+  }
+  .actions,
+  .answers,
+  p.nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .chat-from {
+    flex-wrap: wrap;
+  }
+}

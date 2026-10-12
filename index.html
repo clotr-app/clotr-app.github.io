@@ -47,20 +47,23 @@
       <div class="wrap">
         <nav>
           <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="90" height="39" />
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
             <a href="how-it-works.html">How it works</a>
             <a href="teams.html">Teams</a>
             <a href="download.html">Download</a>
+            <a href="try.html">Try it</a>
           </div>
         </nav>
         <section class="hero" aria-labelledby="hero-title">
           <div class="copy">
-            <h1 id="hero-title">Clotr warns you before personal details go into an AI chat.</h1>
+            <img class="wordmark-big" src="assets/wordmark.svg" alt="Clotr" width="232" height="86" />
+            <h1 id="hero-title">catches it before it's sent.</h1>
             <p class="lede">
-              A password, a card number, your address: Clotr spots them as you type in ChatGPT, Claude, Gemini and 16
-              more, and warns you before you send them.
+              A photo from your phone can carry the exact place it was taken, saved inside the file. Attach one to an
+              AI chat and Clotr notices before it's sent, the same way it catches a password or a card number as you
+              type.
             </p>
             <p class="buttons">
               <a
@@ -77,28 +80,26 @@
             </p>
             <p class="fine install-edge">
               On Edge?
-              <a
-                href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj"
-                >Get it from Edge Add-ons</a
-              >.
+              <a href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj">Get it from Edge Add-ons</a>.
             </p>
             <p class="fine install-phone">
               Clotr runs on Chrome, Brave, Edge and Firefox on a computer today.
               <a href="download.html">See every option</a>.
             </p>
             <p class="fine">Free and open source. Clotr checks on your device and sends nothing to Clotr. If you choose to send a message, it still goes to the AI service.</p>
+            <p class="fine"><a href="try.html">Try the scam check and a few practice messages first, right in this page</a>.</p>
           </div>
           <figure class="shot">
             <picture>
               <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
               <img
                 src="assets/hero/warning-light.png"
-                width="900"
-                height="480"
-                alt="An AI chat with a photo attached. Clotr's warning explains that the photo's saved location will go with it and recommends removing the photo before sending. Clotr can't read words in photos."
+                width="850"
+                height="470"
+                alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. To keep the place private, take the photo off before you send. Clotr can’t read the words in a picture, so look it over yourself."
               />
             </picture>
-            <figcaption>Clotr catches the location stored in an attached photo before you send it.</figcaption>
+            <figcaption>Clotr’s warning, before a photo carrying its place is sent to an AI chat.</figcaption>
           </figure>
         </section>
       </div>
@@ -127,7 +128,7 @@
             </div>
             <div>
               <dt>Your own list</dt>
-              <dd>Names and details you add yourself, kept only as one-way fingerprints.</dd>
+              <dd>Names and details you add yourself, kept only as a scrambled code, never the words themselves.</dd>
             </div>
             <div>
               <dt>Text in files</dt>
@@ -149,8 +150,8 @@
               <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">How the test works</a>
             </li>
             <li>
-              Clotr has absolutely NO AI. It spots private details with plain pattern matching that anyone can read, it
-              doesn't talk to any AI service, and there's no account either.
+              Clotr spots private details with plain pattern matching that anyone can read, it never asks an AI
+              service to do it, and there's no account either.
               <a href="https://github.com/clotr-app/clotr/blob/main/extension/patterns.js">Read the patterns</a>
             </li>
             <li>
@@ -167,17 +168,16 @@
           <h2 id="who-title">About development</h2>
           <blockquote>
             <p>
-              I'm Alex. I was a mechanic for 12 years before switching to IT at the end of 2025, and I'm a student now.
-              A small oil leak can eventually throw a rod, and little bits of us leak out the same way, so I'm trying to
-              clot them.
+              I'm Alex. I was a mechanic for 12 years before switching to IT at the end of 2025, and I'm a student
+              now. A small oil leak can eventually throw a rod, and little bits of us leak out the same way, so I'm
+              trying to clot them.
             </p>
             <footer>Alex (<a href="https://github.com/BilliamBaSH">BilliamBaSH</a>)</footer>
           </blockquote>
           <p><a href="https://github.com/clotr-app/clotr">Read the source on GitHub</a></p>
           <p>
-            <a href="https://github.com/clotr-app/clotr/blob/main/CONTRIBUTING.md#how-clotr-is-built"
-              >How Clotr is built</a
-            >
+            Clotr has no AI inside it, just pattern checks you can read.
+            <a href="https://github.com/clotr-app/clotr/blob/main/CONTRIBUTING.md#how-clotr-is-built">How Clotr is built</a>
           </p>
         </section>
       </div>
@@ -189,6 +189,7 @@
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>
