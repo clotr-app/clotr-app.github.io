@@ -185,9 +185,11 @@
             </li>
             <li>
               <p>
-                Run <code>npm run scorecard</code> in the source to see how many warning signs it finds in a set of
-                real and made-up scam messages, and how often it finds one that isn't there, straight from
-                <a href="https://github.com/clotr-app/clotr/blob/main/tools/oracle/scorecard.js">scorecard.js</a>.
+                Run <code>npm test</code> in the source and
+                <a href="https://github.com/clotr-app/clotr/blob/main/tests/scam-signs.test.js">scam-signs.test.js</a>
+                runs the signs over more than 200 scam messages in English and Spanish and more than 200 ordinary
+                ones that only look like a scam. Each message has to get exactly the signs written beside it, no
+                more and no fewer.
               </p>
             </li>
             <li>
