@@ -195,6 +195,19 @@ main {
   font-size: var(--text-lg);
 }
 
+.trust-badges {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  margin-top: var(--s-4);
+}
+.trust-badges img {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
 /* ---------- Home: the maker ---------- */
 .maker blockquote {
   margin: var(--s-4) 0 var(--s-4);
@@ -229,6 +242,9 @@ footer.bottom nav {
   margin-left: auto;
   display: flex;
   gap: var(--s-5);
+}
+footer.bottom .trust-badges {
+  margin-top: 0;
 }
 
 /* ---------- Cards, lists, steps (download, teams, how it works) ---------- */

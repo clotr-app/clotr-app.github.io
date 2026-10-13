@@ -1,0 +1,24 @@
+{
+  "refreshed": "2026-10-13",
+  "failures": [],
+  "tests": {
+    "value": "passing",
+    "checked": "2026-10-13",
+    "ok": true
+  },
+  "license": {
+    "value": "AGPL-3.0",
+    "checked": "2026-10-13",
+    "ok": true
+  },
+  "scorecard": {
+    "value": "6.4",
+    "checked": "2026-10-13",
+    "ok": true
+  },
+  "bestPractices": {
+    "value": "silver",
+    "checked": "2026-10-13",
+    "ok": true
+  }
+}

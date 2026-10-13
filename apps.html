@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Clotr for Windows and Android, a preview</title>
+    <meta
+      name="description"
+      content="A preview of what's planned for Clotr for Windows and Android, marked as built, being tested, or only designed so far."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="download.html">Download</a>
+            <a href="try.html">Try it</a>
+            <a href="blog/index.html">Blog</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" aria-labelledby="hero-title">
+          <h1 id="hero-title">Clotr for Windows and Android</h1>
+          <p class="lede">
+            <strong>Preview.</strong> This page says what I'm building toward for Windows and Android, not
+            something you can install today. Each item is marked as built, being tested, or only designed so far,
+            and nothing here is a promise of a date.
+          </p>
+          <p class="fine">
+            For what you can install right now, see <a href="download.html">the download page</a>: the browser
+            extension, for Chrome, Brave, Edge and Firefox on a computer.
+          </p>
+        </section>
+
+        <section class="sec" aria-labelledby="windows-title">
+          <div class="head">
+            <h2 id="windows-title">Clotr for Windows</h2>
+            <p class="lede">
+              One program beside your other windows, built the same way as the browser extension: it reads what
+              you choose to show it, checks it on your own computer, and says what it found.
+            </p>
+          </div>
+          <ul class="promises">
+            <li>
+              <p>
+                <strong>Built, being tested:</strong> a copy check beside your AI desktop apps. Copy something
+                private while ChatGPT, Claude or Copilot's own window is in front, and a card appears beside it,
+                the same way the browser's warning does, before you paste it anywhere.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Built, being tested: Check my files.</strong> A Quick scan reads Downloads, Desktop and
+                Documents, plus anything that's changed since your last Full scan; a Full scan reads every drive; Folders I choose reads
+                only what you pick. Every scan skips the folders built for programs and a password manager's own
+                vault, and <em>Leave out</em> lets you tell it to skip any folder yourself, any time. What it finds
+                comes back grouped by what matters most, with words you can actually read, never a technical dump.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Being built: the typing check.</strong> Today Clotr for Windows only reads what
+                you copy. The plan is to read the same message box as you type, the way a screen reader does, so a
+                warning can show while you're still writing, not only after you've copied something. It reads only
+                AI apps' message boxes, never a password box, and keeps nothing it reads.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Built, being tested: start with Windows.</strong> A setting to open quietly in the tray
+                when your computer starts, off until you turn it on yourself.
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>What stays true at every step:</strong> everything happens on your own computer. There's no
+                network code in it at all, nothing you copy, type or scan is ever sent anywhere, and a test fails
+                the build the moment that ever stops being true.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sec" aria-labelledby="android-title">
+          <div class="head">
+            <h2 id="android-title">Clotr for Android</h2>
+            <p class="lede">A keyboard, in an early trial, with Clotr's own check built in behind it.</p>
+          </div>
+          <ul class="promises">
+            <li>
+              <p>
+                <strong>In an early trial.</strong> It's built on an existing, well-tested keyboard, so typing
+                itself (layouts, autocorrect, languages) stays as solid as any other keyboard, with Clotr's check
+                added behind it. Once you switch it on and pick it as your keyboard, it reads your message the same
+                way the browser extension reads a chat box, only inside the AI apps it recognizes.
+              </p>
+            </li>
+            <li>
+              <p>
+                It skips password boxes, and outside the AI apps it recognizes it's just an ordinary keyboard, with
+                Clotr's check turned off.
+              </p>
+            </li>
+            <li>
+              <p>
+                It asks for no internet permission at all, so there's no way for it to go online, whatever any
+                library inside it might otherwise try to do.
+              </p>
+            </li>
+            <li>
+              <p>
+                Right now this is a private trial, measured and tested before it's offered to anyone to try
+                themselves. Nothing typed in it leaves the phone.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sec" aria-labelledby="one-engine-title">
+          <div class="head">
+            <h2 id="one-engine-title">One engine, wherever Clotr runs</h2>
+          </div>
+          <p>
+            Windows, Android and the browser extension all run the same checks for passwords, keys, card and ID
+            numbers and the rest, written once and read the same way everywhere. Clotr has no AI inside any of
+            them, just pattern checks you can read, and none of them ever talks to an AI service to do its job.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
