@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>On device protection, so many hurdles.</title>
+    <meta name="description" content="Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've..." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/blog/quick-scan-first-file.html" />
+    <meta property="og:title" content="On device protection, so many hurdles." />
+    <meta property="og:description" content="Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've..." />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="On device protection, so many hurdles." />
+    <meta name="twitter:description" content="Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've..." />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="alternate" type="application/atom+xml" href="feed.xml" />
+    <link rel="stylesheet" href="../kit/tokens.css" />
+    <link rel="stylesheet" href="../kit/components.css" />
+    <link rel="stylesheet" href="../site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="../index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="../how-it-works.html">How it works</a>
+            <a href="../teams.html">Teams</a>
+            <a href="../download.html">Download</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" aria-labelledby="post-title">
+          <p class="fine"><a href="index.html">Clotr's blog</a></p>
+          <article>
+            <p class="fine">Posted <time datetime="2026-10-13">13 October 2026</time></p>
+            <h1 id="post-title">On device protection, so many hurdles.</h1>
+            <p class="measure">Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've been stuck trying to figure out what's seizing it, and I think I finally got it.</p>
+            <p class="measure">--------------------------------------------------</p>
+            <h2>The Problem (aside from me):</h2>
+            <p class="measure">--------------------------------------------------</p>
+            <p class="measure">A Quick scan works in two steps, first it counts the files it can read in Downloads and on the Desktop. Then it opens them one at a time and hands each one to a background reader, which looks for things like passwords, keys and card numbers. All of it happens on and stays on the PC.</p>
+            <p class="measure">The second step broke on the very first file. The app runs under strict security settings, and they keep it off its fast internal pathing, so each file's contents came back slow as a plain list of numbers. The background reader only takes raw bytes, so it refused the list and reset everything. I had the quick scan capped at 50k files, and a folder scan that scans the entire folder. The folder scan broke the same way.</p>
+            <p class="measure">--------------------------------------------------</p>
+            <h2>The fix</h2>
+            <p class="measure">--------------------------------------------------</p>
+            <p class="measure">The easy (for now) fix is turning whatever comes back into raw bytes before the reader sees it. From there a folder holding a test file with a fake AWS key finished with &quot;1 thing worth a look&quot;. Results then named the file and said it holds an AWS access key, and the key itself never appeared on screen. &quot;Save a copy&quot; on the Results screen read files the same way, so it got the same fix.</p>
+            <p class="measure">--------------------------------------------------</p>
+            <h2>A second bug, found on the way</h2>
+            <p class="measure">--------------------------------------------------</p>
+            <p class="measure">I have a lot of projects on my desktop and wanted to see what scanning just that 'folder' would do, a quick scan stops at stops at 50k files, and it counted 49,967. The scan used to go deep into the first big folder it met before looking at anything else, so a file sitting right on the Desktop could be skipped because a project folder came first.</p>
+            <p class="measure">That one was simple once I actually realized it, a really good example of thinking I worked out a solution but didn't account for every exception. The scan now works through folders one level at a time, so anything sitting right on your Desktop or in Downloads gets counted before it ever wanders into the subfolders. It got its own test too, so it can't quietly come back.</p>
+            <p class="measure">Next up is making the scans smarter: a Full scan that reaches as far as an antivirus would, and a Quick scan that only looks at what's changed since your last Full one. One hurdle down, probably quite a few more to go.</p>
+          </article>
+          <p class="fine">
+            To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

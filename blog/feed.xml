@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Clotr's blog feed. A post is added here only once it's published, never while it's still a draft on the
-     blog's own page, so a feed reader never sees a post before it's out. -->
+<!-- Clotr's blog feed, built by tools/blog.js from the published posts only. -->
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Clotr's blog</title>
   <subtitle>Notes on building Clotr: releases, what reports taught me, and the occasional scam taken apart.</subtitle>
   <link href="https://clotr.app/blog/" />
   <link href="https://clotr.app/blog/feed.xml" rel="self" />
   <id>https://clotr.app/blog/</id>
-  <updated>2026-10-07T00:00:00Z</updated>
+  <updated>2026-10-13T00:00:00Z</updated>
+  <entry>
+    <title>On device protection, so many hurdles.</title>
+    <link href="https://clotr.app/blog/quick-scan-first-file.html" />
+    <id>https://clotr.app/blog/quick-scan-first-file.html</id>
+    <updated>2026-10-13T00:00:00Z</updated>
+    <summary>Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've...</summary>
+    <author><name>Alex</name></author>
+  </entry>
 </feed>
