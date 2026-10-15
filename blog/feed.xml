@@ -6,7 +6,15 @@
   <link href="https://clotr.app/blog/" />
   <link href="https://clotr.app/blog/feed.xml" rel="self" />
   <id>https://clotr.app/blog/</id>
-  <updated>2026-10-13T00:00:00Z</updated>
+  <updated>2026-10-15T00:00:00Z</updated>
+  <entry>
+    <title>Smarter scans, and an 80 hour estimate.</title>
+    <link href="https://clotr.app/blog/smarter-scans.html" />
+    <id>https://clotr.app/blog/smarter-scans.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <summary>Last time I said the next step was a Full scan that reaches as far as an antivirus would. I built that. It turns out reaching that far was exactly the problem.</summary>
+    <author><name>Alex</name></author>
+  </entry>
   <entry>
     <title>On device protection, so many hurdles.</title>
     <link href="https://clotr.app/blog/quick-scan-first-file.html" />

@@ -44,7 +44,6 @@
             <a href="../how-it-works.html">How it works</a>
             <a href="../teams.html">Teams</a>
             <a href="../download.html">Download</a>
-            <a href="index.html">Blog</a>
           </div>
         </nav>
       </div>
@@ -70,7 +69,7 @@
             <p class="measure">--------------------------------------------------</p>
             <h2>A second bug, found on the way</h2>
             <p class="measure">--------------------------------------------------</p>
-            <p class="measure">I have a lot of projects on my desktop and wanted to see what scanning just that 'folder' would do, a quick scan stops at stops at 50k files, and it counted 49,967. The scan used to go deep into the first big folder it met before looking at anything else, so a file sitting right on the Desktop could be skipped because a project folder came first.</p>
+            <p class="measure">I have a lot of projects on my desktop and wanted to see what scanning just that 'folder' would do, a quick scan stops at 50k files, and it counted 49,967. The scan used to go deep into the first big folder it met before looking at anything else, so a file sitting right on the Desktop could be skipped because a project folder came first.</p>
             <p class="measure">That one was simple once I actually realized it, a really good example of thinking I worked out a solution but didn't account for every exception. The scan now works through folders one level at a time, so anything sitting right on your Desktop or in Downloads gets counted before it ever wanders into the subfolders. It got its own test too, so it can't quietly come back.</p>
             <p class="measure">Next up is making the scans smarter: a Full scan that reaches as far as an antivirus would, and a Quick scan that only looks at what's changed since your last Full one. One hurdle down, probably quite a few more to go.</p>
           </article>
@@ -85,20 +84,6 @@
       <div class="wrap">
         <p>Clotr is free software, under AGPL-3.0-or-later.</p>
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <p class="trust-badges">
-          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
-            ><img src="../assets/badges/tests.svg" alt="Tests: passing"
-          /></a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
-            ><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
-          /></a>
-          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
-            ><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
-          /></a>
-          <a href="https://www.bestpractices.dev/projects/15419"
-            ><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
-          /></a>
-        </p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
