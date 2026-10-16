@@ -1,44 +1,177 @@
-/* Blog rhythm follows the site's token spacing and stays readable on narrow screens. */
+/* The blog uses the suite paper and plaster tokens, with its notes in the page margin. */
 .blog-page {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: var(--s-6) var(--s-5) var(--s-8);
+  max-width: 1160px;
+  margin: var(--s-6) auto;
+  padding: var(--s-5);
+  background: var(--side);
+  border: 1px solid var(--rule);
 }
-.blog-page article {
-  max-width: var(--measure);
+.bench-index,
+.bench-post {
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.28fr) minmax(0, 1fr);
+  column-gap: var(--s-6);
+  row-gap: var(--s-5);
+  align-items: start;
 }
-.blog-page article > p,
-.blog-page article > ul {
-  margin-block: 0 var(--s-5);
-  font-size: var(--text-lg);
-  line-height: 1.72;
+.bench-notes {
+  grid-column: 1;
+  color: var(--soft);
+  font-size: var(--text-sm);
+  line-height: 1.65;
 }
-.blog-page article h1 {
-  margin: var(--s-3) 0 var(--s-6);
-  max-width: 22ch;
+.bench-post > .bench-notes {
+  grid-row: 1 / span 12;
+}
+.bench-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--s-4);
+  border-radius: var(--r-card);
+}
+.bench-notes .back {
+  display: block;
+  width: fit-content;
+  margin: 0 0 var(--s-5);
+}
+.bench-notes time {
+  display: block;
+  margin-bottom: var(--s-3);
+  color: var(--soft);
+}
+.bench-notes p + p {
+  margin-top: var(--s-3);
+}
+.bench-entry {
+  display: contents;
+}
+.bench-entry > h1,
+.bench-entry > p,
+.bench-entry > h2,
+.bench-entry > ul,
+.bench-entry > hr,
+.bench-entry > .reply {
+  grid-column: 2;
+  min-width: 0;
+}
+.bench-entry > h1 {
+  max-width: 20ch;
+  margin: 0 0 var(--s-2);
   font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
   line-height: var(--leading-tight);
 }
-.blog-page article h2 {
-  margin: var(--s-7) 0 var(--s-3);
+.bench-entry > p,
+.bench-entry > ul {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: 1.72;
+}
+.bench-entry > ul {
+  padding-left: 1.2em;
+}
+.bench-entry li + li {
+  margin-top: var(--s-2);
+}
+.bench-entry > h2 {
+  margin: var(--s-3) 0 0;
   font-size: var(--text-2xl);
   line-height: 1.2;
 }
-.blog-page article li + li {
-  margin-top: var(--s-2);
-}
-.blog-page article hr {
-  margin: var(--s-6) 0;
+.bench-entry > hr {
+  margin: var(--s-2) 0;
   border: 0;
   border-top: 1px solid var(--rule);
 }
-@media (max-width: 600px) {
+.blog-shot {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  margin: var(--s-2) 0;
+  border: 1px solid var(--frame);
+  background: var(--page);
+}
+.blog-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.blog-shot figcaption {
+  padding: var(--s-2) var(--s-3);
+  border-top: 1px solid var(--frame);
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+.bench-entry > .reply {
+  margin-top: var(--s-3);
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+.bench-list {
+  grid-column: 2;
+  min-width: 0;
+}
+.post-listing {
+  padding: 0 0 var(--s-5);
+  margin-bottom: var(--s-5);
+  border-bottom: 1px solid var(--rule);
+}
+.post-listing h2 {
+  margin: 0 0 var(--s-2);
+  font-size: var(--text-2xl);
+}
+.post-listing p {
+  max-width: var(--measure);
+  margin: 0 0 var(--s-2);
+  font-size: var(--text);
+}
+.post-listing time,
+.quiet-links {
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+.quiet-links + .quiet-links {
+  margin-top: var(--s-2);
+}
+.bench-list > .quiet-links:first-of-type {
+  margin-top: var(--s-6);
+}
+@media (max-width: 760px) {
   .blog-page {
-    padding: var(--s-5) var(--s-4) var(--s-7);
+    margin: var(--s-4) var(--s-3);
+    padding: var(--s-4);
   }
-  .blog-page article > p,
-  .blog-page article > ul {
+  .bench-index,
+  .bench-post {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-4);
+  }
+  .bench-notes,
+  .bench-list,
+  .bench-entry > h1,
+  .bench-entry > p,
+  .bench-entry > h2,
+  .bench-entry > ul,
+  .bench-entry > hr,
+  .bench-entry > .reply,
+  .blog-shot {
+    grid-column: 1;
+  }
+  .bench-notes {
+    grid-row: auto;
+  }
+  .bench-icon {
+    margin-bottom: var(--s-3);
+  }
+  .bench-notes .back {
+    margin-bottom: var(--s-3);
+  }
+  .bench-entry > p,
+  .bench-entry > ul {
     font-size: var(--text);
     line-height: 1.68;
+  }
+  .blog-shot {
+    margin: 0;
   }
 }

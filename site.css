@@ -97,6 +97,14 @@ main {
   font-size: var(--text-sm);
   color: var(--field-ink);
 }
+.hero .popup-shot {
+  width: min(100%, 420px);
+  align-self: start;
+}
+.hero .popup-shot img {
+  border: 0;
+  border-radius: 0;
+}
 
 /* ---------- The install button that matches the visitor's browser ---------- */
 /* CSS can tell Firefox apart from everything else (only Firefox understands -moz-appearance) and a
@@ -137,38 +145,11 @@ main {
   display: none !important;
 }
 
-/* ---------- Home: the hero's three ways in ---------- */
-.top nav.ways {
-  display: grid;
-  gap: var(--s-3);
-  align-self: center;
-  padding: 0;
-}
-.ways a {
-  display: block;
-  padding: var(--s-4) var(--s-5);
-  border: 1.5px solid var(--field-ink);
-  border-radius: var(--r-card);
-  text-decoration: none;
-}
-.ways a:hover b {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.ways b {
-  display: block;
-  font-size: var(--text-lg);
-}
-.ways span {
-  display: block;
-  margin-top: var(--s-1);
-  font-size: var(--text-sm);
-}
-
-/* ---------- Home: one band per product ---------- */
+/* ---------- Product bands on Download ---------- */
 .products-head {
   padding-top: var(--s-8);
 }
+.products-head h1,
 .products-head h2 {
   font-size: var(--text-3xl);
 }
@@ -404,23 +385,6 @@ main {
   display: block;
   height: 20px;
   width: auto;
-}
-
-/* ---------- Home: the maker ---------- */
-.maker blockquote {
-  margin: var(--s-4) 0 var(--s-4);
-  padding-left: var(--s-4);
-  border-left: 3px solid var(--rule);
-  max-width: var(--measure);
-}
-.maker blockquote p {
-  font-size: var(--text-lg);
-  line-height: 1.6;
-}
-.maker blockquote footer {
-  margin-top: var(--s-3);
-  color: var(--soft);
-  font-size: var(--text-sm);
 }
 
 /* ---------- Footer ---------- */

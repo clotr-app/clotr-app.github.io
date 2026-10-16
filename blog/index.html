@@ -8,18 +8,18 @@
       content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
-    <title>Clotr's blog</title>
-    <meta name="description" content="Notes on building Clotr: what changes in each release, what a report taught me, and the occasional scam taken apart." />
+    <title>Blog | Clotr</title>
+    <meta name="description" content="Posts about building Clotr." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://clotr.app/blog/" />
-    <meta property="og:title" content="Clotr's blog" />
-    <meta property="og:description" content="Notes on building Clotr: what changes in each release, what a report taught me, and the occasional scam taken apart." />
+    <meta property="og:title" content="Blog | Clotr" />
+    <meta property="og:description" content="Posts about building Clotr." />
     <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Clotr's blog" />
-    <meta name="twitter:description" content="Notes on building Clotr: what changes in each release, what a report taught me, and the occasional scam taken apart." />
+    <meta name="twitter:title" content="Blog | Clotr" />
+    <meta name="twitter:description" content="Posts about building Clotr." />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
@@ -42,12 +42,9 @@
             <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
-            <a href="../extension.html">Extension</a>
-            <a href="../windows.html">Windows</a>
-            <a href="../android.html">Android</a>
-            <a href="../how-it-works.html">How it works</a>
+            <a href="../download.html">Download</a>
             <a href="../teams.html">Teams</a>
-            <a href="../try.html">Try it</a>
+            <a href="../how-it-works.html">How it works</a>
             <a href="index.html" aria-current="page">Blog</a>
           </div>
         </nav>
@@ -56,26 +53,14 @@
 
     <main id="main">
       <div class="wrap blog-page">
-        <section class="sec" aria-labelledby="hero-title">
-          <h1 id="hero-title">Clotr's blog</h1>
-          <p class="lede">
-            Notes on building Clotr: what changes in each release, what a report taught me, and the occasional scam
-            taken apart. One post at a time, written by the person who builds it.
-          </p>
-          <p class="fine">
-            An <a href="feed.xml">Atom feed</a> carries each post once it's published. No comments here: reply to a
-            post on GitHub instead, where there's already an account and a history behind what someone says.
-          </p>
-
-          <ul class="measure">
-            <li><a href="smarter-scans.html">Smarter scans, and an 80 hour estimate.</a> <span class="fine">15 October 2026</span></li>
-            <li><a href="quick-scan-first-file.html">On device protection, so many hurdles.</a> <span class="fine">13 October 2026</span></li>
-          </ul>
-
-          <p class="fine">
-            This page loads nothing from any other site and runs no script. GitHub Pages, which hosts it, logs
-            visits the way any web host does, for its own security; this site adds no analytics of its own.
-          </p>
+        <section class="bench-index" aria-label="Posts">
+          <aside class="bench-notes"><img class="bench-icon" src="../assets/icon.svg" width="48" height="48" alt="" /></aside>
+          <div class="bench-list">
+<article class="post-listing"><h2><a href="smarter-scans.html">Smarter scans, and an 80 hour estimate.</a></h2><p>Last time I said the next step was a Full scan that reaches as far as an antivirus would.</p><time datetime="2026-10-15">15 October 2026</time></article>
+<article class="post-listing"><h2><a href="quick-scan-first-file.html">On device protection, so many hurdles.</a></h2><p>Clotr for Windows isn't out yet.</p><time datetime="2026-10-13">13 October 2026</time></article>
+            <p class="quiet-links"><a href="feed.xml">Atom feed</a></p>
+            <p class="quiet-links">No script, no analytics.</p>
+          </div>
         </section>
       </div>
     </main>
@@ -84,8 +69,15 @@
       <div class="wrap">
         <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <p class="trust-badges">
+          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"><img src="../assets/badges/tests.svg" alt="Tests: passing" /></a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later" /></a>
+          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score" /></a>
+          <a href="https://www.bestpractices.dev/projects/15419"><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level" /></a>
+        </p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="index.html">Blog</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>

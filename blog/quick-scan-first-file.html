@@ -42,12 +42,9 @@
             <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
-            <a href="../extension.html">Extension</a>
-            <a href="../windows.html">Windows</a>
-            <a href="../android.html">Android</a>
-            <a href="../how-it-works.html">How it works</a>
+            <a href="../download.html">Download</a>
             <a href="../teams.html">Teams</a>
-            <a href="../try.html">Try it</a>
+            <a href="../how-it-works.html">How it works</a>
             <a href="index.html" aria-current="page">Blog</a>
           </div>
         </nav>
@@ -56,10 +53,13 @@
 
     <main id="main">
       <div class="wrap blog-page">
-        <section class="sec" aria-labelledby="post-title">
-          <p class="fine"><a href="index.html">Clotr's blog</a></p>
-          <article>
-            <p class="fine">Posted <time datetime="2026-10-13">13 October 2026</time></p>
+        <section class="bench-post" aria-labelledby="post-title">
+          <aside class="bench-notes">
+            <img class="bench-icon" src="../assets/icon.svg" width="48" height="48" alt="" />
+            <a class="back" href="index.html">← All posts</a>
+            <time datetime="2026-10-13">13 October 2026</time>
+          </aside>
+          <article class="bench-entry">
             <h1 id="post-title">On device protection, so many hurdles.</h1>
             <p class="measure">Clotr for Windows isn't out yet. I'm testing it on my own PC before it's released, and the cool part is that absolutely none of it's scanning abilities are functional yet. The past few days I've been stuck trying to figure out what's seizing it, and I think I finally got it.</p>
             <h2>The Problem (aside from me):</h2>
@@ -71,10 +71,8 @@
             <p class="measure">I have a lot of projects on my desktop and wanted to see what scanning just that 'folder' would do, a quick scan stops at 50k files, and it counted 49,967. The scan used to go deep into the first big folder it met before looking at anything else, so a file sitting right on the Desktop could be skipped because a project folder came first.</p>
             <p class="measure">That one was simple once I actually realized it, a really good example of thinking I worked out a solution but didn't account for every exception. The scan now works through folders one level at a time, so anything sitting right on your Desktop or in Downloads gets counted before it ever wanders into the subfolders. It got its own test too, so it can't quietly come back.</p>
             <p class="measure">Next up is making the scans smarter: a Full scan that reaches as far as an antivirus would, and a Quick scan that only looks at what's changed since your last Full one. One hurdle down, probably quite a few more to go.</p>
+            <p class="reply">To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.</p>
           </article>
-          <p class="fine">
-            To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.
-          </p>
         </section>
       </div>
     </main>
@@ -83,8 +81,15 @@
       <div class="wrap">
         <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <p class="trust-badges">
+          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"><img src="../assets/badges/tests.svg" alt="Tests: passing" /></a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later" /></a>
+          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score" /></a>
+          <a href="https://www.bestpractices.dev/projects/15419"><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level" /></a>
+        </p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="index.html">Blog</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>

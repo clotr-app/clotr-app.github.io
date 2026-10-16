@@ -42,12 +42,9 @@
             <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
-            <a href="../extension.html">Extension</a>
-            <a href="../windows.html">Windows</a>
-            <a href="../android.html">Android</a>
-            <a href="../how-it-works.html">How it works</a>
+            <a href="../download.html">Download</a>
             <a href="../teams.html">Teams</a>
-            <a href="../try.html">Try it</a>
+            <a href="../how-it-works.html">How it works</a>
             <a href="index.html" aria-current="page">Blog</a>
           </div>
         </nav>
@@ -56,10 +53,13 @@
 
     <main id="main">
       <div class="wrap blog-page">
-        <section class="sec" aria-labelledby="post-title">
-          <p class="fine"><a href="index.html">Clotr's blog</a></p>
-          <article>
-            <p class="fine">Posted <time datetime="2026-10-15">15 October 2026</time></p>
+        <section class="bench-post" aria-labelledby="post-title">
+          <aside class="bench-notes">
+            <img class="bench-icon" src="../assets/icon.svg" width="48" height="48" alt="" />
+            <a class="back" href="index.html">← All posts</a>
+            <time datetime="2026-10-15">15 October 2026</time>
+          </aside>
+          <article class="bench-entry">
             <h1 id="post-title">Smarter scans, and an 80 hour estimate.</h1>
             <p class="measure">Last time I said the next step was a Full scan that reaches as far as an antivirus would. I built that. It turns out reaching that far was exactly the problem.</p>
             <p class="measure">Clotr for Windows starting to shape up, the scans finally do what they're supposed to, and do it in a reasonable amount of time. My multiple test runs actually gave me some good learning for future developer integration with agentic chains. Clotr being able to understand a typical project structure or that, for example, a password manager handles passwords, is a good step int eh right direction.</p>
@@ -84,10 +84,8 @@
             <h2>Results you can actually do something with</h2>
             <p class="measure">Finding things was only half of it. The first version of the results told you what it found and stopped there, which isn't much help if you don't know what to do next. Now the results open with &quot;What to do first&quot;. I'm still working out exactly what would be easiest for the 'every day user'. Right now I've got it just displaying a massive dump of, fairly organized, data.</p>
             <p class="measure">Real users are going to have to drive that feedback more, obviously it all makes sense to me.</p>
+            <p class="reply">To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.</p>
           </article>
-          <p class="fine">
-            To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.
-          </p>
         </section>
       </div>
     </main>
@@ -96,8 +94,15 @@
       <div class="wrap">
         <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
         <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <p class="trust-badges">
+          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"><img src="../assets/badges/tests.svg" alt="Tests: passing" /></a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later" /></a>
+          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score" /></a>
+          <a href="https://www.bestpractices.dev/projects/15419"><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level" /></a>
+        </p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="index.html">Blog</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>
