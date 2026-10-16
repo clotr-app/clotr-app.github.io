@@ -98,7 +98,7 @@ main {
   color: var(--field-ink);
 }
 .hero .popup-shot {
-  width: min(100%, 420px);
+  width: min(100%, 300px);
   align-self: start;
 }
 .hero .popup-shot img {
