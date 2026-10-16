@@ -765,6 +765,35 @@
     );
   };
 
+  // A release or file name strings words and digits together with dots and no spaces, like
+  // "Title.Part.Two.2024.2160p.REMUX" or "Old.Film.451.1966.1080p.BluRay": a number run sitting inside one,
+  // with a letter somewhere on each side of it, names a thing, not a number someone wrote. A number glued
+  // straight onto a letter right at its own edge ("2160p", "x265") reads the same way even with no dot there
+  // at all, unless it's a phone extension ("555-555-0136x12"). The look each way is bounded (FILENAME_WINDOW),
+  // so a huge paste still scans in linear time.
+  const FILENAME_CHAR = /[A-Za-z0-9.]/;
+  const FILENAME_WINDOW = 80;
+  const sideToken = (text, pos, step) => {
+    let out = "";
+    for (
+      let i = pos, n = 0;
+      i >= 0 && i < text.length && n < FILENAME_WINDOW && FILENAME_CHAR.test(text[i]);
+      i += step, n++
+    ) {
+      out = step < 0 ? text[i] + out : out + text[i];
+    }
+    return out;
+  };
+  function inFileName(text, run) {
+    const first = run.units[0].start;
+    const last = run.units.at(-1).end;
+    const extension = /^x\d{1,5}\b/i.test(text.slice(last, last + 7));
+    if (isLetter(text[first - 1]) || (isLetter(text[last]) && !extension)) return true;
+    const before = sideToken(text, first - 1, -1);
+    const after = extension ? "" : sideToken(text, last, 1);
+    return /[A-Za-z]/.test(before) && /[A-Za-z]/.test(after);
+  }
+
   // When a phone word sits right before a number, like "llámame al …" or "my cell is …", I read 9 digits as a
   // phone number, common in Spain, much of Europe and Latin America, rather than a US Social Security number.
   const PHONE_CONTEXT =
@@ -879,7 +908,7 @@
     const found = [];
     for (const run of numberRuns(text)) {
       if (labelledAsOther(text, run) || tollFree(digitsOf(run.groups)) || counting(text, run)) continue;
-      if (ndcCode(text, run) || inVinCode(text, run) || windowsSid(text, run)) continue;
+      if (ndcCode(text, run) || inVinCode(text, run) || windowsSid(text, run) || inFileName(text, run)) continue;
       if (localPhone(text, run)) {
         found.push(spanText(text, run.groups));
         continue;
@@ -977,9 +1006,11 @@
       while (k < ibans.length && ibans[k][1] <= m.index) k++;
       return k < ibans.length && ibans[k][0] < m.index + m[0].length;
     };
+    // Digits immediately after a decimal point are a fraction, not a card number.
     const found = [...text.matchAll(CARD_RE)]
       .filter(
         (m) =>
+          !(m.index >= 2 && /\d/.test(text[m.index - 2]) && text[m.index - 1] === ".") &&
           luhn(m[0]) &&
           !isIsbn13(m[0]) &&
           CARD_GROUPS.test(m[0]) &&
@@ -1060,6 +1091,7 @@
       }
       if (phoneContextBefore(text, run)) continue; // "call me at …": a 9-digit phone number, not an SSN
       if (counting(text, run)) continue;
+      if (inFileName(text, run)) continue; // a release or file name, like "Dune.Part.Two.2024.2160p"
       // Digits need the 3-2-4 shape unless an SSN label says what they are, or the message itself does.
       // Spelled-out numbers can be written any way.
       if (
@@ -2079,9 +2111,16 @@
     ...numberAfter(SIN_LABELS, text, (d) => d.length === 9 && luhn(d.padStart(13, "0"))),
     ...numberAfter(AADHAAR_LABELS, text, aadhaarValid),
     ...numberAfter(TFN_LABELS, text, tfnValid),
-    ...[...text.matchAll(DNI_RE)].filter((m) => DNI_LETTERS[Number(m[1]) % 23] === m[2]).map((m) => m[0]),
+    // A check letter right before a drive separator (E:\, T:/) belongs to the path, not an ID.
+    ...[...text.matchAll(DNI_RE)]
+      .filter((m) => DNI_LETTERS[Number(m[1]) % 23] === m[2] && !/^:[\\/]/.test(text.slice(m.index + m[0].length)))
+      .map((m) => m[0]),
     ...[...text.matchAll(NIE_RE)]
-      .filter((m) => DNI_LETTERS[Number("XYZ".indexOf(m[1]) + m[2]) % 23] === m[3])
+      .filter(
+        (m) =>
+          DNI_LETTERS[Number("XYZ".indexOf(m[1]) + m[2]) % 23] === m[3] &&
+          !/^:[\\/]/.test(text.slice(m.index + m[0].length)),
+      )
       .map((m) => m[0]),
     ...(text.match(CURP_RE) || []).filter(curpValid),
     ...spanishNationalIds(text),
@@ -2463,23 +2502,132 @@
       .trim()
       .split(/\s+/),
   );
-  // Twelve or more BIP-39 list words in a row is a seed phrase. Numbering, commas and line breaks
-  // between the words are fine.
+  // Every word's place in the official list, so a mnemonic's own checksum can be checked against it.
+  const BIP39_LIST = [...BIP39];
+  const BIP39_INDEX = new Map(BIP39_LIST.map((w, i) => [w, i]));
+
+  // A small SHA-256 of its own, over raw bytes rather than text: a wallet's checksum is SHA-256 of the
+  // mnemonic's entropy bytes, not of a string, and this is a classic script with no crypto.subtle and no
+  // import. The standard FIPS 180-4 test vectors ("", "abc", the 448-bit one) are checked in patterns.test.js.
+  const SHA256_K = new Uint32Array([
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98,
+    0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786,
+    0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8,
+    0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
+    0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819,
+    0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a,
+    0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
+    0xc67178f2,
+  ]);
+  function sha256Bytes(bytes) {
+    const len = Math.ceil((bytes.length + 9) / 64) * 64;
+    const padded = new Uint8Array(len);
+    padded.set(bytes);
+    padded[bytes.length] = 0x80;
+    const view = new DataView(padded.buffer);
+    view.setUint32(len - 8, Math.floor(bytes.length / 0x20000000));
+    view.setUint32(len - 4, (bytes.length * 8) >>> 0);
+    const h = new Uint32Array([
+      0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19,
+    ]);
+    const w = new Uint32Array(64);
+    const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+    for (let off = 0; off < len; off += 64) {
+      for (let i = 0; i < 16; i++) w[i] = view.getUint32(off + i * 4);
+      for (let i = 16; i < 64; i++) {
+        const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+        const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+        w[i] = w[i - 16] + s0 + w[i - 7] + s1;
+      }
+      let [a, b, c, d, e, f, g, hh] = h;
+      for (let i = 0; i < 64; i++) {
+        const t1 = hh + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + ((e & f) ^ (~e & g)) + SHA256_K[i] + w[i];
+        const t2 = (rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + ((a & b) ^ (a & c) ^ (b & c));
+        hh = g;
+        g = f;
+        f = e;
+        e = (d + t1) >>> 0;
+        d = c;
+        c = b;
+        b = a;
+        a = (t1 + t2) >>> 0;
+      }
+      h[0] += a;
+      h[1] += b;
+      h[2] += c;
+      h[3] += d;
+      h[4] += e;
+      h[5] += f;
+      h[6] += g;
+      h[7] += hh;
+    }
+    const out = new Uint8Array(32);
+    const outView = new DataView(out.buffer);
+    for (let i = 0; i < 8; i++) outView.setUint32(i * 4, h[i] >>> 0);
+    return out;
+  }
+
+  // A real wallet seed's last word carries a checksum: SHA-256 of the entropy bits that came before it, its
+  // first few bits (4 for 12 words, up to 8 for 24). `words` is already confirmed to be BIP-39 list words.
+  function bip39ChecksumValid(words) {
+    const n = words.length;
+    const csBits = n / 3; // 12->4, 15->5, 18->6, 21->7, 24->8
+    let bits = "";
+    for (const w of words) bits += BIP39_INDEX.get(w).toString(2).padStart(11, "0");
+    const entBits = bits.slice(0, bits.length - csBits);
+    const wantBits = bits.slice(bits.length - csBits);
+    const entropyBytes = new Uint8Array(entBits.length / 8);
+    for (let i = 0; i < entropyBytes.length; i++) entropyBytes[i] = parseInt(entBits.slice(i * 8, i * 8 + 8), 2);
+    const gotBits = sha256Bytes(entropyBytes)[0].toString(2).padStart(8, "0").slice(0, csBits);
+    return gotBits === wantBits;
+  }
+
+  // A real seed is exactly one of these lengths; a window this size inside a longer run of everyday words
+  // still passes the checksum about 1 time in 16 by chance, so a window shorter than the whole run also needs
+  // no word repeated in it, which a real seed (2048 possible words) almost never has. The whole run, when it's
+  // exactly one of these lengths, has nowhere else to be, so it's checked on the checksum alone: that's how the
+  // standard BIP-39 test vectors, several of which repeat a word on purpose, still flag.
+  const SEED_LENGTHS = [24, 21, 18, 15, 12];
+  // A cap on how many windows one run is checked against, so a huge paste of everyday words still scans in
+  // linear time: real seeds are never embedded in thousands of words of surrounding list words anyway.
+  const SEED_WINDOW_CAP = 500;
+  function seedWindows(run) {
+    const found = [];
+    let checked = 0;
+    for (const n of SEED_LENGTHS) {
+      if (n > run.length) continue;
+      for (let s = 0; s + n <= run.length; s++) {
+        if (checked++ >= SEED_WINDOW_CAP) return found;
+        const window = run.slice(s, s + n);
+        const whole = s === 0 && n === run.length;
+        const words = window.map((u) => u.word);
+        if (!whole && new Set(words).size !== words.length) continue;
+        if (bip39ChecksumValid(words)) found.push(window);
+      }
+    }
+    return found;
+  }
+
+  // Twelve or more BIP-39 list words in a row, with a valid checksum somewhere inside, is a seed phrase.
+  // Numbering, commas and line breaks between the words are fine.
   function findSeedPhrases(text) {
     const found = [];
     let run = [];
     let lastEnd = -1;
     // Twelve number words in a row, like someone reading out a card number, are a number, not a seed phrase.
-    const allNumbers = () => run.every((w) => ALL_WORDS[text.slice(w.start, w.end).toLowerCase()] !== undefined);
+    const allNumbers = () => run.every((w) => ALL_WORDS[w.word] !== undefined);
     const close = () => {
-      if (run.length >= 12 && !allNumbers()) found.push(text.slice(run[0].start, run.at(-1).end));
+      if (run.length >= 12 && !allNumbers()) {
+        for (const window of seedWindows(run)) found.push(text.slice(window[0].start, window.at(-1).end));
+      }
       run = [];
     };
     for (const m of text.matchAll(/[A-Za-z]+/g)) {
-      const w = { start: m.index, end: m.index + m[0].length };
+      const word = m[0].toLowerCase();
+      const w = { start: m.index, end: m.index + m[0].length, word };
       const gapOk = lastEnd < 0 || /^[\s,;.)\-\d]*$/.test(text.slice(lastEnd, w.start));
-      if (!BIP39.has(m[0].toLowerCase()) || !gapOk) close();
-      if (BIP39.has(m[0].toLowerCase())) run.push(w);
+      if (!BIP39.has(word) || !gapOk) close();
+      if (BIP39.has(word)) run.push(w);
       lastEnd = w.end;
     }
     close();
@@ -3751,5 +3899,6 @@
     cleanableParamsOf,
     cleanShareLink,
     findShareLinks,
+    sha256Bytes,
   };
 })();
