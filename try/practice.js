@@ -215,7 +215,7 @@
       if (choice === "pz-change-it") leak.changed++;
     }
     const n = found.reduce((sum, r) => sum + r.matches.length, 0);
-    if (found.length)
+    if (found.length) {
       $("pz-leak-reveal").replaceChildren(
         el("div", { className: "leak-card found" }, [
           el("h3", { textContent: n === 1 ? "Clotr sees 1 detail here" : `Clotr sees ${n} details here` }),
@@ -229,12 +229,13 @@
           el("p", { textContent: l.instead || bandageLine(l.text, found) }),
         ]),
       );
-    else if (!$("pz-leak-reveal").childElementCount)
+    } else if (!$("pz-leak-reveal").childElementCount) {
       $("pz-leak-reveal").replaceChildren(
         el("div", { className: "leak-card none" }, [
           el("p", { textContent: "Clotr finds nothing private here. Fine to send." }),
         ]),
       );
+    }
     $("pz-leak-next").hidden = false;
     $("pz-leak-next").focus();
   }

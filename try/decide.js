@@ -36,12 +36,23 @@
   // Looks up what the vault says about one value: "protect", "allow", or null if it isn't in there. The vault only
   // ever holds fingerprints, never the real value (see setVault in patterns.js). I hash each value once and cache
   // the result, capped at 2,000 entries so a tab left open all day doesn't grow it forever.
+  // A host can give one check a time budget, `s.budget = { until, missed }` with `until` from performance.now().
+  // Once it's spent, a value that would need a strong fingerprint comes back undefined, not known yet, and goes on
+  // `missed` for the host to work out later. Without a budget every value is worked out, however long it takes.
   function vaultMode(patternId, match, s) {
     const entries = s.vault || [];
     if (!s.salt || !entries.some((e) => e.kind === "value")) return null;
     const cache = s.cache;
     const key = `${patternId}\0${match}`;
     if (cache?.has(key)) return cache.get(key);
+    if (
+      s.budget &&
+      performance.now() > s.budget.until &&
+      entries.some((e) => e.kind === "value" && e.type === patternId && e.scheme === 2)
+    ) {
+      s.budget.missed.push([patternId, match]);
+      return undefined;
+    }
     if (cache && cache.size >= 2000) cache.clear();
     // A stored entry may have been fingerprinted under either scheme, so each is compared the way it was
     // made; nothing is rehashed with the other scheme unless some stored entry actually needs it.
@@ -73,8 +84,9 @@
     if (!s.salt || !(s.vault || []).some((e) => e.kind === "value" && e.type === "my_id")) return results;
     return results.flatMap((r) => {
       if (r.id !== "my_id") return [r];
-      const own = r.matches.filter((m) => vaultMode("my_id", m, s));
-      const other = r.matches.filter((m) => !vaultMode("my_id", m, s));
+      // An ID not worked out yet (a host's time budget ran out) stays with yours, keeping the higher rank.
+      const own = r.matches.filter((m) => vaultMode("my_id", m, s) !== null);
+      const other = r.matches.filter((m) => vaultMode("my_id", m, s) === null);
       return [
         ...(own.length ? [{ ...r, matches: own }] : []),
         ...(other.length
@@ -88,9 +100,16 @@
   // vault. If you marked it OK to share, I only log it. If you marked it worth protecting, I raise a silent log
   // up to a warning, but the vault never lowers a response below what the kind would normally get.
   function respFor(r, m, s) {
-    const mode = vaultMode(r.id, m, s);
-    if (mode === "allow") return "log";
     const base = responseOf(r.id, s);
+    // Only an "OK to share" entry can change a warning, and only a "protect" one a quiet kind. With no saved value
+    // of this kind that could, I skip the lookup: it costs a strong fingerprint per value, and a pasted list of
+    // hundreds of phone numbers would hold the tab for seconds.
+    const could = base === "log" ? "protect" : "allow";
+    if (!s.salt || !(s.vault || []).some((e) => e.kind === "value" && e.type === r.id && e.mode === could)) return base;
+    const mode = vaultMode(r.id, m, s);
+    // Not known yet: never quieter than the full answer could be.
+    if (mode === undefined) return base === "log" ? "warn" : base;
+    if (mode === "allow") return "log";
     return mode === "protect" && base === "log" ? "warn" : base;
   }
 
@@ -103,7 +122,7 @@
   // before you pasted it.
   function noticeWords(results, { everyday = false, source = "typed" } = {}) {
     const items = results.flatMap((r) => r.matches.map((m) => `${r.name} (${mask(m)})`));
-    if (source === "copied")
+    if (source === "copied") {
       return {
         lead: msg("noticeCopiedContains", "What you copied contains "),
         items,
@@ -111,6 +130,7 @@
           ? msg("noticeCopiedSharedHere", ". If you paste it here, the people who read it get it.")
           : msg("noticeCopiedShared", ". If you paste it here, this AI app gets it."),
       };
+    }
     return {
       lead: msg("noticeContains", "Your message contains "),
       items,
@@ -281,8 +301,9 @@
     const named = new Map();
     for (const r of results) {
       if (r.id === "card_code" || r.id === "gift_card") named.set(r.id, r.name);
-      else if (r.id === "password" && r.reasonOf)
+      else if (r.id === "password" && r.reasonOf) {
         for (const m of r.matches) if (r.reasonOf.has(m)) named.set(r.reasonOf.get(m), null);
+      }
     }
     return WHO_ASKS.filter((id) => named.has(id)).map((id) => {
       const words = whoAsksFor(id);
@@ -323,8 +344,9 @@
     if (!e || !VAULT_KINDS.has(e.kind) || typeof e.type !== "string" || !/^[a-z_]{2,40}$/.test(e.type)) return null;
     const out = { kind: e.kind, type: e.type, added: Number.isFinite(e.added) ? e.added : Date.now() };
     if (e.kind === "shape") {
-      if (typeof e.shape !== "string" || !/[#@].*[#@]/.test(e.shape) || /\d/.test(e.shape) || e.shape.length > 40)
+      if (typeof e.shape !== "string" || !/[#@].*[#@]/.test(e.shape) || /\d/.test(e.shape) || e.shape.length > 40) {
         return null;
+      }
       out.shape = e.shape;
     } else {
       if (!/^[0-9a-f]{16}$/.test(e.fp)) return null;

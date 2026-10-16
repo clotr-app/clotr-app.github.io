@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://clotr.app/android.html</loc>
+  </url>
+  <url>
     <loc>https://clotr.app/apps.html</loc>
   </url>
   <url>
@@ -10,7 +13,13 @@
     <loc>https://clotr.app/blog/quick-scan-first-file.html</loc>
   </url>
   <url>
+    <loc>https://clotr.app/blog/smarter-scans.html</loc>
+  </url>
+  <url>
     <loc>https://clotr.app/download.html</loc>
+  </url>
+  <url>
+    <loc>https://clotr.app/extension.html</loc>
   </url>
   <url>
     <loc>https://clotr.app/how-it-works.html</loc>
@@ -29,5 +38,8 @@
   </url>
   <url>
     <loc>https://clotr.app/what-clotr-does.html</loc>
+  </url>
+  <url>
+    <loc>https://clotr.app/windows.html</loc>
   </url>
 </urlset>

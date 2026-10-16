@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Clotr for Windows</title>
+    <meta
+      name="description"
+      content="Clotr for Windows warns you before you paste a password, a key or an ID number into an AI app, and checks the files already on your PC. It works with the internet off."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/windows.html" />
+    <meta property="og:title" content="Clotr for Windows" />
+    <meta
+      property="og:description"
+      content="Warns you before a private detail goes into an AI app, and checks the files already on your PC, all on the PC itself."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Clotr for Windows" />
+    <meta
+      name="twitter:description"
+      content="Warns you before a private detail goes into an AI app, and checks the files already on your PC."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="extension.html">Extension</a>
+            <a href="windows.html" aria-current="page">Windows</a>
+            <a href="android.html">Android</a>
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="try.html">Try it</a>
+          </div>
+        </nav>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="copy">
+            <h1 id="hero-title">Clotr for Windows</h1>
+            <p class="lede">
+              The browser extension guards one chat box. This guards the PC, from the AI apps you paste into to the
+              old files sitting in Downloads, and it does all of it with the internet off.
+            </p>
+            <p class="buttons when-store">
+              <a class="btn on-field" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
+              <a class="btn ghost" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
+            </p>
+            <p class="fine until-store">It's on its way to the Microsoft Store, free, for Windows 10 and 11.</p>
+          </div>
+          <figure class="shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-home-dark.png" />
+              <img
+                src="assets/apps/windows-home-light.png"
+                width="640"
+                height="400"
+                alt="Clotr for Windows' Home. A shield beside the words All quiet, the copy check on for 3 AI apps, and buttons to run a quick scan or choose a scan. Below are Check my files, Look back and Privacy Check-up, marked Coming, then the protection switches and this month's counts."
+              />
+            </picture>
+            <figcaption>Home in Clotr for Windows.</figcaption>
+          </figure>
+        </section>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" aria-labelledby="paste-title">
+          <h2 id="paste-title">A warning before you paste</h2>
+          <p class="say">
+            Clotr sits in the tray. Copy something while ChatGPT, Claude, Gemini or Copilot's own window is in front,
+            and if it holds a password, an API key, a card number or an ID number, a card shows up beside the app
+            before you paste. You can hide the detail or paste it as it is. Commands get the same check right before
+            they reach the Run box or a terminal, because a pasted command can carry a key too.
+          </p>
+        </section>
+
+        <section class="sec" aria-labelledby="files-title">
+          <div class="feature">
+            <div>
+              <h2 id="files-title">Check my files</h2>
+              <p>
+                A Quick scan reads Downloads, Desktop and Documents, a Full scan reads every drive, and Folders I
+                choose reads only what you pick. You watch it work as a web of folders, and anything worth a look
+                stays on screen.
+              </p>
+              <p>
+                It skips the folders that belong to programs and a password manager's own vault. Leave out of scans,
+                in Settings, takes any other folder off the list.
+              </p>
+            </div>
+            <figure class="shot">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-scan-dark.png" />
+                <img
+                  src="assets/apps/windows-scan-light.png"
+                  width="640"
+                  height="400"
+                  alt="A scan part way through. A web of folders grows from This PC through Desktop, Documents and Downloads, a card points at aws-credentials.csv, where Clotr found an AWS access key, and secrets.json, .env and IMG_0912.jpg wait below as worth a look."
+                />
+              </picture>
+              <figcaption>A Quick scan on made-up files.</figcaption>
+            </figure>
+          </div>
+
+          <div class="feature">
+            <div>
+              <h2 id="first-title">What to do first</h2>
+              <p>
+                Results don't stop at a list of files. They start with the worst thing and say what to do about it,
+                like changing the passwords a file holds before deleting it, or saving a copy of a photo without its
+                place.
+              </p>
+              <p>Tick a step off once it's done. Clotr remembers that you did it, and nothing about the file.</p>
+            </div>
+            <figure class="shot">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-results-dark.png" />
+                <img
+                  src="assets/apps/windows-results-light.png"
+                  width="640"
+                  height="400"
+                  alt="Results, under the heading What to do first. Step one, change the passwords and keys these files hold, then delete or move the files, for logins.txt on the Desktop. Step two, delete or move the files with ID numbers. Step three, remove the place from these photos. Each step has How to do this, Open the folder and Mark as done."
+                />
+              </picture>
+              <figcaption>What to do first, worst at the top.</figcaption>
+            </figure>
+          </div>
+
+          <div class="feature">
+            <div>
+              <h2 id="walk-title">One file at a time</h2>
+              <p>
+                If a list of steps feels like a lot, Walk me through it shows one file at a time. It says in a
+                sentence what's wrong with it and what Clotr recommends, and puts the safest choice at the top.
+              </p>
+              <p>Skip one for now, or go back to the whole list whenever you like.</p>
+            </div>
+            <figure class="shot">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-guided-dark.png" />
+                <img
+                  src="assets/apps/windows-guided-light.png"
+                  width="640"
+                  height="400"
+                  alt="Results as a walk, file 1 of 3. A password or key, on the Desktop. In short, logins.txt holds a password or key that still works. Clotr recommends changing it wherever it's used, then deleting or moving the file. Below, five choices, with Move to the Recycle Bin marked Recommended, then Ask for help and Skip for now."
+                />
+              </picture>
+              <figcaption>The walk through Results, on its first file.</figcaption>
+            </figure>
+          </div>
+
+          <div class="feature">
+            <div>
+              <h2 id="note-title">A note for the person who helps you</h2>
+              <p>
+                If someone else looks after your computer, Clotr can write them a page with what it found and what it
+                suggests, worst first. It holds counts and folders, never the details themselves, and file names only
+                if you switch them on.
+              </p>
+              <p>Print it, save it as a page, or open it in your email to send.</p>
+            </div>
+            <figure class="shot">
+              <picture>
+                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-note-dark.png" />
+                <img
+                  src="assets/apps/windows-note-light.png"
+                  width="640"
+                  height="400"
+                  alt="A note for the person who helps you, open over Results. Include file names is off. A table lists three files worth a look, a password or key in a plain file on the Desktop, an ID number in a document and a photo that shows where it was taken, each with what Clotr recommends, then the steps."
+                />
+              </picture>
+              <figcaption>The note, with file names left out.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="sec" aria-labelledby="also-title">
+          <h2 id="also-title">Also inside</h2>
+          <ul class="short-list">
+            <li>Look back reads a chat export you've already downloaded and shows what you told an AI before Clotr was there.</li>
+            <li>Tourniquet turns on stronger settings for someone you're helping, with your own PIN to change them back.</li>
+            <li>Three looks in Settings, called Light, Plum and Ember.</li>
+          </ul>
+        </section>
+
+        <section class="sec" aria-labelledby="stays-title">
+          <h2 id="stays-title">It stays on your PC</h2>
+          <p class="say">
+            Clotr for Windows has no account and no server to talk to. A test reads the program Windows runs and
+            fails the build if a network call ever shows up in it.
+            <a href="how-it-works.html#windows-title">What it reads and keeps</a>
+          </p>
+          <p class="buttons when-store sec-link">
+            <a class="btn" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
+            <a class="btn ghost" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

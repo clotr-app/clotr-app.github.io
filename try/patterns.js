@@ -22,13 +22,24 @@
     return sum % 10 === 0;
   }
 
+  // Drops trailing characters that `set` (a one-character class like /[.,;]/) matches, as in a link's closing
+  // ")." in a sentence. A regex like /[.,;]+$/ looks the same, but when a long run of those characters has
+  // something else after it, it retries the run from every start, so a link with thousands of dots in the middle
+  // took quadratic time and froze the tab. Walking back from the end reads each character once.
+  function trimTrailing(s, set) {
+    let end = s.length;
+    while (end > 0 && set.test(s[end - 1])) end--;
+    return s.slice(0, end);
+  }
+
   // ---------- Fewer false alarms for credentials ----------
 
   // Skips placeholder keys from docs and examples, like AWS's own AKIAIOSFODNN7EXAMPLE, since nobody's
   // real key looks like that.
   function isPlaceholder(m) {
-    if (/example|your[_-]?(api[_-]?)?(key|token|secret)|placeholder|dummy|redacted|insert[_-]?here/i.test(m))
+    if (/example|your[_-]?(api[_-]?)?(key|token|secret)|placeholder|dummy|redacted|insert[_-]?here/i.test(m)) {
       return true;
+    }
     if (/JBSW\s?Y3DP\s?EHPK\s?3PXP/i.test(m)) return true; // the two-step sign-in documentation's example secret
     if (/(.)\1{5,}/.test(m)) return true; // six of the same character in a row
     let run = 1; // a long alphabet/number sequence: ABCDEFGH, 12345678
@@ -571,10 +582,10 @@
         linking(core[k]) &&
         strong(core[k - 1]) &&
         strong(core[k + 1]) &&
-        +core[k - 1].digits < +core[k + 1].digits &&
+        Number(core[k - 1].digits) < Number(core[k + 1].digits) &&
         setOff(core[k - 2], core[k - 1]) &&
         setOff(core[k + 1], core[k + 2]);
-      if (core.some((u, k) => range(k))) continue; // "two to four, five to seven": ranges
+      if (core.some((_u, k) => range(k))) continue; // "two to four, five to seven": ranges
       const middle = digits(core);
       // A phone keyboard's autocorrect only ever turns a typed word into "to" or "for", never a digit key into
       // one, so only a fully spelled core can borrow one at its edge (below). That keeps an ordinary preposition
@@ -606,13 +617,14 @@
       const after = edge(last + 1, 1);
       // Every edge-word combination, fewest first (a 7-digit local phone number only with none).
       const combos = [];
-      for (let n = 0; n <= before.length + after.length; n++)
+      for (let n = 0; n <= before.length + after.length; n++) {
         for (let i = Math.min(n, before.length); i >= 0; i--) {
           if (n - i > after.length) continue;
           const lead = before.slice(0, i).reverse();
           const trail = after.slice(0, n - i);
           combos.push({ lead, trail, all: [...lead, ...core, ...trail] });
         }
+      }
       // I check for a phone number first, trying the fewest edge words first. Its shape is exact (10 or 11 NANP
       // digits, or Spain's 9), unlike the SSN or card shape below, which can match by coincidence: "to zero six
       // seven three three for one five one" reads as a 10-digit phone, not the SSN its first nine digits alone
@@ -634,7 +646,10 @@
           [...inside, ...lead, ...trail].some(linking) &&
           all.every((u) => u.digits.length === 1) &&
           !/[,;.]/.test(spanText(text, [all]));
-        if (!isCount(all) && wholeSsnOrCard(digits(all), simple)) pick = [...lead, ...trail];
+        // An SSN label right before says what the run is, so any sound-alike in it ("my ssn is fore five six …",
+        // "… nine won too three") counts, as long as the whole run has an SSN's shape.
+        const named = VALID_SSN_SHAPE.test(digits(all)) && ssnLabelBefore(text, { units: all });
+        if (!isCount(all) && (named || wholeSsnOrCard(digits(all), simple))) pick = [...lead, ...trail];
       }
       if (!pick && few && !inside.some(linking) && /^[2-9]\d{6}$/.test(middle) && !isCount(core)) pick = [];
       if (pick) for (const u of [...inside, ...pick]) kept.add(u);
@@ -813,7 +828,7 @@
   // 845 2931 7710". The label can sit a few words back, like "El ID de la reunión de Zoom es …", but a phone
   // word after it wins instead, as in "about the order, call me at …".
   const OTHER_NUMBER_BEFORE =
-    /(?:#\s*$|(?<![\p{L}])(?:order|invoice|ticket|case|ref(?:erence)?|tracking|confirmation|booking|reservation|meeting|claim|serial|model|part|sku|po|pedido|factura|referencia|reuni[oó]n|reserva|localizador|nhs|medicare|aadhaar|aadhar|tfn|tax\s+file|clabe|cbu|cvu|cci|iban|(?:request|transaction|trace|session|correlation|device)[\s_-]*id)(?![\p{L}])[^\d\n]{0,25}$)/iu;
+    /(?:#\s*$|(?<![\p{L}])(?:order|invoice|ticket|case|ref(?:erence)?|tracking|confirmation|booking|reservation|meeting|claim|serial|model|part|sku|po|pedido|factura|referencia|reuni[oó]n|reserva|localizador|nhs|medicare|aadhaar|aadhar|tfn|tax\s+file|clabe|cbu|cvu|cci|iban|n[uú]mero\s+de\s+ruta|ruta\s+bancaria|(?:request|transaction|trace|session|correlation|device)[\s_-]*id)(?![\p{L}])[^\d\n]{0,25}$)/iu;
   const PHONE_WORD =
     /(?<![\p{L}])(?:call|ring|text|phone|mobile|cell|whatsapp|tel|ll[aá]m\p{L}*|tel[eé]fono|m[oó]vil|celular)(?![\p{L}])/iu;
   // A student number or a license plate right after its label isn't a phone either, as with "número de
@@ -1028,8 +1043,9 @@
         continue;
       }
       const v = cells[col].replace(/^["']|["']$/g, "");
-      if (/^\d{3}-?\d{2}-?\d{4}$/.test(v) && /^(?!000|666|9)\d{3}(?!00)\d{2}(?!0000)\d{4}$/.test(v.replace(/-/g, "")))
+      if (/^\d{3}-?\d{2}-?\d{4}$/.test(v) && /^(?!000|666|9)\d{3}(?!00)\d{2}(?!0000)\d{4}$/.test(v.replace(/-/g, ""))) {
         found.push(v);
+      }
     }
     return found;
   }
@@ -1051,8 +1067,9 @@
         sizesOf(run.groups) !== "3,2,4" &&
         !ssnLabelBefore(text, run) &&
         !bareSSNContext(text, run)
-      )
+      ) {
         continue;
+      }
       if (!/^(?!000|666|9)\d{3}(?!00)\d{2}(?!0000)\d{4}$/.test(d)) continue;
       found.push(spanText(text, run.groups));
     }
@@ -1179,8 +1196,11 @@
   // A Canadian postal code: A1A 1A1, the letters D, F, I, O, Q, U never used in either half.
   const CA_POSTAL = String.raw`[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ]\s?\d[ABCEGHJKLMNPRSTVWXYZ]\d`;
   const CA_PROVINCES = "AB|BC|MB|NB|NL|NS|NT|NU|ON|PE|QC|SK|YT";
+  // Only a space separates the town's words. A dash already belongs to the word, so "Saint-Jean-sur-Richelieu"
+  // reads as one word either way, and letting a dash split words too gave a long dash-joined run cubically many
+  // readings to rule out before failing.
   const CA_TAIL_RE = new RegExp(
-    String.raw`^,?\s*[A-Z][\p{L}'-]+(?:[\s-][A-Z][\p{L}'-]+){0,2},?\s+(?:\(Qu[ée]bec\)|${CA_PROVINCES})\s+${CA_POSTAL}\b`,
+    String.raw`^,?\s*[A-Z][\p{L}'-]+(?:\s[A-Z][\p{L}'-]+){0,2},?\s+(?:\(Qu[ée]bec\)|${CA_PROVINCES})\s+${CA_POSTAL}\b`,
     "iu",
   );
   const AU_STATES = "NSW|VIC|QLD|WA|SA|TAS|ACT|NT";
@@ -1309,8 +1329,8 @@
       .split(/\s+/)
       .filter(Boolean);
     const [type, ...rest] = /^c\/./.test(words[0]) ? ["c/", words[0].slice(2), ...words.slice(1)] : words;
-    const canon = (ES_TYPE_CANON.find(([re]) => re.test(type)) || [null, type])[1];
-    return [canon, ...rest].join(" ");
+    const canonType = (ES_TYPE_CANON.find(([re]) => re.test(type)) || [null, type])[1];
+    return [canonType, ...rest].join(" ");
   }
 
   // A house number like 1900-2099 only reads as a year after a time word, as in "in 2024 the road…" or "by
@@ -1351,7 +1371,8 @@
         found.push(ca[0]);
         continue;
       }
-      const au = new RegExp(String.raw`^\d{4}(?=\s*,?\s*(?:${AU_STATES})\b)`, "i").exec(rest);
+      // The comma owns the space after it, so a long gap before a non-state can only be read one way.
+      const au = new RegExp(String.raw`^\d{4}(?=\s*(?:,\s*)?(?:${AU_STATES})\b)`, "i").exec(rest);
       if (au) found.push(au[0]);
     }
     return found;
@@ -1377,7 +1398,7 @@
       // full stop after a whole word. I pick the search back up from the next number, as in "…5 minutes. 42
       // Oak Street".
       const typed = m.groups.name.split(/[^\S\n]+/);
-      const words = typed.map((w) => w.replace(/\.+$/, ""));
+      const words = typed.map((w) => trimTrailing(w, /\./));
       if (typed.some((w, k) => w !== words[k] && dotEndsSentence(words[k]))) {
         STREET_RE.lastIndex = m.index + (m.groups.front || "").length + m.groups.num.length;
         continue;
@@ -1389,8 +1410,8 @@
       // An everyday word like "park" or "view" only counts as a street when it has a front, an address phrase
       // right before it, or a tail (checked the same way withTail does, just slightly ahead of it here).
       if (AMBIGUOUS_SUFFIX.has(m.groups.suf.toLowerCase().replace(/\.$/, ""))) {
-        const hasFront = !!m.groups.front;
-        const hasTail = !!addressTail(text.slice(m.index + m[0].length));
+        const hasFront = Boolean(m.groups.front);
+        const hasTail = Boolean(addressTail(text.slice(m.index + m[0].length)));
         const hasPhrase = ADDRESS_PHRASE_EN.test(text.slice(Math.max(0, m.index - 40), m.index));
         if (!hasFront && !hasTail && !hasPhrase) continue;
       }
@@ -1413,8 +1434,9 @@
           .toLowerCase()
           .split(/[\s,]+/)
           .some((w) => ES_NOT_A_STREET.has(w))
-      )
+      ) {
         found.push(s[0]);
+      }
     }
     return withColombianStreets(text, found);
   }
@@ -1429,8 +1451,9 @@
     "first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|thirtieth";
   const DAY = String.raw`(?:\d{1,2}(?:st|nd|rd|th)?|(?:twenty|thirty)[\s-]+(?:${ORDINAL_WORDS})|(?:${ORDINAL_WORDS}))`;
   const YEAR = String.raw`(?:\d{4}|'\d{2}|(?:eighteen|nineteen|twenty)(?:[\s-]+(?:oh|${NUM_WORDS})){1,2}|two\s+thousand(?:\s+and)?(?:[\s-]+(?:${NUM_WORDS}))?)`;
+  // Year first takes a slash or a dot too ("1987/04/12"), and a form's "12-Apr-1987" its dashes.
   const DATE_RE = new RegExp(
-    String.raw`(?:\d{1,2}[/.-]\d{1,2}[/.-](?:\d{4}|\d{2})|\d{4}-\d{1,2}-\d{1,2}` +
+    String.raw`(?:\d{1,2}[/.-]\d{1,2}[/.-](?:\d{4}|\d{2})|\d{4}[/.-]\d{1,2}[/.-]\d{1,2}|(?:0?[1-9]|[12]\d|3[01])-(?:${MONTHS})-(?:\d{4}|\d{2})` +
       String.raw`|(?:${MONTHS})\.?\s+${DAY}(?:,?\s+${YEAR})?` +
       String.raw`|${DAY}\s+(?:of\s+)?(?:${MONTHS})\.?(?:,?\s+${YEAR})?)(?![\w/])`,
     "iy",
@@ -1445,12 +1468,12 @@
   const DIA = String.raw`(?:\d{1,2}|primero|(?:${ES_NUM})(?:\s+y\s+uno)?)`;
   const ANIO = String.raw`(?:\d{4}|(?:mil\s+(?:novecientos|ochocientos)|dos\s+mil)(?:\s+(?:y\s+)?(?:${ES_NUM})){0,3})`;
   const DATE_ES_RE = new RegExp(
-    String.raw`(?:\d{1,2}[/.-]\d{1,2}[/.-](?:\d{4}|\d{2})|\d{4}-\d{1,2}-\d{1,2}|${DIA}\s+de\s+(?:${MESES})(?:\s+(?:de|del)\s+${ANIO})?)(?![\p{L}\d/])`,
+    String.raw`(?:\d{1,2}[/.-]\d{1,2}[/.-](?:\d{4}|\d{2})|\d{4}[/.-]\d{1,2}[/.-]\d{1,2}|${DIA}\s+de\s+(?:${MESES})(?:\s+(?:de|del)\s+${ANIO})?)(?![\p{L}\d/])`,
     "iuy",
   );
-  // Matches birth words like "nací", "nacido el …", "fecha de nacimiento" and "cumpleaños".
+  // Matches birth words like "nací", "nacido el …", "fecha de nacimiento", a form's "F. nac." and "cumpleaños".
   const BIRTH_WORDS_ES =
-    /(?<![\p{L}])(?:nac[ií]|naci[oó]|nacid[oa]s?|(?:fecha\s+de\s+)?nacimiento|fecha\s+(?:de\s+)?nac\.?|cumplea(?:ñ|n)os)(?:\s*:\s*|\s+)(?:(?:es|fue|el|en\s+el)\s+)*/giu;
+    /(?<![\p{L}])(?:nac[ií]|naci[oó]|nacid[oa]s?|(?:fecha\s+de\s+)?nacimiento|(?:fecha\s+|f\.\s?)(?:de\s+)?nac\.?|cumplea(?:ñ|n)os)(?:\s*:\s*|\s+)(?:(?:es|fue|el|en\s+el)\s+)*/giu;
 
   function validNumericDate(d) {
     const parts = d.split(/[/.-]/).map(Number);
@@ -1650,7 +1673,8 @@
   // account number right after it as one match, so Hide it takes the whole thing. None of these three has a
   // check digit, so on their own they'd be too easy to confuse with another number; the account right after
   // is what tells them apart from an everyday mention of a sort code or a BSB with nothing else next to it.
-  const BANK_CONNECT = String.raw`(?:\s*(?:number|no\.?|num|#))?\s*(?:[:=#]|is|was)?\s*`;
+  // The gap after each name reads every run of spaces one way only, like the address gaps above.
+  const BANK_CONNECT = String.raw`(?:\s*(?:number|no\.?|num|#))?\s*(?:(?:[:=#]|is|was)\s*)?`;
   const ACCOUNT_WORD = String.raw`account(?:\s+(?:number|no\.?|num|#))?`;
   const UK_SORT_CODE_RE = new RegExp(
     String.raw`\bsort\s*code\b${BANK_CONNECT}\d{2}[- ]?\d{2}[- ]?\d{2}\b[^\n\d]{0,30}\b${ACCOUNT_WORD}\b${BANK_CONNECT}\d{6,10}\b`,
@@ -1672,7 +1696,7 @@
     ];
     const plain = [
       ...numberAfter(BANK_LABELS, text, (d) => d.length >= 6 && d.length <= 17),
-      ...numberAfter(ROUTING_LABELS, text, abaValid),
+      ...numberAfter([...ROUTING_LABELS, ROUTING_ES], text, abaValid),
       ...accountAfter(CUENTA_LABEL, text, accountSize),
       ...accountAfter(CCI_LABEL, text, (d) => d.length === 20),
       ...checkedAccounts(text),
@@ -1954,8 +1978,8 @@
     const tag = sticky(HANDLE_TAG, text, i + name.length)?.[0];
     if (tag) return name.length >= 2 && name.length <= 32 ? name + tag : null;
     if (/[@/]/.test(text[i + name.length] || "")) return null; // an email or a link, not a handle
-    name = name.replace(/[.-]+$/, "");
-    return name.length >= 3 && name.length <= 32 && looksLikeHandle(name, firmLabel || !!lead[1]) ? name : null;
+    name = trimTrailing(name, /[.-]/);
+    return name.length >= 3 && name.length <= 32 && looksLikeHandle(name, firmLabel || Boolean(lead[1])) ? name : null;
   }
   function findGamerTags(text) {
     const found = [];
@@ -1963,7 +1987,7 @@
       // A dot after "the" or "my" starts no sentence: "The. Xbox name is…" is "The Xbox name is…".
       const lead = text.slice(Math.max(0, m.index - 12), m.index).replace(DOT_AFTER_NO_END, "$1 ");
       const owned = (m.index <= 12 && !lead.trim()) || OWNER_BEFORE.test(lead) || OWNED_LABEL.test(m[0]);
-      found.push(handleAt(text, m.index + m[0].length, owned && !!m.groups.link));
+      found.push(handleAt(text, m.index + m[0].length, owned && Boolean(m.groups.link)));
     }
     for (const m of text.matchAll(FRIEND_LABEL)) {
       const at = m.index + m[0].length;
@@ -2147,7 +2171,8 @@
   // Between a label and its value I allow "es", "era", ":", "#", "n.º", "No.", "número", or an abbreviation
   // in brackets, as in "mi pasaporte es G12345678" or "Número de Seguridad Social (NSS): …". This also
   // matches in English, as in "my IMSS number is …".
-  const ES_NO = String.raw`(?:n[uú]mero|number|n[uú]m\.?|nro\.?|n\.?\s?[º°]\.?|no\.|no(?=\s*\d))`;
+  // The scan reads "º" as a plain "o", so "n.º" arrives as "n.o" and "nº" as "no", even before a letter-led ID.
+  const ES_NO = String.raw`(?:n[uú]mero|number|n[uú]m\.?|nro\.?|n\.?\s?[º°]\.?|n\.\s?o\.?(?![\p{L}])|no\.|no(?=\s*[A-Za-z]{0,3}\d))`;
   const ES_LINK = String.raw`(?![\p{L}])(?:\s*\([\p{L}.\s]{2,12}\))?(?:\s*${ES_NO})?(?:\s*(?:[:=#]|(?:es|era|is|was)(?![\p{L}])(?:\s+(?:el|la)(?![\p{L}]))?))?\s*`;
   const esLabel = (words) => new RegExp(String.raw`(?<![\p{L}])(?:${words})${ES_LINK}`, "giu");
   // read(text, at, label) gives the value that starts where the label ends, or nothing.
@@ -2175,8 +2200,8 @@
   // Chile's RUT (or RUN): "12.345.678-5", only with a right check digit (mod 11, K for 10).
   const RUT_LABEL = esLabel(String.raw`R\.?U\.?[TN]\.?`);
   // "CC" and "RUN" count only in capitals: "cc" is a copy and "run" an English word.
-  const lowercaseShort = (label) =>
-    /^(?:c\.?\s?c|r\.?u\.?n)(?![\p{L}])/iu.test(label) && !/^(?:C\.?\s?C|R\.?U\.?N)/.test(label);
+  const lowercaseShort = (foundLabel) =>
+    /^(?:c\.?\s?c|r\.?u\.?n)(?![\p{L}])/iu.test(foundLabel) && !/^(?:C\.?\s?C|R\.?U\.?N)/.test(foundLabel);
   const RUT_DIGITS = /(\d{1,2}(?:\.\d{3}){2}|\d{7,8})-?([\dkK])(?![\p{L}\d])/uy;
   function rutValid(body, check) {
     const d = body.replace(/\./g, "");
@@ -2188,9 +2213,13 @@
   const spanishNationalIds = (text) => [
     ...afterLabel(MX_NSS_LABEL, text, (t, at) => sticky(MX_NSS, t, at)?.[0]),
     ...afterLabel(DNI_LABEL, text, (t, at) => sticky(DNI_DIGITS, t, at)?.[0]),
-    ...afterLabel(CEDULA_LABEL, text, (t, at, label) => !lowercaseShort(label) && sticky(CEDULA_DIGITS, t, at)?.[0]),
-    ...afterLabel(RUT_LABEL, text, (t, at, label) => {
-      const r = !lowercaseShort(label) && sticky(RUT_DIGITS, t, at);
+    ...afterLabel(
+      CEDULA_LABEL,
+      text,
+      (t, at, foundLabel) => !lowercaseShort(foundLabel) && sticky(CEDULA_DIGITS, t, at)?.[0],
+    ),
+    ...afterLabel(RUT_LABEL, text, (t, at, foundLabel) => {
+      const r = !lowercaseShort(foundLabel) && sticky(RUT_DIGITS, t, at);
       return r && rutValid(r[1], r[2]) && r[0];
     }),
   ];
@@ -2233,6 +2262,9 @@
     "giu",
   );
   const AFILIADO = esLabel(String.raw`afiliad[oa]`);
+  // A US routing number in Spanish, as US banks write it: "número de ruta 021000021", "ruta bancaria: …". Its
+  // check digit (abaValid) still has to be right.
+  const ROUTING_ES = esLabel(String.raw`${ES_NO}\s+de\s+ruta(?:\s+bancaria)?|ruta\s+(?:bancaria|ABA)`);
   // Letters, digits, dashes and slashes, or digits in groups with single spaces ("61 234567 8 01").
   const MEMBER_ID = /\d{2,12}(?: \d{1,12}){1,4}(?![\p{L}\d/-])|[A-Za-z0-9][A-Za-z0-9/-]{3,24}/uy;
   function memberIdAt(text, at) {
@@ -2240,9 +2272,17 @@
     const dateOrYear = (s) => JUST_A_YEAR.test(s) || /^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(s);
     return v && (v.match(/\d/g) || []).length >= 6 && !dateOrYear(v) ? v : null;
   }
+  // An insurance policy or health insurance number, as in "número de póliza 4402-778-19" or "número de seguro
+  // médico: W482913765". The number word has to be there, before or after the name, since "la póliza 2024-2025"
+  // is a policy year and "mi seguro médico cubre …" says nothing about a number.
+  const POLICY_ES = String.raw`p[oó]liza|seguro\s+m[eé]dico`;
+  const POLIZA = esLabel(
+    String.raw`${ES_NO}\s+de(?:l)?\s+(?:(?:la|mi|tu|su)\s+)?(?:${POLICY_ES})|(?:${POLICY_ES})(?=\s*(?:${ES_NO}|[:#]))`,
+  );
   const spanishInsuranceIds = (text) => [
     ...afterLabel(MEDICAID_ES, text, idNotYear),
     ...afterLabel(AFILIADO, text, memberIdAt),
+    ...afterLabel(POLIZA, text, memberIdAt),
   ];
 
   // Every value read after one of these labels, so findPhones doesn't also read it as a phone, as with
@@ -2513,7 +2553,7 @@
   function isPrivateJwk(obj) {
     if (!obj || typeof obj !== "object" || Array.isArray(obj) || typeof obj.kty !== "string") return false;
     const member = JWK_PRIVATE_MEMBER[obj.kty];
-    return !!member && typeof obj[member] === "string" && obj[member].length > 0;
+    return Boolean(member) && typeof obj[member] === "string" && obj[member].length > 0;
   }
 
   function findJwkPrivateKeys(text) {
@@ -2556,11 +2596,11 @@
     if (otpLast.text === text) return otpLast.found;
     const found = [];
     for (const m of text.matchAll(OTP_LINK_RE)) {
-      const link = m[0].replace(/[).,;:!?\]}>]+$/, "");
+      const link = trimTrailing(m[0], /[).,;:!?\]}>]/);
       const query = new URLSearchParams(link.includes("?") ? link.slice(link.indexOf("?") + 1) : "");
       const secret = /^otpauth-migration:/i.test(link)
         ? query.get("data") || ""
-        : (query.get("secret") || "").replace(/\s+/g, "").replace(/=+$/, "");
+        : trimTrailing((query.get("secret") || "").replace(/\s+/g, ""), /=/);
       const ok = /^otpauth-migration:/i.test(link)
         ? secret.length >= 20
         : /^[A-Za-z2-7]{16,}$/.test(secret) && !isPlaceholder(secret);
@@ -2573,8 +2613,9 @@
       let groups = m[0].split(" ");
       // A key can run on into the sentence, as in "… kd7e what do I do", so a four-letter word right
       // after it isn't part of the key.
-      if (/^ [A-Za-z]/.test(rest.slice(m.index + m[0].length)))
+      if (/^ [A-Za-z]/.test(rest.slice(m.index + m[0].length))) {
         while (groups.length > 4 && !/[2-7]/.test(groups.at(-1))) groups = groups.slice(0, -1);
+      }
       const value = groups.join(" ");
       const key = groups.join("");
       if (key !== key.toUpperCase() && key !== key.toLowerCase()) continue; // sites show it in one case
@@ -2657,7 +2698,7 @@
   function findShareLinks(text) {
     const found = [];
     for (const m of text.matchAll(LINK_RE)) {
-      const link = m[0].replace(/[).,;:!?\]}>]+$/, "");
+      const link = trimTrailing(m[0], /[).,;:!?\]}>]/);
       if (cleanableParamsOf(link).length) found.push(link);
     }
     return found;
@@ -2697,7 +2738,7 @@
   function findConnectionStrings(text) {
     return [...text.matchAll(CONN_RE)]
       .filter((m) => !PLACEHOLDER_PASSWORDS.has(m[1].toLowerCase()) && !/^[<{$[%]/.test(m[1]) && !isPlaceholder(m[1]))
-      .map((m) => m[0].replace(/[.,;)\]]+$/, ""));
+      .map((m) => trimTrailing(m[0], /[.,;)\]]/));
   }
 
   // A JWT looks like header.payload.signature, where both JSON parts are base64url and start with "eyJ".
@@ -2848,8 +2889,11 @@
   // Matches a labelled secret like "password: hunter2" or an .env-style name like DB_PASSWORD=. The name
   // prefix is limited to 4 parts, like the DB_PROD_ in DB_PROD_PASSWORD, because an unbounded version
   // backtracked quadratically on hostile text like a long run of "a-a-a-…", which CI's ReDoS fuzzing caught.
+  // An "=" setting never takes its value from the next line: in an .env template, "PASSWORD=" is empty and
+  // the line under it ("USERNAME=admin") is a setting of its own. "Password:" can still have it on the next line.
+  // People write a key's name with a space too, as in "API key: …", "secret key: …" or "clave de API: …".
   const LABELLED_SECRET =
-    /\b(?:[A-Za-z0-9]{1,30}[_-]){0,4}(?:password|passwd|pwd|pass|pw|passcode|passphrase|pin|secret|client_secret|token|access_token|auth_token|api[_-]?key|contrase(?:ñ|n)a|clave)(?:_[A-Za-z0-9]+)*["']?\s*[:=]\s*["']?([^\s"',;]+)/gi;
+    /\b(?:[A-Za-z0-9]{1,30}[_-]){0,4}(?:password|passwd|pwd|pass|pw|passcode|passphrase|pin|secret|client_secret|token(?:\sde\sacceso)?|access_token|auth_token|api[_ -]?key|secret[ -]key|contrase(?:ñ|n)a|clave(?:\s(?:de\s)?api)?)(?:_[A-Za-z0-9]+)*["']?\s*(?::\s*|=[^\S\n]*)["']?([^\s"',;]+)/gi;
   // An HTTP auth header from a pasted curl command or code, like "Authorization: Bearer …".
   const AUTH_HEADER =
     /\b(?:proxy-)?authorization["']?\s*[:=]\s*["']?(?:bearer|basic|token|apikey)\s+([A-Za-z0-9._~+/=-]{12,})/gi;
@@ -2860,6 +2904,21 @@
   // Spanish: "mi contraseña es Gato2024!", "la contraseña del wifi es sol-y-luna".
   const TOLD_SECRET_ES =
     /(?<![\p{L}])(?:(?:mi|la|el|tu|su|nuestra)\s+)?(?:contrase(?:ñ|n)a|clave|pin)(?:\s+(?:del?|de\s+(?:la|mi|tu|su)|para(?:\s+(?:el|la|mi|tu|su))?)\s+[\p{L}\d-]+){0,2}\s+(?:es|era)\s*(?::\s*)?["'“‘]?([^\s"'”’,;!?]+)/giu;
+  // Other ways people tell a password: "the password's Pumpkin_88", "my password, it's Marigold#7", "I changed
+  // my password to bluecat77", "olvidé mi contraseña, es …", "cambié mi contraseña a …". These read like
+  // ordinary sentences just as often ("my password's been changed"), so the value has to look like a password.
+  const PW_WORD = String.raw`(?:pa?ss?(?:w(?:or|ro|ar)d|owrd|wrd|wd)|passcode)`;
+  const TOLD_SECRET_MORE = new RegExp(
+    String.raw`(?<![\p{L}\d])(?:(?:my|the|our|his|her|their|your)\s+(?:(?:wi-?fi|email|bank|computer|phone)\s+)?${PW_WORD}(?:['’]s|,\s+it(?:['’]s|\s+is))|(?:chang|updat|reset|set)(?:e|ed|es|ing|s)?\s+(?:(?:my|the|our|his|her|their|your)\s+)?(?:(?:wi-?fi|email|bank|computer|phone)\s+)?${PW_WORD}\s+to|(?:mi|la|tu|su)\s+(?:contrase(?:ñ|n)a|clave),\s+(?:es|era)|(?:cambi[éeo]|cambiar|cambiado|puse|actualic[ée])\s+(?:(?:mi|la|tu|su)\s+)?(?:contrase(?:ñ|n)a|clave)(?:\s+del?\s+[\p{L}\d-]+)?\s+(?:a|por))\s+["'“‘]?([^\s"'”’,;!?]+)`,
+    "giu",
+  );
+  // A key told in a sentence, as in "my API key is …" or "el token es …". "Token" and "key" lead into plenty of
+  // ordinary sentences ("the token is expired"), so the value has to look machine-made (keyLike below). A login
+  // token (eyJ…) already has its own kind, and a crypto token's 0x… contract address is public.
+  const TOLD_KEY =
+    /(?<![\p{L}\d])(?:api[ _-]?key|(?:access|auth|bearer|api|bot)[ _-]?token|token|secret[ _-]?key|client[ _-]?secret|token\s+de\s+acceso)\s+(?:is|was|es|era)\s*(?::\s*)?["'“‘]?([^\s"'”’,;!?]+)/giu;
+  const keyLike = (v) =>
+    v.length >= 16 && /\d/.test(v) && /\p{L}/u.test(v) && !/^(?:eyJ|0x)/.test(v) && entropy(v) >= 3.5;
   // Answers to account-recovery questions work the same way passwords do, as in "my mother's maiden name
   // is Smith" or "the answer to my security question is Rover". Each label here is written once and read
   // twice: once by the rule that finds a code told after it, and once by the scam-detection check in
@@ -3109,6 +3168,7 @@
       "needed optional hidden secure safe new old mine yours here there this that what where " +
       "printed written taped stuck kept shown listed fine okay working broken locked " +
       "separate expiring expires expired temporary unique complicated complex simple easy hard personal " +
+      "case-sensitive case-insensitive auto-generated autogenerated one-time single-use use only sensible " +
       "incorrecta correcta segura nueva vieja débil fuerte larga corta mía tuya igual distinta obligatoria la el una muy"
     ).split(" "),
   );
@@ -3118,7 +3178,7 @@
   // it, masked out, a placeholder, code reading the value from elsewhere, too plain when complexity is
   // required, or a value some other pattern already recognizes as its own kind of key.
   function secretValue(raw, needsComplexity, minLength = 4) {
-    const v = raw.replace(/[.)\]}>]+$/, "");
+    const v = trimTrailing(raw, /[.)\]}>]/);
     if (v.length < minLength || v.length > 128 || NOT_A_SECRET.has(v.toLowerCase())) return null;
     if (/^[*•x.#-]+$/i.test(v) || /^[<{$[%(]/.test(v) || isPlaceholder(v)) return null; // masked, template, placeholder
     // Code that reads the secret from somewhere else: process.env.X, os.environ[…], config.x.
@@ -3126,8 +3186,9 @@
       /^(?:process\.env|os\.environ|os\.getenv|import\.meta\.env|env|config|settings|secrets|vars|ENV|request|req|params|args|form|input|self|this|getpass|prompt)\b[.[(]/.test(
         v,
       )
-    )
+    ) {
       return null;
+    }
     if (/[[(]$/.test(v)) return null; // code that continues on the next token: request.form['…'], getpass(
     // End-of-sentence punctuation isn't part of a password, so "a good password manager?" reads as a question.
     const core = v.replace(/[?!:]+$/, "");
@@ -3137,8 +3198,9 @@
       needsComplexity &&
       (/^[¿¡]/.test(core) ||
         !(/\d/.test(core) || /[^\p{L}\p{N}]/u.test(core) || (/\p{Ll}/u.test(core) && /\p{Lu}/u.test(core))))
-    )
+    ) {
       return null;
+    }
     // A recognizable key after the label is reported by its own pattern.
     if (PATTERNS.some((p) => p.secret && p.regex && new RegExp(p.regex.source).test(v))) return null;
     return v;
@@ -3231,8 +3293,9 @@
   // complete code on its own. Each code that passes the checks goes into `out`, with any PIN found after it.
   function giftCodesIn(text, from, to, out) {
     const pieces = [];
-    for (const m of text.slice(from, to).matchAll(CODE_PIECE))
+    for (const m of text.slice(from, to).matchAll(CODE_PIECE)) {
       pieces.push(pieceOf(text, { 0: m[0], index: from + m.index }));
+    }
     let run = [];
     const close = () => {
       if (!run.length) return;
@@ -3302,7 +3365,8 @@
 
   // `why` is an optional Map from detect() that records, for each value this finds that a scam code's rule
   // matched, which reason it matched for. Without it, the values returned are the same either way.
-  function findSecrets(text, why) {
+  function findSecrets(rawText, why) {
+    let text = rawText;
     const found = [];
     const reasons = new Map();
     // The first reason in ASK_REASONS' order wins when two rules take the same value ("my ATM pin is 4821").
@@ -3338,8 +3402,9 @@
       const words = p ? p[1].toLowerCase().split(/[\s-]+/) : [];
       // One describing word can still be part of a real passphrase, like "correct horse battery staple".
       // Two describing words mean it's a sentence describing the password instead.
-      if (!p || words.some((w) => EVERYDAY_WORDS.has(w)) || words.filter((w) => NOT_A_SECRET.has(w)).length > 1)
+      if (!p || words.some((w) => EVERYDAY_WORDS.has(w)) || words.filter((w) => NOT_A_SECRET.has(w)).length > 1) {
         return false;
+      }
       found.push(p[1]);
       return true;
     };
@@ -3348,6 +3413,9 @@
     // first password-looking word shortly after that.
     const told = (m) => {
       if (passphraseAt(valueStart(m))) return;
+      // A length range: "the password is 8-16 characters long".
+      const after = text.slice(m.index + m[0].length, m.index + m[0].length + 14);
+      if (/^\d+[-–]\d+$/.test(m[1]) && /^\s+(?:characters|chars|letters|digits|caracteres)/i.test(after)) return;
       // A PIN is digits: "my pin is loose" is about hardware.
       if (/^(?:(?:my|the|our|his|her|their|your)\s+)?pin\b/i.test(m[0]) && !/\d/.test(m[1])) return;
       if (add(m[1], false)) return;
@@ -3358,6 +3426,11 @@
     for (const m of text.matchAll(AUTH_HEADER)) add(m[1], true);
     for (const m of text.matchAll(TOLD_SECRET)) told(m);
     for (const m of text.matchAll(TOLD_SECRET_ES)) told(m);
+    // Not a range ("8-16 characters") or a describing word ("one-time", "case-sensitive").
+    for (const m of text.matchAll(TOLD_SECRET_MORE)) {
+      if (/\p{L}/u.test(m[1]) && !/^\p{Ll}+(?:-\p{Ll}+)+$/u.test(m[1])) add(m[1], true);
+    }
+    for (const m of text.matchAll(TOLD_KEY)) if (keyLike(trimTrailing(m[1], /[.)\]}>]/))) add(m[1], true);
     for (const m of text.matchAll(TOLD_ANSWER)) because(add(m[1], false), "security_answer");
     for (const m of text.matchAll(TOLD_ANSWER_ES)) because(add(m[1], false), "security_answer");
     for (const m of text.matchAll(BARE_SECRET)) {
@@ -3374,14 +3447,15 @@
       if (/\d/.test(v) && /[A-Za-z]/.test(v)) add(v, true); // random-looking, not "sessionid=0000000000000000"
     }
     for (const m of text.matchAll(RECOVERY_CODES)) {
-      const codes = m[1].replace(/[\s,;]+$/, "");
+      const codes = trimTrailing(m[1], /[\s,;]/);
       if (/\d/.test(codes) && codes.length >= 8) {
         found.push(codes);
         because(codes, "recovery_codes");
       }
     }
-    for (const m of text.matchAll(CODE_TOLD_ES))
+    for (const m of text.matchAll(CODE_TOLD_ES)) {
       because(add(m[1], false), REMOTE_LABEL.test(m[0]) ? "remote_code" : "home_code");
+    }
     for (const m of text.matchAll(LOGIN_CODE_ES)) because(add(matched(m), false), "login_code");
     for (const m of text.matchAll(CODE_TOLD)) {
       // "1-2-3" reads as an example rather than a real code. A real combination lock uses 2-digit numbers,
@@ -3390,8 +3464,9 @@
         /[- ]/.test(m[1]) &&
         !/\d\d/.test(m[1]) &&
         (m[1].split(/[- ]/).length < 4 || "0123456789".includes(m[1].replace(/[- ]/g, "")))
-      )
+      ) {
         continue;
+      }
       because(add(m[1], false), "home_code");
     }
     // Several ways of saying it can find the same value.

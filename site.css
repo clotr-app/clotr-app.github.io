@@ -32,7 +32,9 @@ main {
 .top .links {
   margin-left: auto;
   display: flex;
-  gap: var(--s-5);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--s-2) var(--s-5);
   font-size: var(--text);
 }
 .top .links a {
@@ -125,6 +127,202 @@ main {
 }
 .install-row {
   margin-top: var(--s-5);
+}
+
+/* ---------- Release switches ---------- */
+/* Clotr for Windows' ways in are drawn on the page but hidden until each one is real. At the Microsoft Store release,
+   change .when-store below to .until-store: the Store buttons and the Store's own direct-download installer show, and
+   every "on its way" line hides. */
+.when-store {
+  display: none !important;
+}
+
+/* ---------- Home: the hero's three ways in ---------- */
+.top nav.ways {
+  display: grid;
+  gap: var(--s-3);
+  align-self: center;
+  padding: 0;
+}
+.ways a {
+  display: block;
+  padding: var(--s-4) var(--s-5);
+  border: 1.5px solid var(--field-ink);
+  border-radius: var(--r-card);
+  text-decoration: none;
+}
+.ways a:hover b {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ways b {
+  display: block;
+  font-size: var(--text-lg);
+}
+.ways span {
+  display: block;
+  margin-top: var(--s-1);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Home: one band per product ---------- */
+.products-head {
+  padding-top: var(--s-8);
+}
+.products-head h2 {
+  font-size: var(--text-3xl);
+}
+.products-head .lede {
+  font-size: var(--text-lg);
+  color: var(--soft);
+  margin-top: var(--s-3);
+  max-width: var(--measure);
+}
+.products-head {
+  padding-bottom: var(--s-6);
+}
+.product {
+  padding: var(--s-7) 0;
+  border-top: 1px solid var(--rule);
+}
+.product.alt {
+  background: var(--side);
+}
+.product.alt .product-in {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+}
+.product-in {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+.product.alt .product-shot {
+  order: -1;
+}
+.product h3 {
+  font-size: var(--text-3xl);
+}
+.eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--soft);
+  margin-bottom: var(--s-2);
+}
+.field .eyebrow {
+  color: var(--field-ink);
+}
+.product .say {
+  max-width: 52ch;
+}
+.product .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+.product .store-badges img {
+  height: 44px;
+  width: auto;
+}
+.product .fine {
+  margin-top: var(--s-3);
+}
+.product-shot,
+.page-shot {
+  margin: 0;
+}
+.product-shot figcaption,
+.page-shot figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.product-shot img {
+  border-radius: var(--r-card);
+  border: 1px solid var(--frame);
+  width: 100%;
+  height: auto;
+}
+.product-shot.phone {
+  justify-self: center;
+  width: min(100%, 260px);
+}
+.later {
+  padding-bottom: var(--s-6);
+  color: var(--soft);
+}
+
+/* ---------- Product pages: a picture beside its words, and phones in a row ---------- */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: var(--s-7);
+  align-items: center;
+}
+.feature + .feature {
+  margin-top: var(--s-8);
+}
+.feature h2 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--s-3);
+}
+.feature:nth-child(even) {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+}
+.feature:nth-child(even) .shot {
+  order: -1;
+}
+.feature p + p {
+  margin-top: var(--s-3);
+}
+.feature .shot img,
+.phones img,
+.page-shot img {
+  border-radius: var(--r-card);
+  border: 1px solid var(--frame);
+  width: 100%;
+  height: auto;
+}
+.phones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+}
+.hero .strip-hero {
+  align-self: center;
+  justify-self: stretch;
+}
+.join {
+  border: 1.5px solid var(--main);
+  border-radius: var(--r-card);
+  padding: var(--s-6);
+}
+.join .grid2 h3 {
+  font-size: var(--text-lg);
+}
+.join .grid2 ul {
+  margin: var(--s-2) 0 0;
+  padding-left: 1.2em;
+}
+.join .grid2 li {
+  padding: var(--s-1) 0;
+}
+.join .buttons {
+  margin-top: var(--s-5);
+}
+.short-list {
+  margin: var(--s-4) 0 0;
+  padding-left: 1.2em;
+  max-width: var(--measure);
+}
+.short-list li {
+  padding: var(--s-1) 0;
 }
 
 /* ---------- Generic section rhythm ---------- */
@@ -334,8 +532,32 @@ footer.bottom .trust-badges {
   .grid2,
   .split,
   .four,
-  .quotes {
+  .quotes,
+  .product-in,
+  .product.alt .product-in,
+  .feature {
     grid-template-columns: 1fr;
+  }
+  .top nav {
+    flex-wrap: wrap;
+    gap: var(--s-3) var(--s-5);
+  }
+  .top .links {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+  .product,
+  .products-head {
+    padding-top: var(--s-7);
+  }
+  .product {
+    padding-bottom: var(--s-7);
+  }
+  .product.alt .product-shot {
+    order: 0;
+  }
+  .phones {
+    grid-template-columns: 1fr 1fr;
   }
   .hero .shot {
     justify-self: stretch;

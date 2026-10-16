@@ -200,9 +200,9 @@
     const kept = [];
     globalThis.Clotr.overlapChecks = 0;
     for (const r of results) {
-      const stricter = kept.filter((k) => SEVERITY_RANK[k.severity] > SEVERITY_RANK[r.severity]);
+      const moreSevere = kept.filter((k) => SEVERITY_RANK[k.severity] > SEVERITY_RANK[r.severity]);
       const inside = (m) =>
-        stricter.some((k) => {
+        moreSevere.some((k) => {
           for (const km of k.longestFirst) {
             globalThis.Clotr.overlapChecks++;
             if (km.length <= m.length) return false;
@@ -360,12 +360,12 @@
   }
   const ESCAPES = { n: " ", r: " ", t: " ", b: "", f: "", "(": "(", ")": ")", "\\": "\\" };
   const pdfString = (s) =>
-    s.replace(/\\([nrtbf()\\]|[0-7]{1,3})/g, (x, e) =>
+    s.replace(/\\([nrtbf()\\]|[0-7]{1,3})/g, (_match, e) =>
       /[0-7]/.test(e[0]) ? String.fromCharCode(parseInt(e, 8)) : ESCAPES[e],
     );
   function showText(content, cmap) {
-    const hex = (h) => {
-      h = h.replace(/\s+/g, "").toLowerCase();
+    const hex = (raw) => {
+      const h = raw.replace(/\s+/g, "").toLowerCase();
       if (cmap.size) {
         let s = "";
         for (let i = 0; i < h.length; i += 4) s += cmap.get(h.slice(i, i + 4)) ?? cmap.get(h.slice(i, i + 2)) ?? "";
@@ -415,9 +415,9 @@
         !inArray &&
         content[i + 1] !== "J" &&
         content[i + 1] !== "j"
-      )
+      ) {
         out += " ";
-      else if ((c === "'" || c === '"') && !inArray) out += " ";
+      } else if ((c === "'" || c === '"') && !inArray) out += " ";
       i++;
     }
     return out;
@@ -562,13 +562,14 @@
         .replace(/\s+/g, "");
       // "janedoe at yahoo" is janedoe@yahoo.com, and "bob at gmial dot com" is bob@gmail.com.
       const full = /@[a-z0-9-]+$/.test(e) ? `${e}.com` : e;
-      return `email:${full.replace(/@([a-z]+)\.com$/, (m, host) => `@${PROVIDER_TYPOS[host] || host}.com`)}`;
+      return `email:${full.replace(/@([a-z]+)\.com$/, (_m, host) => `@${PROVIDER_TYPOS[host] || host}.com`)}`;
     }
     // ID formats match either case ("ab-123456" = "AB-123456"), so their fingerprints do too.
     if (patternId === "my_id") return `my_id:${match.toLowerCase().trim()}`;
     // A VIN or a plate is the same in any case, with or without spaces and dashes.
-    if (patternId === "vin" || patternId === "license_plate")
+    if (patternId === "vin" || patternId === "license_plate") {
       return `${patternId}:${match.toUpperCase().replace(/[\s\-·]+/g, "")}`;
+    }
     // A gamer tag is the same in any case ("xXSniperXx" = "xxsniperxx"), with any spacing in a Riot name.
     if (patternId === "gamer_tag") return `gamer_tag:${match.toLowerCase().replace(/\s+/g, " ").trim()}`;
     // Your words match with or without accents ("José García" = "Jose Garcia"). Entries saved before 0.9.67
@@ -675,8 +676,9 @@
   function redact(text, results) {
     let out = text;
     for (const r of results) {
-      for (const m of r.matches)
+      for (const m of r.matches) {
         out = out.split(m).join(r.replace ? r.replace(m) : `[REDACTED ${r.name.toUpperCase()}]`);
+      }
     }
     return out;
   }
@@ -706,21 +708,21 @@
   const monthOf = (word) => MONTHS[word.slice(0, 3).toLowerCase()] ?? null;
 
   function birthMonthYear(match) {
-    const iso = /\b(1[89]\d\d|20\d\d)-(\d{1,2})-(\d{1,2})\b/.exec(match);
-    if (iso) return { year: +iso[1], month: +iso[2] };
+    const iso = /\b(1[89]\d\d|20\d\d)([-/.])(\d{1,2})\2(\d{1,2})\b/.exec(match); // 1987-04-12, 1987/04/12
+    if (iso) return { year: Number(iso[1]), month: Number(iso[3]) };
     const num = /\b(\d{1,2})[/.-](\d{1,2})[/.-](1[89]\d\d|20\d\d)\b/.exec(match);
     if (num) {
-      const [a, b] = [+num[1], +num[2]];
+      const [a, b] = [Number(num[1]), Number(num[2])];
       // Day and month can only be told apart when one of them is over 12; otherwise keep just the year.
       const month = a > 12 && b <= 12 ? b : b > 12 && a <= 12 ? a : null;
-      return { year: +num[3], month };
+      return { year: Number(num[3]), month };
     }
     const year = /\b(1[89]\d\d|20\d\d)\b/.exec(match);
     if (!year) return null;
     const word = /\b([a-záéíóú]{3,})\b/gi;
     let month = null;
     for (let m; !month && (m = word.exec(match));) month = monthOf(m[1]);
-    return { year: +year[1], month };
+    return { year: Number(year[1]), month };
   }
 
   function townOf(match) {

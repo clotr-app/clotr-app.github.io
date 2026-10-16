@@ -11,14 +11,14 @@
     <title>Clotr warns you before personal details go into an AI chat</title>
     <meta
       name="description"
-      content="Clotr spots a password, a card number or an ID number as you type in ChatGPT, Claude, Gemini and 16 more, and warns you before you send it. Free, open source, and on your own device, never in a cloud."
+      content="Clotr spots a password, a card number or an ID number before it goes into an AI chat. Try the free browser extension, get the Windows app that checks your files too, or help test Clotr for Android."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://clotr.app/" />
     <meta property="og:title" content="Clotr warns you before personal details go into an AI chat" />
     <meta
       property="og:description"
-      content="Clotr spots a password, a card number or an ID number as you type, and warns you before you send it. Free, open source, and on your own device, never in a cloud."
+      content="Clotr spots a password, a card number or an ID number before it goes into an AI chat, and does the checking on your own device."
     />
     <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
     <meta property="og:image:width" content="1200" />
@@ -27,7 +27,7 @@
     <meta name="twitter:title" content="Clotr warns you before personal details go into an AI chat" />
     <meta
       name="twitter:description"
-      content="Clotr spots a password, a card number or an ID number as you type, and warns you before you send it."
+      content="Clotr spots a password, a card number or an ID number before it goes into an AI chat."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
     <meta name="color-scheme" content="dark light" />
@@ -50,11 +50,12 @@
             <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
+            <a href="extension.html">Extension</a>
+            <a href="windows.html">Windows</a>
+            <a href="android.html">Android</a>
             <a href="how-it-works.html">How it works</a>
             <a href="teams.html">Teams</a>
-            <a href="download.html">Download</a>
             <a href="try.html">Try it</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
         <section class="hero" aria-labelledby="hero-title">
@@ -62,85 +63,131 @@
             <img class="wordmark-big" src="assets/wordmark.svg" alt="Clotr" width="232" height="86" />
             <h1 id="hero-title">catches it before it's sent.</h1>
             <p class="lede">
-              A photo from your phone can carry the exact place it was taken, saved inside the file. Attach one to an
-              AI chat and Clotr notices before it's sent, the same way it catches a password or a card number as you
-              type.
+              A password, a card number or an ID number can end up in an AI chat with one careless paste. Clotr spots
+              it first and asks what you want to do, and all of the checking happens on your own device.
             </p>
-            <p class="buttons">
-              <a
-                class="btn on-field install-chrome"
-                href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab"
-                >Get the extension</a
-              >
-              <a
-                class="btn on-field install-firefox"
-                href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/"
-                >Get the extension</a
-              >
-              <a class="btn ghost" href="how-it-works.html">How it works</a>
-            </p>
-            <p class="fine install-edge">
-              On Edge?
-              <a href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj">Get it from Edge Add-ons</a>.
-            </p>
-            <p class="fine install-phone">
-              Clotr runs on Chrome, Brave, Edge and Firefox on a computer today.
-              <a href="download.html">See every option</a>.
-            </p>
-            <p class="fine">Free and open source. Clotr checks on your device and sends nothing to Clotr. If you choose to send a message, it still goes to the AI service.</p>
-            <p class="fine"><a href="try.html">Try the scam check and a few practice messages first, right in this page</a>.</p>
+            <p class="fine">Free and open source. If you choose to send a message, it still goes to the AI service.</p>
           </div>
-          <figure class="shot">
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
-              <img
-                src="assets/hero/warning-light.png"
-                width="850"
-                height="470"
-                alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. To keep the place private, take the photo off before you send. Clotr can’t read the words in a picture, so look it over yourself."
-              />
-            </picture>
-            <figcaption>Clotr’s warning, before a photo carrying its place is sent to an AI chat.</figcaption>
-          </figure>
+          <nav class="ways" aria-label="Clotr's three products">
+            <a href="#extension"><b>The browser extension</b><span>The quickest way to try Clotr, free from your browser's store</span></a>
+            <a href="#windows"><b>Clotr for Windows</b><span>Warns before you paste, and looks through your files too</span></a>
+            <a href="#android"><b>Clotr for Android</b><span>A preview, and I'm looking for people to help test it</span></a>
+          </nav>
         </section>
       </div>
     </header>
 
     <main id="main">
-      <div class="wrap">
-        <section class="sec looks" aria-labelledby="looks-title">
-          <h2 id="looks-title">What it looks for</h2>
-          <dl>
-            <div>
-              <dt>Passwords and keys</dt>
-              <dd>API keys, tokens, webhook links, connection strings and seed phrases.</dd>
-            </div>
-            <div>
-              <dt>Card and bank numbers</dt>
-              <dd>Card numbers, Social Security and ITIN numbers, bank accounts, IBANs and medical record numbers.</dd>
-            </div>
-            <div>
-              <dt>Personal details</dt>
-              <dd>However you write them: in digits, number words, misspellings or a mix.</dd>
-            </div>
-            <div>
-              <dt>What scammers ask for</dt>
-              <dd>Texted sign-in codes, card security codes and remote-access codes.</dd>
-            </div>
-            <div>
-              <dt>Your own list</dt>
-              <dd>Names and details you add yourself, kept only as a scrambled code, never the words themselves.</dd>
-            </div>
-            <div>
-              <dt>Text in files</dt>
-              <dd>Text, PDF, Word, Excel and PowerPoint files you attach.</dd>
-            </div>
-          </dl>
-          <p class="more">
-            It's on for 19 AI chat sites out of the box. Email and chat sites only when you switch them on.
+      <section class="products" aria-labelledby="products-title">
+        <div class="wrap products-head">
+          <h2 id="products-title">Where Clotr runs</h2>
+          <p class="lede">
+            Start in the browser if you only want a feel for it. The Windows app does more, and the Android app needs
+            testers before Google Play will list it.
           </p>
-        </section>
-      </div>
+        </div>
+        <div class="product-list">
+          <article class="product" id="extension" aria-labelledby="ext-title">
+            <div class="product-in">
+              <div class="product-copy">
+                <p class="eyebrow">Try it in a minute</p>
+                <h3 id="ext-title">The browser extension</h3>
+                <p class="say">
+                  It reads the chat box on ChatGPT, Claude, Gemini and 16 more AI sites while you type, and catches a
+                  photo that still carries the place it was taken before you attach it.
+                </p>
+                <p class="buttons store-badges">
+                  <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
+                    <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
+                  </a>
+                  <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
+                    <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
+                  </a>
+                  <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
+                    <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
+                  </a>
+                </p>
+                <p class="fine">On a computer. Brave uses the Chrome Web Store. <a href="extension.html">More about the extension</a></p>
+              </div>
+              <figure class="product-shot">
+                <picture>
+                  <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
+                  <img
+                    src="assets/hero/warning-light.png"
+                    width="850"
+                    height="470"
+                    alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. Two buttons: Remove the place, keep the photo, and OK."
+                  />
+                </picture>
+                <figcaption>The extension’s warning, with a button to clean a photo’s saved place and send it anyway.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="product alt" id="windows" aria-labelledby="win-title">
+            <div class="product-in">
+              <div class="product-copy">
+                <p class="eyebrow">The full set, on your PC</p>
+                <h3 id="win-title">Clotr for Windows</h3>
+                <p class="say">
+                  A desktop app that warns you before you paste something private into an AI app. Then it goes
+                  further and looks through your files for passwords, ID numbers and photos that give away a place,
+                  and finishes with a short list of what to fix first.
+                </p>
+                <p class="buttons when-store">
+                  <a class="btn" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
+                  <a class="btn ghost" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
+                </p>
+                <p class="fine until-store">It's on its way to the Microsoft Store, free.</p>
+                <p class="fine"><a href="windows.html">See Clotr for Windows</a></p>
+              </div>
+              <figure class="product-shot">
+                <picture>
+                  <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-scan-dark.png" />
+                  <img
+                    src="assets/apps/windows-scan-light.png"
+                    width="640"
+                    height="400"
+                    alt="Clotr for Windows part way through a scan. A web of folders grows from This PC through Desktop, Documents and Downloads, a card points at aws-credentials.csv, where it found an AWS access key, and three more files worth a look wait below."
+                  />
+                </picture>
+                <figcaption>A scan in Clotr for Windows, on made-up files.</figcaption>
+              </figure>
+            </div>
+          </article>
+
+          <article class="product" id="android" aria-labelledby="and-title">
+            <div class="product-in">
+              <div class="product-copy">
+                <p class="eyebrow">Preview, testers wanted</p>
+                <h3 id="and-title">Clotr for Android</h3>
+                <p class="say">
+                  A phone keyboard with Clotr's check behind it, for the AI apps you type into, plus the same file
+                  check the Windows app has. It isn't on Google Play yet, and the next step is a small group of people
+                  using it for two weeks.
+                </p>
+                <p class="buttons">
+                  <a class="btn" href="android.html#join">Help test it</a>
+                </p>
+                <p class="fine"><a href="android.html">See the Android preview</a></p>
+              </div>
+              <figure class="product-shot phone">
+                <picture>
+                  <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-home-dark.png" />
+                  <img
+                    src="assets/apps/android-home-light.png"
+                    width="412"
+                    height="800"
+                    alt="Clotr for Android's Home screen. Right now, your last check of your files found something worth a look, with a See what to do button. Below it, the keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files."
+                  />
+                </picture>
+                <figcaption>Home in a test build of Clotr for Android.</figcaption>
+              </figure>
+            </div>
+          </article>
+        </div>
+        <p class="wrap later">Safari and iPhone come later, once Android is out.</p>
+      </section>
 
       <section class="sec trust" aria-labelledby="trust-title">
         <div class="wrap">

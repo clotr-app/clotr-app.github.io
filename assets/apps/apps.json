@@ -1,0 +1,62 @@
+{
+  "looks": {
+    "light": "plum",
+    "dark": "ember"
+  },
+  "shots": [
+    {
+      "name": "windows-home",
+      "width": 640,
+      "height": 400,
+      "from": "apps/desktop/tools/shots.js --quick (home)"
+    },
+    {
+      "name": "windows-scan",
+      "width": 640,
+      "height": 400,
+      "from": "apps/desktop/tools/shots.js --quick (web-find)"
+    },
+    {
+      "name": "windows-results",
+      "width": 640,
+      "height": 400,
+      "from": "apps/desktop/tools/shots.js --quick (results)"
+    },
+    {
+      "name": "windows-guided",
+      "width": 640,
+      "height": 400,
+      "from": "apps/desktop/tools/shots.js --quick (guided)"
+    },
+    {
+      "name": "windows-note",
+      "width": 640,
+      "height": 400,
+      "from": "apps/desktop/tools/shots.js --quick (note)"
+    },
+    {
+      "name": "android-home",
+      "width": 412,
+      "height": 800,
+      "from": "Roborazzi HomeAfterScan_{Look}_412dp.png"
+    },
+    {
+      "name": "android-scan",
+      "width": 412,
+      "height": 800,
+      "from": "Roborazzi ScanWeb_{Look}_412dp.png"
+    },
+    {
+      "name": "android-results",
+      "width": 412,
+      "height": 800,
+      "from": "Roborazzi ResultsPlan_{Look}_412dp.png"
+    },
+    {
+      "name": "android-strip",
+      "width": 412,
+      "height": 58,
+      "from": "Roborazzi Strip_AllStates_412dp.png"
+    }
+  ]
+}

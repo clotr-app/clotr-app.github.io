@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Clotr's browser extension, for Chrome, Edge and Firefox</title>
+    <meta
+      name="description"
+      content="Clotr's free browser extension warns you before a password, a card number or an ID number goes into an AI chat. Get it from the Chrome Web Store, Edge Add-ons or Firefox Add-ons."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/extension.html" />
+    <meta property="og:title" content="Clotr's browser extension, for Chrome, Edge and Firefox" />
+    <meta
+      property="og:description"
+      content="Free from your browser's own store. Clotr warns you before a password, a card number or an ID number goes into an AI chat."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Clotr's browser extension, for Chrome, Edge and Firefox" />
+    <meta
+      name="twitter:description"
+      content="Free from your browser's own store. Clotr warns you before a private detail goes into an AI chat."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="extension.html" aria-current="page">Extension</a>
+            <a href="windows.html">Windows</a>
+            <a href="android.html">Android</a>
+            <a href="how-it-works.html">How it works</a>
+            <a href="teams.html">Teams</a>
+            <a href="try.html">Try it</a>
+          </div>
+        </nav>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="copy">
+            <h1 id="hero-title">The browser extension</h1>
+            <p class="lede">
+              The lightest way to try Clotr. Add it from your browser's own store, open an AI chat, and it starts
+              reading the message box as you type.
+            </p>
+            <p class="buttons">
+              <a
+                class="btn on-field install-chrome"
+                href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab"
+                >Get the extension</a
+              >
+              <a
+                class="btn on-field install-firefox"
+                href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/"
+                >Get the extension</a
+              >
+              <a class="btn ghost" href="try.html">Try it in this page first</a>
+            </p>
+            <p class="fine install-edge">
+              On Edge?
+              <a href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj">Get it from Edge Add-ons</a>.
+            </p>
+            <p class="fine install-phone">
+              The extension runs on Chrome, Brave, Edge and Firefox on a computer. For a phone, see
+              <a href="android.html">the Android preview</a>.
+            </p>
+          </div>
+          <figure class="shot">
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
+              <img
+                src="assets/hero/warning-light.png"
+                width="850"
+                height="470"
+                alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. Two buttons: Remove the place, keep the photo, and OK."
+              />
+            </picture>
+            <figcaption>A warning about a photo that still carries the place it was taken.</figcaption>
+          </figure>
+        </section>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" id="stores" aria-labelledby="stores-title">
+          <h2 id="stores-title">Pick your browser's store</h2>
+          <p class="store-badges">
+            <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
+              <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
+            </a>
+            <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
+              <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
+            </a>
+            <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
+              <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
+            </a>
+          </p>
+          <p class="sec-note">
+            Brave uses the Chrome Web Store. Once it's added, pin Clotr to your toolbar. A welcome page opens with a
+            practice box and asks which email and chat apps you use, since those stay off until you choose them.
+          </p>
+        </section>
+
+        <section class="sec looks" aria-labelledby="looks-title">
+          <h2 id="looks-title">What it looks for</h2>
+          <dl>
+            <div>
+              <dt>Passwords and keys</dt>
+              <dd>API keys, tokens, webhook links, connection strings and seed phrases.</dd>
+            </div>
+            <div>
+              <dt>Card and bank numbers</dt>
+              <dd>Card numbers, Social Security and ITIN numbers, bank accounts, IBANs and medical record numbers.</dd>
+            </div>
+            <div>
+              <dt>Personal details</dt>
+              <dd>However you write them, in digits, number words, misspellings or a mix.</dd>
+            </div>
+            <div>
+              <dt>What scammers ask for</dt>
+              <dd>Texted sign-in codes, card security codes and remote-access codes.</dd>
+            </div>
+            <div>
+              <dt>Your own list</dt>
+              <dd>Names and details you add yourself, kept only as a scrambled code instead of the words.</dd>
+            </div>
+            <div>
+              <dt>Text in files</dt>
+              <dd>Text, PDF, Word, Excel and PowerPoint files you attach, and the place saved inside a photo.</dd>
+            </div>
+          </dl>
+          <p class="more">
+            It's on for 19 AI chat sites out of the box. Email and chat sites only when you switch them on.
+            <a href="how-it-works.html">How it works</a>
+          </p>
+        </section>
+
+        <section class="sec" aria-labelledby="hand-title">
+          <h2 id="hand-title">Or install it by hand</h2>
+          <p class="say">
+            Firefox gets the newest version straight from its store. On Chrome, Brave or Edge you can load the newest
+            release yourself before the store catches up.
+          </p>
+          <ol class="steps">
+            <li>
+              Download the latest <code>clotr-&lt;version&gt;.zip</code> from
+              <a href="https://github.com/clotr-app/clotr/releases">Releases</a> and unzip it.
+            </li>
+            <li>
+              Open <code>chrome://extensions</code> (<code>brave://extensions</code> or
+              <code>edge://extensions</code>) and switch on Developer mode.
+            </li>
+            <li>Click <strong>Load unpacked</strong> and pick the folder you unzipped.</li>
+          </ol>
+          <p class="sec-link">
+            <a class="btn text" href="https://github.com/clotr-app/clotr/releases">Follow the releases on GitHub</a>
+          </p>
+        </section>
+
+        <section class="sec" aria-labelledby="more-title">
+          <h2 id="more-title">Want more than the browser?</h2>
+          <p class="say">
+            <a href="windows.html">Clotr for Windows</a> watches the AI desktop apps and checks the files already on
+            your PC. <a href="android.html">Clotr for Android</a> is a preview, and it needs testers.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free software, under AGPL-3.0-or-later.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
