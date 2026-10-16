@@ -387,6 +387,26 @@ main {
   width: auto;
 }
 
+/* ---------- Home: the line Clotr is built around ---------- */
+.pull-quote {
+  margin: 0;
+  max-width: 46rem;
+  padding-left: var(--s-5);
+  border-left: 3px solid var(--rule);
+}
+.pull-quote blockquote {
+  margin: 0;
+}
+.pull-quote blockquote p {
+  font-size: var(--text-2xl);
+  line-height: 1.35;
+}
+.pull-quote .who {
+  margin-top: var(--s-3);
+  color: var(--soft);
+  font-size: var(--text-sm);
+}
+
 /* ---------- Footer ---------- */
 footer.bottom {
   border-top: 1px solid var(--rule);
