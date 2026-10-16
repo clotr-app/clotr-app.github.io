@@ -436,9 +436,12 @@ footer.bottom .wrap {
   color: var(--soft);
   font-size: var(--text-sm);
 }
+/* The project links sit on their own row at the bottom, centred. */
 footer.bottom nav {
-  margin-left: auto;
+  flex-basis: 100%;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--s-5);
 }
 footer.bottom .trust-badges {
@@ -570,6 +573,6 @@ footer.bottom .trust-badges {
     align-items: flex-start;
   }
   footer.bottom nav {
-    margin-left: 0;
+    align-self: stretch;
   }
 }
