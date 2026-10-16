@@ -1,0 +1,44 @@
+/* Blog rhythm follows the site's token spacing and stays readable on narrow screens. */
+.blog-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-5) var(--s-8);
+}
+.blog-page article {
+  max-width: var(--measure);
+}
+.blog-page article > p,
+.blog-page article > ul {
+  margin-block: 0 var(--s-5);
+  font-size: var(--text-lg);
+  line-height: 1.72;
+}
+.blog-page article h1 {
+  margin: var(--s-3) 0 var(--s-6);
+  max-width: 22ch;
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+  line-height: var(--leading-tight);
+}
+.blog-page article h2 {
+  margin: var(--s-7) 0 var(--s-3);
+  font-size: var(--text-2xl);
+  line-height: 1.2;
+}
+.blog-page article li + li {
+  margin-top: var(--s-2);
+}
+.blog-page article hr {
+  margin: var(--s-6) 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+@media (max-width: 600px) {
+  .blog-page {
+    padding: var(--s-5) var(--s-4) var(--s-7);
+  }
+  .blog-page article > p,
+  .blog-page article > ul {
+    font-size: var(--text);
+    line-height: 1.68;
+  }
+}

@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="../kit/tokens.css" />
     <link rel="stylesheet" href="../kit/components.css" />
     <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="blog.css" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
@@ -41,16 +42,20 @@
             <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
           </a>
           <div class="links">
+            <a href="../extension.html">Extension</a>
+            <a href="../windows.html">Windows</a>
+            <a href="../android.html">Android</a>
             <a href="../how-it-works.html">How it works</a>
             <a href="../teams.html">Teams</a>
-            <a href="../download.html">Download</a>
+            <a href="../try.html">Try it</a>
+            <a href="index.html" aria-current="page">Blog</a>
           </div>
         </nav>
       </div>
     </header>
 
     <main id="main">
-      <div class="wrap">
+      <div class="wrap blog-page">
         <section class="sec" aria-labelledby="post-title">
           <p class="fine"><a href="index.html">Clotr's blog</a></p>
           <article>
@@ -58,20 +63,14 @@
             <h1 id="post-title">Smarter scans, and an 80 hour estimate.</h1>
             <p class="measure">Last time I said the next step was a Full scan that reaches as far as an antivirus would. I built that. It turns out reaching that far was exactly the problem.</p>
             <p class="measure">Clotr for Windows starting to shape up, the scans finally do what they're supposed to, and do it in a reasonable amount of time. My multiple test runs actually gave me some good learning for future developer integration with agentic chains. Clotr being able to understand a typical project structure or that, for example, a password manager handles passwords, is a good step int eh right direction.</p>
-            <p class="measure">--------------------------------------------------</p>
             <h2>The 80 hour estimate</h2>
-            <p class="measure">--------------------------------------------------</p>
             <p class="measure">The first time I ran a Full scan on my own PC, it counted about 750,000 files and told me it would take 80 hours. Two hours in, it had read around 100,000 of them. I stopped it. Nobody is going to leave their computer scanning for three days, and I wouldn't either.</p>
             <p class="measure">The Quick scan wasn't much better. It took about an hour, the time left kept jumping around, and it would happily say &quot;about a minute&quot; when it very clearly wasn't.</p>
-            <p class="measure">--------------------------------------------------</p>
             <h2>Where the time actually went</h2>
-            <p class="measure">--------------------------------------------------</p>
             <p class="measure">My first guess was that checking the files was the slow part. It wasn't. Two other things were.</p>
             <p class="measure">The first was what it was reading. A big share of those files were things nobody ever typed a password into, like installed programs, games and code projects with thousands of library files each. And, a little embarrassing, about 1,800 folders my own tests had left behind in Windows' temp folder, holding around 208,000 files. Clotr was faithfully scanning its own leftovers. The tests clean up after themselves now, and there's a check that fails if one ever leaves a folder behind again.</p>
             <p class="measure">The second was Windows Defender. The first time a program opens a file, Defender's real-time protection looks at it before the program gets it, and that costs tens of milliseconds a file. One file at a time, that turns into hours. So Clotr now reads 8 files at once and the waits overlap, which made reading 2-4 times faster.</p>
-            <p class="measure">--------------------------------------------------</p>
             <h2>What changed</h2>
-            <p class="measure">--------------------------------------------------</p>
             <p class="measure">Quick scan now reads the four places that are typical defaults, Desktop, Downloads, Documents and Pictures, and it checks several files at once. After your first Full scan it only reads what's new or changed in those four. On my PC it went from about an hour to about 8 minutes.</p>
             <p class="measure">Full still covers every drive, but it leaves out</p>
             <ul class="measure">
@@ -82,9 +81,7 @@
             </ul>
             <p class="measure">On my drive that took it from 539,081 files down to 286,563.</p>
             <p class="measure">The last two might sound backwards for a privacy tool. My thinking is that whoever made a .env file already knows what's in it, and a password manager's vault is already locked behind its own password. Flagging them would just be noise, and noise is how people learn to ignore warnings. If you're a developer and you do want your projects checked, there's a switch for it now. Either way, the finished scan tells you in one line what it left out, so nothing gets quietly skipped.</p>
-            <p class="measure">--------------------------------------------------</p>
             <h2>Results you can actually do something with</h2>
-            <p class="measure">--------------------------------------------------</p>
             <p class="measure">Finding things was only half of it. The first version of the results told you what it found and stopped there, which isn't much help if you don't know what to do next. Now the results open with &quot;What to do first&quot;. I'm still working out exactly what would be easiest for the 'every day user'. Right now I've got it just displaying a massive dump of, fairly organized, data.</p>
             <p class="measure">Real users are going to have to drive that feedback more, obviously it all makes sense to me.</p>
           </article>
