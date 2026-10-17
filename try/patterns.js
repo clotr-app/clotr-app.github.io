@@ -788,10 +788,15 @@
     const first = run.units[0].start;
     const last = run.units.at(-1).end;
     const extension = /^x\d{1,5}\b/i.test(text.slice(last, last + 7));
-    if (isLetter(text[first - 1]) || (isLetter(text[last]) && !extension)) return true;
+    if (extension) return false;
     const before = sideToken(text, first - 1, -1);
-    const after = extension ? "" : sideToken(text, last, 1);
-    return /[A-Za-z]/.test(before) && /[A-Za-z]/.test(after);
+    const after = sideToken(text, last, 1);
+    const parts = (before + text.slice(first, last) + after).split(".");
+    return (
+      (parts.length >= 3 && /[A-Za-z]/.test(before) && /[A-Za-z]/.test(after)) ||
+      /^(?:2160|1440|1080|720|480)p$/i.test(text.slice(first, last) + after) ||
+      /^(?:x265|x264|h265|h264)$/i.test(before + text.slice(first, last))
+    );
   }
 
   // When a phone word sits right before a number, like "llámame al …" or "my cell is …", I read 9 digits as a
@@ -803,7 +808,7 @@
   const SSN_LABEL =
     /\b(?:s\.?s\.?n\.?|ss\s*#|soc(?:ial)?\.?\s+sec(?:urity|\.)?(?:[\s_]+(?:number|no\.?|#))?|social(?:[\s_]+security)?(?:[\s_]+(?:number|no\.?|#))?)["']?\s*(?:is\s*)?[:=>#-]?\s*["']?$/i;
   const ssnLabelBefore = (text, run) =>
-    SSN_LABEL.test(text.slice(Math.max(0, run.units[0].start - 30), run.units[0].start));
+    SSN_LABEL.test(text.slice(Math.max(0, run.units[0].start - 30), run.units[0].start).replace(/\b[A-Za-z]\s*$/, ""));
   // A bare 9 digits with no dashes and no label only counts as an SSN when the message itself makes that
   // clear: it's nothing but the number, an identity phrase like "confirm who I am" or "verify my identity"
   // (or Spanish "quién soy") sits nearby, or it follows "my number is" with nothing else in the message.
@@ -906,6 +911,9 @@
 
   function findPhones(text) {
     const found = [];
+    for (const m of text.matchAll(/(?<![\p{L}])([A-Za-z])(\d{10})(?!\d)/gu)) {
+      if (/^[2-9]\d{9}$/.test(m[2])) found.push(m[2]);
+    }
     for (const run of numberRuns(text)) {
       if (labelledAsOther(text, run) || tollFree(digitsOf(run.groups)) || counting(text, run)) continue;
       if (ndcCode(text, run) || inVinCode(text, run) || windowsSid(text, run) || inFileName(text, run)) continue;
@@ -1103,6 +1111,7 @@
         continue;
       }
       if (!/^(?!000|666|9)\d{3}(?!00)\d{2}(?!0000)\d{4}$/.test(d)) continue;
+      if (isLetter(text[run.units.at(-1).end]) && !ssnLabelBefore(text, run)) continue;
       found.push(spanText(text, run.groups));
     }
     return found;
@@ -2590,18 +2599,16 @@
   const SEED_LENGTHS = [24, 21, 18, 15, 12];
   // A cap on how many windows one run is checked against, so a huge paste of everyday words still scans in
   // linear time: real seeds are never embedded in thousands of words of surrounding list words anyway.
-  const SEED_WINDOW_CAP = 500;
+  const SEED_WINDOW_CAP = 10000;
   function seedWindows(run) {
     const found = [];
     let checked = 0;
     for (const n of SEED_LENGTHS) {
       if (n > run.length) continue;
       for (let s = 0; s + n <= run.length; s++) {
-        if (checked++ >= SEED_WINDOW_CAP) return found;
         const window = run.slice(s, s + n);
-        const whole = s === 0 && n === run.length;
         const words = window.map((u) => u.word);
-        if (!whole && new Set(words).size !== words.length) continue;
+        if (checked++ >= SEED_WINDOW_CAP) return found;
         if (bip39ChecksumValid(words)) found.push(window);
       }
     }
@@ -3686,7 +3693,7 @@
       name: "xAI API Key",
       severity: "high",
       // Same `xai-` prefix shadow-ai-dlp matches (MIT, Erik Sanchez, see THIRD-PARTY-NOTICES), with the same
-      // randomness check Clotr already runs on Anthropic and OpenAI keys instead of the rival's regex-only version.
+      // randomness check Clotr already runs on Anthropic and OpenAI keys on top of the prefix match.
       regex: /\bxai-[A-Za-z0-9_-]{16,}/g,
       validate: (m) => looksRandom(m.replace(/^xai-/, "")),
     },

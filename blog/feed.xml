@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Clotr's blog feed, built by tools/blog.js from the published posts only. -->
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Clotr's blog</title>
   <subtitle>Notes on building Clotr: releases, what reports taught me, and the occasional scam taken apart.</subtitle>
