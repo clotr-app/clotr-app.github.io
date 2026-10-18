@@ -138,10 +138,9 @@ main {
 }
 
 /* ---------- Release switches ---------- */
-/* Clotr for Windows' ways in are drawn on the page but hidden until each one is real. At the Microsoft Store release,
-   change .when-store below to .until-store: the Store buttons and the Store's own direct-download installer show, and
-   every "on its way" line hides. */
-.when-store {
+/* Clotr for Windows is in the Microsoft Store, so its "on its way" lines hide and the Store buttons, with the Store's
+   own direct-download installer, show. Before the Store release this rule hid .when-store instead. */
+.until-store {
   display: none !important;
 }
 
