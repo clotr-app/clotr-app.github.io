@@ -91,7 +91,7 @@
             <h2 id="engine-title">One engine everywhere</h2>
             <p class="lede">
               Each part of Clotr runs the same engine, so a detail is caught the same way wherever you type: the
-              extension today, and Clotr for Windows and Android as they come. Clotr has no AI inside it, just
+              extension and Clotr for Windows today, and Clotr for Android as it comes. Clotr has no AI inside it, just
               pattern checks you can read, and it never talks to an AI service to do its job.
             </p>
             <p class="lede">
@@ -120,7 +120,8 @@
             <li>
               <p>
                 It only runs where you say, out of the box only on AI chats, and on your email and chat apps only on
-                the ones you pick, with your browser asking you first.
+                the ones you pick, with your browser asking you first. In an email reply it checks what you type, and
+                leaves the message you're answering alone, even when that message quotes your own details.
               </p>
             </li>
             <li>
@@ -140,8 +141,8 @@
           <div class="head">
             <h2 id="windows-title">Clotr for Windows</h2>
             <p class="lede">
-              <span class="until-store">Clotr for Windows is on its way to the Microsoft Store. </span>It watches
-              beside ChatGPT, Claude, Gemini and Copilot's own windows, once you've opened one, instead of in a
+              Clotr for Windows is in the Microsoft Store. It watches beside the ChatGPT,
+              Claude and Copilot apps, once you've opened one, instead of in a
               browser tab. What it reads still never leaves your computer. <a href="windows.html">See Clotr for
               Windows</a>
             </p>
@@ -162,9 +163,7 @@
             </li>
             <li>
               <p>
-                Everything it keeps lives in one file on this computer, under
-                <code>%LOCALAPPDATA%\Clotr\Desktop</code>, never a roaming profile that could follow you to
-                another PC.
+                What it keeps sits in Clotr's own folder under your Windows profile and stays on this computer.
               </p>
             </li>
             <li>
@@ -179,66 +178,28 @@
         <section class="sec" aria-labelledby="check-title">
           <div class="head">
             <h2 id="check-title">Check it yourself</h2>
+            <p class="lede">
+              Clotr's source is public under AGPL-3.0-or-later at
+              <a href="https://github.com/clotr-app/clotr">github.com/clotr-app/clotr</a>.
+            </p>
           </div>
-          <div class="grid2">
-            <article class="card quiet" aria-labelledby="keeps-title">
-              <h3 id="keeps-title">See what it keeps</h3>
-              <p>
-                Clotr's own page <em>What Clotr stores</em> shows every record it keeps, and what your browser allows
-                it to reach: nothing outside the browser.
-              </p>
-            </article>
-            <article class="card quiet" aria-labelledby="quiet2-title">
-              <h3 id="quiet2-title">Watch it stay quiet</h3>
-              <p>
-                Open <code>chrome://extensions</code>, switch on Developer mode, and under Clotr click
-                <em>service worker</em>. Its Network tab stays empty while you use it.
-              </p>
-            </article>
-            <article class="card quiet" aria-labelledby="tests-title">
-              <h3 id="tests-title">Read the tests</h3>
-              <p>
-                A <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">test in the code</a>
-                fails every build that could send data anywhere.
-              </p>
-            </article>
-            <article class="card quiet" aria-labelledby="rebuild-title">
-              <h3 id="rebuild-title">Rebuild it</h3>
-              <p>
-                Every release can be rebuilt from the code, byte for byte: its checksum matches the release's
-                <code>SHA256SUMS.txt</code>. Clone the tag, run <code>npm install</code> then
-                <code>npm run package</code>, and compare the line it writes in <code>dist/SHA256SUMS.txt</code>
-                against the one attached to that release on
-                <a href="https://github.com/clotr-app/clotr/releases">GitHub</a>.
-              </p>
-            </article>
-            <article class="card quiet" aria-labelledby="badges-title">
-              <h3 id="badges-title">The same badges GitHub shows</h3>
-              <p>
-                Drawn as pictures kept on this site, since it can't fetch a badge from another site while you're
-                reading. Each one links to where its number comes from.
-              </p>
-              <p class="trust-badges">
-                <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
-                  ><img src="assets/badges/tests.svg" alt="Tests: passing"
-                /></a>
-                <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
-                  ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
-                /></a>
-                <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
-                  ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
-                /></a>
-                <a href="https://www.bestpractices.dev/projects/15419"
-                  ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
-                /></a>
-                <img src="assets/badges/updated.svg" alt="When these were last checked" />
-              </p>
-              <p class="fine">
-                I check these myself when I rebuild the site, not while you're reading it. If one couldn't be
-                reached on the day I checked, its picture says so instead of showing a made-up number.
-              </p>
-            </article>
-          </div>
+          <p class="measure">
+            Each <a href="https://github.com/clotr-app/clotr/releases">release</a> has
+            <code>SHA256SUMS.txt</code>. Every zip has signed build provenance and an SBOM. Verify with
+            <code>gh attestation verify &lt;zip&gt; -R clotr-app/clotr</code>, or rebuild its tag with
+            <code>npm ci &amp;&amp; npm run package</code> and compare.
+          </p>
+          <p class="measure">
+            The extension has no network code. A
+            <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">rule test</a> fails the build
+            if it finds a network call.
+          </p>
+          <p class="measure">
+            The <a href="https://github.com/clotr-app/clotr#permissions">README permissions list</a> says storage
+            keeps settings and history, activeTab checks a page after a click, scripting starts checks,
+            declarativeContent marks built-in AI chats, and alarms update counts and clear old history. Host access
+            covers those chats. Optional site access is requested for added sites and Everywhere I type.
+          </p>
         </section>
 
         <section class="sec" aria-labelledby="results-title">
@@ -247,7 +208,7 @@
           </div>
           <div class="card measure box">
             <p class="score">
-              Version 1.2.0, tested 2026-10-05. I hid 6,200 personal details in 10,000 made-up messages, and this
+              Version 1.4.0, tested 2026-10-16. I hid 6,200 personal details in 10,000 made-up messages, and this
               build caught every one, without a false alarm on the 3,800 that had nothing to catch. That's the set I
               used to find and fix what earlier versions missed, so it shows those cases are covered, not that Clotr
               catches everything. Typed the way people type on a phone, it caught 310 of 310. Real life is messier,
@@ -279,6 +240,7 @@
           <a href="https://www.bestpractices.dev/projects/15419"
             ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
           /></a>
+          <img src="assets/badges/updated.svg" alt="When these were last checked" />
         </p>
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>

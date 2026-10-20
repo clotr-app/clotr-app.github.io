@@ -58,15 +58,32 @@
 
   // A prefix like "sk-" can also start an ordinary word, like "sk-learn-". So I check that what follows it
   // actually looks machine-made: mixed case, digits, and long unbroken runs instead of a slug's dashes.
-  function looksRandom(body) {
+  function looksRandom(body, minLen = 20) {
     return (
-      body.length >= 20 &&
+      body.length >= minLen &&
       /\d/.test(body) &&
       /[a-z]/.test(body) &&
       /[A-Z]/.test(body) &&
-      Math.max(...body.split(/[-_]/).map((seg) => seg.length)) >= 12 &&
+      Math.max(...body.split(/[-_]/).map((seg) => seg.length)) >= Math.min(12, minLen) &&
       entropy(body) >= 3.5
     );
+  }
+
+  // Hex has no case to mix, and some providers don't say which case their letters come in, so a body like that
+  // passes on its own terms: digits and letters, a long unbroken run like the one above, and about the spread of
+  // characters random hex has. Repeats like "deadbeef", a run of "abcdef" and a snake_case name all fall short.
+  function looksRandomAnyCase(body) {
+    const s = body.toLowerCase();
+    return (
+      /\d/.test(s) &&
+      /[a-z]/.test(s) &&
+      Math.max(...s.split(/[-_]/).map((seg) => seg.length)) >= 12 &&
+      entropy(s.replace(/[-_]/g, "")) >= 3
+    );
+  }
+
+  function looksRandomLetters(body) {
+    return /^[A-Za-z]+$/.test(body) && entropy(body) >= 3.5;
   }
 
   // ---------- Numbers written any way ----------
@@ -636,9 +653,8 @@
           break;
         }
       }
-      // Only once no phone reading fits do I try an SSN or card, and only because of an actual "to" or "for" in
-      // the run, never an ordinary sound-alike: a run of sound-alikes alone can already be nine digits long and
-      // loose enough to pass the SSN shape by chance, which coreAllWords above guards against.
+      // A card's length, issuer and checksum make its full spelled-out value distinctive. A spelled SSN needs
+      // an autocorrect slip because its shape alone is loose enough to fit by chance.
       for (const { lead, trail, all } of combos) {
         if (pick) break;
         const simple =
@@ -697,15 +713,11 @@
     NANP10.test(d) || (d[0] === "1" && NANP10.test(d.slice(1))) || (spanish && /^[6-9]\d{8}$/.test(d));
   // An SSN's shape (same rule as findSSNs): 9 digits, area not 000/666/9xx, group not 00, serial not 0000.
   const VALID_SSN_SHAPE = /^(?!000|666|9)\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
-  // Tests whether the digits alone form an SSN (9 digits, valid shape) or a card number (13 to 19 digits that
-  // start 3 to 6 and pass Luhn). This only runs inside a spelled-out run with a "to" or "for" somewhere in it,
-  // where every word is a single digit ("two", never "twenty" or "double") and nothing is set off by a comma,
-  // semicolon or full stop, so a real SSN or card reads in one breath and something like "Final scores: two
-  // to one, three to two" doesn't match by chance. "To"/"for" only ever supply an edge digit next to a fully
-  // spelled number (keepSoftUnits above), so this never catches a count or price next to "for"/"to".
+  // A full card needs its fixed length, issuer range and Luhn check. A spelled-out SSN is looser, so it also
+  // needs a clear autocorrect slip like "to" or "for" and one digit per word.
   const wholeSsnOrCard = (d, simple) =>
-    simple &&
-    ((d.length === 9 && VALID_SSN_SHAPE.test(d)) || (d.length >= 13 && d.length <= 19 && /^[3-6]/.test(d) && luhn(d)));
+    (d.length >= 13 && d.length <= 19 && /^[3-6]/.test(d) && luhn(d)) ||
+    (simple && d.length === 9 && VALID_SSN_SHAPE.test(d));
   // Toll-free numbers belong to businesses and help lines ("poison control at 1-800-222-1222"), never a person.
   const TOLL_FREE = /^1?8(?:00|33|44|55|66|77|88)/;
   // Spain's free numbers are 9 digits: 900 and 800.
@@ -909,20 +921,53 @@
     run.groups[0][0].digits === "1" &&
     /(?<![\p{L}\d])S-$/u.test(text.slice(Math.max(0, run.units[0].start - 3), run.units[0].start));
 
+  // Log times can look like a phone when adjacent date and clock digits are grouped together.
+  const LOG_TIMESTAMP_PATTERNS = [
+    /\b\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:[.,]\d{1,9})?(?:Z|[+-]\d{2}:?\d{2})?\b/gi,
+    /\[\d{2}\/[A-Za-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s+[+-]\d{4}\]/g,
+    /\b[A-Za-z]{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\b/g,
+    /\b\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}(?:\.\d+)?\s*(?:AM|PM)\b/gi,
+    /\b\d{2}:\d{2}:\d{2}\.\d{3,}\b/g,
+    /(?<![\w-])["']?(?:@timestamp|ts|timestamp|time|created_at|createdAt|eventTime|timeCreated)["']?\s*:\s*["']?(\d{10}(?:\d{3})?)["']?/gi,
+    /\b(?:took|lasted|duration|elapsed)(?:\s+(?:for|of))?\s+(\d+(?:\.\d+)?)\s*(?:ms|milliseconds?)\b/gi,
+  ];
+  function logTimestampRanges(text) {
+    const ranges = [];
+    for (const pattern of LOG_TIMESTAMP_PATTERNS) {
+      pattern.lastIndex = 0;
+      for (const match of text.matchAll(pattern)) {
+        const start = match.index + (match[1] ? match[0].indexOf(match[1]) : 0);
+        const value = match[1] || match[0];
+        // An epoch field only counts as a time when it lands between 2001 and 2036 (seconds, or milliseconds), so
+        // "any time: 5558675309" still reads as the phone number it is.
+        if (/^\d{10}$/.test(value) && (value < "1000000000" || value > "2100000000")) continue;
+        if (/^\d{13}$/.test(value) && (value < "1000000000000" || value > "2100000000000")) continue;
+        ranges.push([start, start + value.length]);
+      }
+    }
+    return ranges;
+  }
+
   function findPhones(text) {
     const found = [];
+    let timestamps;
+    const addPhone = (start, end) => {
+      // Most text has no phone candidate, so don't scan it for log shapes.
+      timestamps ??= logTimestampRanges(text);
+      if (!timestamps.some(([begin, finish]) => start >= begin && end <= finish)) found.push(text.slice(start, end));
+    };
     for (const m of text.matchAll(/(?<![\p{L}])([A-Za-z])(\d{10})(?!\d)/gu)) {
-      if (/^[2-9]\d{9}$/.test(m[2])) found.push(m[2]);
+      if (/^[2-9]\d{9}$/.test(m[2])) addPhone(m.index + m[0].indexOf(m[2]), m.index + m[0].length);
     }
     for (const run of numberRuns(text)) {
       if (labelledAsOther(text, run) || tollFree(digitsOf(run.groups)) || counting(text, run)) continue;
       if (ndcCode(text, run) || inVinCode(text, run) || windowsSid(text, run) || inFileName(text, run)) continue;
       if (localPhone(text, run)) {
-        found.push(spanText(text, run.groups));
+        addPhone(run.groups[0][0].start, run.groups.at(-1).at(-1).end);
         continue;
       }
       if (digitsOf(run.groups).length === 9 && phoneContextBefore(text, run)) {
-        found.push(spanText(text, run.groups));
+        addPhone(run.groups[0][0].start, run.groups.at(-1).at(-1).end);
         continue;
       }
       // A dotted IPv4 address ("73.162.44.201") has phone-like digits but isn't one.
@@ -957,7 +1002,7 @@
           // Include an opening "(" or "+" right before the number, so redaction doesn't leave it behind.
           const first = g[s][0].start;
           const lead = /[(+]/.test(text[first - 1] || "") ? 1 : 0;
-          found.push(text.slice(first - lead, g[bestEnd].at(-1).end));
+          addPhone(first - lead, g[bestEnd].at(-1).end);
           s = bestEnd + 1;
         } else {
           s++;
@@ -979,11 +1024,12 @@
   // When a card number is typed in parts, it's grouped in fours, with a shorter last group for 13 or 19
   // digits, or as 4-6-5 for American Express and 4-6-4 for Diners Club, matching how it's printed on the
   // card. Amazon's order numbers, grouped 3-7-7, pass the Luhn sum about 1 time in 10 too.
-  const CARD_GROUPS = /^(?:\d+|(?:\d{4}[ -])+\d{1,4}|\d{4}[ -]\d{6}[ -]\d{4,5})$/;
+  // Some valid card numbers are split into groups of three; Luhn and the issuer prefix still have to pass.
+  const CARD_GROUPS = /^(?:\d+|(?:\d{4}[ -])+\d{1,4}|(?:\d{3}[ -]){5}\d|\d{4}[ -]\d{6}[ -]\d{4,5})$/;
   // The digits of an IBAN, or of a code shaped like one such as "es16 3435 8224 …" in any case, aren't a
   // card. An IBAN printed in groups of four has a run of digits that happens to pass the Luhn sum about 1
   // time in 10.
-  const IBAN_SHAPED = /\b[a-z]{2}\d{2}(?: ?[a-z0-9]{4}){2,7}(?: ?[a-z0-9]{1,4})?\b/gi;
+  const IBAN_SHAPED = /\b[a-z]{2}\d{2}(?:[ -]?[a-z0-9]){11,30}\b/gi;
   // The issuer prefix and length each real card network uses (IIN ranges, ISO/IEC 7812). A bare number must
   // fit one of these, since Luhn alone passes about 1 in 10 random numbers; a number a label already calls a
   // card keeps the simpler Luhn-only rule, so a network not listed here, or a new one, still counts.
@@ -1152,12 +1198,13 @@
   );
 
   function findEmails(text) {
+    // .invalid is reserved for addresses deliberately made unable to resolve.
     return [
       ...(text.match(EMAIL_RE) || []),
       ...(text.match(EMAIL_BRACKETED) || []),
       ...(text.match(EMAIL_WORDED) || []),
       ...[...text.matchAll(EMAIL_NO_TLD)].map((m) => m[1]),
-    ];
+    ].filter((address) => !/\.invalid$/i.test(address));
   }
 
   // ---------- Where a sentence ends ----------
@@ -1701,7 +1748,7 @@
   // Reads an IBAN after its name in any case, like "iban: es26 0000 …". On its own, an IBAN must be in
   // capitals instead (see findIbans).
   const IBAN_LABELLED =
-    /(?<![\p{L}])iban(?![\p{L}])\s*(?:(?:[:=#]|(?:is|was|es|era)(?![\p{L}]))\s*)?(?:(?:el|la)\s+)?([a-z]{2}\d{2}(?: ?[a-z0-9]{4}){2,7}(?: ?[a-z0-9]{1,4})?)(?![\p{L}\d])/giu;
+    /(?<![\p{L}])iban(?![\p{L}])\s*(?:(?:[:=#]|(?:is|was|es|era)(?![\p{L}]))\s*)?(?:(?:el|la)\s+)?([a-z]{2}\d{2}(?:[ -]?[a-z0-9]){11,30})(?![\p{L}\d])/giu;
 
   // The number before its name: "1234567890 is my account number", "1234567890 es mi número de cuenta".
   const ACCOUNT_NAMED_AFTER = new RegExp(
@@ -2041,7 +2088,7 @@
 
   // An IBAN is a country's code, 2 check digits, then the account in that country's own layout. The mod-97
   // check has to pass too.
-  const IBAN_RE = /\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){2,7}(?: ?[A-Z0-9]{1,4})?\b/g;
+  const IBAN_RE = /\b[A-Z]{2}\d{2}(?:[ -]?[A-Z0-9]){11,30}\b/g;
   // Each country's layout after the check digits, from SWIFT's IBAN Registry for ISO 13616 (89 countries).
   // "8n10n" means 8 digits then 10 digits, "a" is a capital letter and "c" is a letter or digit; Germany's
   // IBAN, for example, is 22 all-digit characters after "DE". A code from a country not listed, or of a
@@ -2067,7 +2114,7 @@
     ]),
   );
   function ibanValid(raw) {
-    const s = raw.replace(/ /g, "");
+    const s = raw.replace(/[ -]/g, "");
     if (!IBAN_SHAPES.get(s.slice(0, 2))?.test(s)) return false;
     const moved = (s.slice(4) + s.slice(0, 4)).replace(/[A-Z]/g, (c) => String(c.charCodeAt(0) - 55));
     let rest = 0;
@@ -2089,15 +2136,79 @@
   // Spain: DNI (8 digits + check letter) and NIE (X/Y/Z + 7 digits + check letter). Mexico: CURP
   // (18 characters with a state code and a check digit). All validated, so ordinary codes stay quiet.
   const DNI_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE";
-  const DNI_RE = /\b(\d{8})[- ]?([A-HJ-NP-TV-Z])\b/g;
-  const NIE_RE = /\b([XYZ])[- ]?(\d{7})[- ]?([A-HJ-NP-TV-Z])\b/g;
+  const SPOKEN_DIGIT_TOKEN = `(?:\\d|zoro|${[...Object.keys(NUMBER_WORDS), ...Object.keys(WEAK_WORDS), ...Object.keys(SLIP_WORDS)].sort().join("|")})`;
+  const SPOKEN_DNI_CANDIDATE = new RegExp(
+    String.raw`\b(?:[XYZ][\s-]*)?${SPOKEN_DIGIT_TOKEN}(?:[\s-]+${SPOKEN_DIGIT_TOKEN}){6,7}[\s-]*[A-HJ-NP-TV-Z]\b`,
+    "i",
+  );
+  const DNI_RE = /\b(\d{8}|\d{1,3}(?:[- ]\d{1,3}){1,2})[- ]?([A-HJ-NP-TV-Z])\b/g;
+  const NIE_RE = /\b([XYZ])[- ]?(\d{7}|\d{1,3}(?:[- ]\d{1,3}){1,2})[- ]?([A-HJ-NP-TV-Z])\b/g;
   const CURP_RE =
-    /\b[A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HMX](?:AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]\d\b/g;
+    /\b[A-Z][AEIOUX][A-Z]{2}\d(?:-?\d){5}[HMX](?:AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]\d\b/g;
   const CURP_CHARS = "0123456789ABCDEFGHIJKLMN\u00d1OPQRSTUVWXYZ";
   function curpValid(c) {
+    const normalized = c.replace(/-/g, "");
     let sum = 0;
-    for (let i = 0; i < 17; i++) sum += CURP_CHARS.indexOf(c[i]) * (18 - i);
-    return String((10 - (sum % 10)) % 10) === c[17];
+    for (let i = 0; i < 17; i++) sum += CURP_CHARS.indexOf(normalized[i]) * (18 - i);
+    return String((10 - (sum % 10)) % 10) === normalized[17];
+  }
+  function spokenDniNie(text) {
+    if (!SPOKEN_DNI_CANDIDATE.test(text)) return [];
+    const found = [];
+    for (const run of readNumberRuns(text, true)) {
+      if (!hasWord(run.groups)) continue;
+      const digits = digitsOf(run.groups);
+      const start = run.units[0].start;
+      const end = run.units.at(-1).end;
+      const check = /^\s*([A-HJ-NP-TV-Z])\b/.exec(text.slice(end));
+      if (!check) continue;
+      const before = text.slice(Math.max(0, start - 4), start);
+      const prefix = /([XYZ])[\s-]*$/i.exec(before);
+      const prefixStart = prefix ? start - prefix[0].length : start;
+      if (prefix && (prefixStart === 0 || !isLetter(text[prefixStart - 1]))) {
+        if (digits.length !== 7) continue;
+        const value = Number("XYZ".indexOf(prefix[1].toUpperCase()) + Number(digits));
+        if (DNI_LETTERS[value % 23] === check[1].toUpperCase()) {
+          found.push(text.slice(start - prefix[0].length, end + check[0].length));
+        }
+      } else if (digits.length === 8 && DNI_LETTERS[Number(digits) % 23] === check[1].toUpperCase()) {
+        found.push(text.slice(start, end + check[0].length));
+      }
+    }
+    return found;
+  }
+  function spokenCurps(text) {
+    const found = [];
+    const tail = String.raw`[HMX](?:AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}`;
+    const spoken = new RegExp(
+      String.raw`\b([A-Z][AEIOUX][A-Z]{2})\s*(${SPOKEN_DIGIT_TOKEN}(?:[\s-]+${SPOKEN_DIGIT_TOKEN}){5})\s*(${tail})\s*(?:([A-Z])\s*(${SPOKEN_DIGIT_TOKEN})|(${SPOKEN_DIGIT_TOKEN})\s*(${SPOKEN_DIGIT_TOKEN}))\b`,
+      "gi",
+    );
+    const toDigit = (token) =>
+      /^\d$/.test(token)
+        ? token
+        : NUMBER_WORDS[token.toLowerCase()] ||
+          WEAK_WORDS[token.toLowerCase()] ||
+          SLIP_WORDS[token.toLowerCase()] ||
+          readSlip(token, 0)?.digits ||
+          "";
+    for (const match of text.matchAll(spoken)) {
+      const date = match[2]
+        .split(/[\s-]+/)
+        .map(toDigit)
+        .join("");
+      const check = match[4] || toDigit(match[6]);
+      const last = toDigit(match[5] || match[7]);
+      if (date.length !== 6 || !/^[A-Z0-9]$/.test(check) || !/^\d$/.test(last)) continue;
+      const value = `${match[1]}${date}${match[3]}${check}${last}`.toUpperCase();
+      CURP_RE.lastIndex = 0;
+      const hasShape = CURP_RE.test(value);
+      CURP_RE.lastIndex = 0;
+      if (hasShape && curpValid(value)) {
+        found.push(match[0]);
+      }
+    }
+    return found;
   }
   // Mexico's RFC (a tax ID: 3 to 4 letters, a date, then 3 characters) and Spain's social security number
   // (12 digits) only count right after their label, since in English "RFC 7231" names an internet standard.
@@ -2122,16 +2233,24 @@
     ...numberAfter(TFN_LABELS, text, tfnValid),
     // A check letter right before a drive separator (E:\, T:/) belongs to the path, not an ID.
     ...[...text.matchAll(DNI_RE)]
-      .filter((m) => DNI_LETTERS[Number(m[1]) % 23] === m[2] && !/^:[\\/]/.test(text.slice(m.index + m[0].length)))
+      .filter(
+        (m) =>
+          m[1].replace(/\D/g, "").length === 8 &&
+          DNI_LETTERS[Number(m[1].replace(/\D/g, "")) % 23] === m[2] &&
+          !/^:[\\/]/.test(text.slice(m.index + m[0].length)),
+      )
       .map((m) => m[0]),
     ...[...text.matchAll(NIE_RE)]
       .filter(
         (m) =>
-          DNI_LETTERS[Number("XYZ".indexOf(m[1]) + m[2]) % 23] === m[3] &&
+          m[2].replace(/\D/g, "").length === 7 &&
+          DNI_LETTERS[Number("XYZ".indexOf(m[1]) + m[2].replace(/\D/g, "")) % 23] === m[3] &&
           !/^:[\\/]/.test(text.slice(m.index + m[0].length)),
       )
       .map((m) => m[0]),
+    ...spokenDniNie(text),
     ...(text.match(CURP_RE) || []).filter(curpValid),
+    ...spokenCurps(text),
     ...spanishNationalIds(text),
   ];
 
@@ -2640,11 +2759,10 @@
     close();
     return found;
   }
-  // Matches a raw private key, either 64 hex characters or a Bitcoin WIF key, written right after
-  // the words "private key" or "wallet key".
+  // Keep a raw private key's label with its value so the finding also matches when checked on its own.
   const CRYPTO_KEY_RE =
-    /\b(?:private|priv|wallet|secret)\s*key\b[\s:="'-]{0,6}((?:0x)?[0-9a-fA-F]{64}|[5KL][1-9A-HJ-NP-Za-km-z]{50,51})\b/gi;
-  const findCryptoSecrets = (text) => [...findSeedPhrases(text), ...[...text.matchAll(CRYPTO_KEY_RE)].map((m) => m[1])];
+    /\b(?:[A-Za-z0-9]{1,30}[_-]){0,4}(?:private|priv|wallet|secret)[\s_-]*key\b[\s:="'-]{0,6}((?:0x)?[0-9a-fA-F]{64}|[5KL][1-9A-HJ-NP-Za-km-z]{50,51})\b/gi;
+  const findCryptoSecrets = (text) => [...findSeedPhrases(text), ...[...text.matchAll(CRYPTO_KEY_RE)].map((m) => m[0])];
 
   // ---------- Private keys written as JSON Web Keys ----------
   // A private key can also show up in JWK form (RFC 7517) instead of PEM or OpenSSH, as its own object or
@@ -2715,15 +2833,104 @@
     const found = [];
     for (const span of leafJsonSpans(text)) {
       if (!span.includes("kty")) continue; // cheap skip before paying for a parse
-      if (isPrivateJwk(looseJsonParse(span))) found.push(span);
+      if (isPrivateJwk(looseJsonParse(span))) {
+        found.push(span);
+        continue;
+      }
+      const unescaped = span.replace(/\\(["\\])/g, "$1");
+      if (unescaped !== span && isPrivateJwk(looseJsonParse(unescaped))) found.push(span);
     }
     return found;
   }
 
-  const PEM_PRIVATE_KEY_RE = /-----BEGIN (?:[A-Z]+ )?PRIVATE KEY-----/g;
+  // A missing footer must not leave the base64 body behind when the header is covered.
+  const PEM_HEADER_RE = /-----[ \t]*BEGIN ((?:[A-Z]+ )?PRIVATE KEY(?: BLOCK)?)[ \t]*-----(?!-)/g;
+  const PEM_FOOTER_RE = /-----[ \t]*END (?:[A-Z]+ )?PRIVATE KEY(?: BLOCK)?[ \t]*-----(?!-)/g;
+  function pemBodyEnd(text, from, nextHeader) {
+    const firstBreak = text.indexOf("\n", from);
+    if (firstBreak < 0 || (nextHeader >= 0 && nextHeader < firstBreak)) return from;
+    let position = firstBreak + 1;
+    let end = from;
+    let hasBody = false;
+    while (position <= text.length) {
+      const newline = text.indexOf("\n", position);
+      const rawEnd = newline < 0 ? text.length : newline;
+      const lineEnd = rawEnd > position && text.charCodeAt(rawEnd - 1) === 13 ? rawEnd - 1 : rawEnd;
+      let start = position;
+      while (start < lineEnd && (text[start] === " " || text[start] === "\t")) start++;
+      let stop = lineEnd;
+      while (stop > start && (text[stop - 1] === " " || text[stop - 1] === "\t")) stop--;
+      if (start === stop) break;
+      const line = text.slice(start, stop);
+      if (!hasBody && /^(?:Proc-Type:|DEK-Info:)/.test(line)) {
+        // Encrypted PEM keys list their encryption details before the base64 body.
+      } else {
+        let valid = true;
+        for (let i = start; i < stop; i++) {
+          const c = text.charCodeAt(i);
+          if (
+            !(c >= 65 && c <= 90) &&
+            !(c >= 97 && c <= 122) &&
+            !(c >= 48 && c <= 57) &&
+            c !== 43 &&
+            c !== 47 &&
+            c !== 61
+          ) {
+            valid = false;
+            break;
+          }
+        }
+        if (!valid) break;
+        hasBody = true;
+        end = lineEnd;
+      }
+      if (newline < 0) break;
+      position = newline + 1;
+    }
+    return hasBody ? end : from;
+  }
   // A PEM or OpenSSH header and a JWK private key both count as the same `private_key` kind.
   function findPrivateKeys(text) {
-    return [...text.matchAll(PEM_PRIVATE_KEY_RE)].map((m) => m[0]).concat(findJwkPrivateKeys(text));
+    const found = [];
+    const headers = [...text.matchAll(PEM_HEADER_RE)];
+    const footers = [...text.matchAll(PEM_FOOTER_RE)];
+    let footerIndex = 0;
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i];
+      const from = header.index + header[0].length;
+      const nextHeader = headers[i + 1]?.index ?? -1;
+      while (footerIndex < footers.length && footers[footerIndex].index < from) footerIndex++;
+      const footer = footers[footerIndex];
+      if (footer && (nextHeader < 0 || footer.index < nextHeader)) {
+        found.push(text.slice(header.index, footer.index + footer[0].length));
+        footerIndex++;
+        continue;
+      }
+      const bodyEnd = pemBodyEnd(text, from, nextHeader);
+      found.push(text.slice(header.index, bodyEnd > from ? bodyEnd : from));
+    }
+    const base64Pem = [];
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    // Decode only the recognizable prefix so arbitrary base64 data stays out of the private-key path.
+    for (const match of text.matchAll(/LS0tLS1CRUdJTi[A-Za-z0-9+/=]{40,}(?:\r?\n[ \t]*[A-Za-z0-9+/=]{8,})*/g)) {
+      let bits = 0;
+      let buffer = 0;
+      let decoded = "";
+      const prefix = match[0].replace(/[\r\n \t]/g, "").slice(0, 64);
+      for (const character of prefix) {
+        if (character === "=") break;
+        const value = alphabet.indexOf(character);
+        if (value < 0) break;
+        buffer = (buffer << 6) | value;
+        bits += 6;
+        if (bits >= 8) {
+          bits -= 8;
+          decoded += String.fromCharCode((buffer >> bits) & 255);
+        }
+      }
+      if (decoded.includes("PRIVATE KEY")) base64Pem.push(match[0]);
+    }
+    return found.concat(findJwkPrivateKeys(text), base64Pem);
   }
 
   // ---------- Two-step sign-in keys (otp_secret) ----------
@@ -2877,7 +3084,7 @@
 
   // A connection string like scheme://user:password@host, matched only when the password part looks real.
   const CONN_RE =
-    /\b(?:postgres(?:ql)?|mysql|mariadb|mongodb(?:\+srv)?|redis|rediss|amqps?|mssql|sqlserver|oracle|ftp|sftp|smtp|https?):\/\/[^\s:/@]+:([^\s@/]+)@[^\s"'<>]+/gi;
+    /\b(?:postgres(?:ql)?|mysql|mariadb|mongodb(?:\+srv)?|redis|rediss|amqps?|mssql|sqlserver|oracle|ftp|sftp|smtp|https?):\/\/[^\s:/@]*:([^\s@]+)@[^\s"'<>]+/gi;
   const PLACEHOLDER_PASSWORDS = new Set([
     "password",
     "pass",
@@ -2908,6 +3115,24 @@
   // Catches hostnames on internal-only domains, like build-01.corp, printer.local or api.internal.
   const HOST_RE =
     /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.){1,8}(?:internal|corp|local|lan|intranet|localdomain|home\.arpa)\b(?![.-]?\w)/gi;
+
+  // An AWS secret access key only has a recognizable shape beside its labeled access key ID.
+  function findAwsAccessKeys(text) {
+    const readable = text.replace(/\\(["\\])/g, "$1");
+    const accessIds = [...readable.matchAll(/\b(?:AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}\b/g)];
+    const pairedIds = [...readable.matchAll(/\bAWS_ACCESS_KEY_ID\s*=\s*((?:AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16})\b/g)];
+    const found = accessIds.map((m) => m[0]);
+    let firstNearby = 0;
+    for (const secret of readable.matchAll(
+      /\bAWS_SECRET_ACCESS_KEY\s*=\s*["']?([A-Za-z0-9/+=]{40})["']?(?![A-Za-z0-9/+=])/g,
+    )) {
+      while (firstNearby < pairedIds.length && pairedIds[firstNearby].index < secret.index - 200) firstNearby++;
+      if (pairedIds[firstNearby]?.index <= secret.index + 200 && !isPlaceholder(secret[1]) && looksRandom(secret[1])) {
+        found.push(secret[1]);
+      }
+    }
+    return found;
+  }
 
   // ---------- Your vault: things you told Clotr to protect ----------
   // Words and phrases you've added, like your name or your employer, are known only by fingerprint, a salted
@@ -3050,6 +3275,43 @@
   const LABELLED_SECRET =
     /\b(?:[A-Za-z0-9]{1,30}[_-]){0,4}(?:password|passwd|pwd|pass|pw|passcode|passphrase|pin|secret|client_secret|token(?:\sde\sacceso)?|access_token|auth_token|api[_ -]?key|secret[ -]key|contrase(?:ñ|n)a|clave(?:\s(?:de\s)?api)?)(?:_[A-Za-z0-9]+)*["']?\s*(?::\s*|=[^\S\n]*)["']?([^\s"',;]+)/gi;
   // An HTTP auth header from a pasted curl command or code, like "Authorization: Bearer …".
+  // Key and token labels have a distinct kind, while password labels stay in LABELLED_SECRET.
+  const LABELLED_API_KEY =
+    /\b(?:[A-Za-z0-9]{1,30}[_-]){0,4}(?:api[ _-]?key|[A-Za-z0-9]{1,30}[ _-](?:key|token)|client[ _-]secret|token\s+de\s+acceso)["']?\s*(?::\s*|=[^\S\n]*)["']?([^\s"',;]+)/gi;
+  const PROVIDER_CREDENTIAL_LABEL =
+    /^(?:GITHUB|GH_APP_INSTALLATION|GITLAB|PERPLEXITY|SLACK|DIGITALOCEAN|HUGGINGFACE|HEROKU|1PASSWORD|OP_SERVICE_ACCOUNT|CLOUDFLARE|TWILIO)(?:_|$)/i;
+  function isProviderCredentialLabel(match, text, value) {
+    const separator = match.search(/[:=]/);
+    if (separator < 0) return false;
+    const normalizedLabel = match.slice(0, separator).replace(/["']/g, "").replace(/[ -]/g, "_").toUpperCase();
+    if (!PROVIDER_CREDENTIAL_LABEL.test(normalizedLabel)) return false;
+    const kind = [
+      ["GH_APP_INSTALLATION", "github_token"],
+      ["GITHUB", "github_token"],
+      ["GITLAB", "gitlab_token"],
+      ["PERPLEXITY", "perplexity_key"],
+      ["SLACK", "slack_token"],
+      ["DIGITALOCEAN", "digitalocean_token"],
+      ["HUGGINGFACE", "huggingface_token"],
+      ["HEROKU", "heroku_token"],
+      ["1PASSWORD", "onepassword_token"],
+      ["OP_SERVICE_ACCOUNT", "onepassword_token"],
+      ["CLOUDFLARE", "cloudflare_origin_ca_key"],
+      ["TWILIO", "twilio_credentials"],
+    ].find(([prefix]) => normalizedLabel.startsWith(prefix))?.[1];
+    if (!kind) return false;
+    if (kind === "twilio_credentials") {
+      return (
+        normalizedLabel.startsWith("TWILIO_") ||
+        findTwilioCredentials(text).some((credential) => credential.includes(value))
+      );
+    }
+    const pattern = PATTERNS.find((candidate) => candidate.id === kind);
+    if (!pattern?.regex) return false;
+    const regex = new RegExp(pattern.regex.source, pattern.regex.flags.replace(/[gy]/g, ""));
+    const candidate = value.match(regex);
+    return Boolean(candidate) && candidate[0] === value && (!pattern.validate || pattern.validate(candidate[0]));
+  }
   const AUTH_HEADER =
     /\b(?:proxy-)?authorization["']?\s*[:=]\s*["']?(?:bearer|basic|token|apikey)\s+([A-Za-z0-9._~+/=-]{12,})/gi;
   // How people write a password out to a person, as in "my password is Fluffy123" or "my password for
@@ -3524,6 +3786,7 @@
     let text = rawText;
     const found = [];
     const reasons = new Map();
+    const twilioCredentials = findTwilioCredentials(text);
     // The first reason in ASK_REASONS' order wins when two rules take the same value ("my ATM pin is 4821").
     const rank = (reason) => (reason ? ASK_REASONS.indexOf(reason) : ASK_REASONS.length);
     const because = (v, reason) => {
@@ -3531,7 +3794,13 @@
     };
     // A money detail told after its own label, like a card's security code or a gift card's code and PIN,
     // is reported as its own kind, so it's never counted as a password too.
-    const theirs = new Set([...findCardCodes(text), ...findGiftCards(text)]);
+    const theirs = new Set([
+      ...findCardCodes(text),
+      ...findGiftCards(text),
+      ...findAwsAccessKeys(text),
+      ...findServiceTokens(text),
+      ...findConnectionStrings(text),
+    ]);
     // A two-step sign-in key or link is already reported as its own otp_secret kind, even a documentation
     // example, so it's blanked out here to keep its "secret=…" from also being read as a password.
     const keys = otpFinds(text).filter((f) => !f.link);
@@ -3577,8 +3846,16 @@
       const later = LATER_SECRET.exec(text.slice(m.index + m[0].length, m.index + m[0].length + 40));
       if (later) add(later[0], true);
     };
-    for (const m of text.matchAll(LABELLED_SECRET)) if (!add(m[1], true)) passphraseAt(valueStart(m));
-    for (const m of text.matchAll(AUTH_HEADER)) add(m[1], true);
+    for (const m of text.matchAll(LABELLED_SECRET)) {
+      if (twilioCredentials.some((credential) => credential.includes(m[1]))) continue;
+      if (isProviderCredentialLabel(m[0], text, m[1])) continue;
+      if (!add(m[1], true)) passphraseAt(valueStart(m));
+    }
+    for (const m of text.matchAll(AUTH_HEADER)) {
+      // Twilio's SID and auth token are two labeled fields, so a bearer-style wrapper can capture the SID as text.
+      if (/^TWILIO_(?:ACCOUNT_SID|AUTH_TOKEN)=/i.test(m[1])) continue;
+      add(m[1], true);
+    }
     for (const m of text.matchAll(TOLD_SECRET)) told(m);
     for (const m of text.matchAll(TOLD_SECRET_ES)) told(m);
     // Not a range ("8-16 characters") or a describing word ("one-time", "case-sensitive").
@@ -3632,6 +3909,57 @@
 
   // `group` = the Settings section: "credentials" (keys, passwords), "personal" (info about a person),
   // or "custom" (the user's own watch list).
+  const SERVICE_TOKEN_RE = new RegExp(
+    [
+      String.raw`\bnpm_[A-Za-z0-9]{36}\b`,
+      String.raw`\bpypi-AgEIcHlwaS5vcmc[A-Za-z0-9_-]{50,}`,
+      String.raw`\bSG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}(?![A-Za-z0-9_-])`,
+      String.raw`\bSK[0-9a-fA-F]{32}\b`,
+      String.raw`\bkey-[0-9a-f]{32}\b`,
+      String.raw`(?:(?<=/bot)|(?<![A-Za-z0-9_]))\d{8,10}:AA[A-Za-z0-9_-]{33}(?![A-Za-z0-9_-])`,
+      String.raw`\b[MN][A-Za-z0-9]{23,25}\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{27,38}\b`,
+      String.raw`\b(?:AccountKey|SharedAccessKey)=[A-Za-z0-9+/]{40,88}={0,2}`,
+      String.raw`https://hooks\.slack\.com/(?:workflows|triggers)/[A-Za-z0-9/_-]{20,120}`,
+      String.raw`https://hooks\.slack\.com/services/(?!T[A-Za-z0-9_]{1,40}/B[A-Za-z0-9_]{1,40}/)[A-Za-z0-9/_-]{20,120}`,
+      String.raw`https://(?:ptb\.|canary\.)?discord(?:app)?\.com/api/webhooks/\d{5,25}/[A-Za-z0-9_-]{20,100}`,
+    ].join("|"),
+    "g",
+  );
+  function findServiceTokens(text) {
+    const found = [...text.matchAll(SERVICE_TOKEN_RE)].map((m) => m[0]);
+    const awsKeys = new Set(findAwsAccessKeys(text));
+    const twilioCredentials = findTwilioCredentials(text);
+    for (const m of text.matchAll(LABELLED_API_KEY)) {
+      // A provider label only takes this path when its value matches that provider's own token shape.
+      if (isProviderCredentialLabel(m[0], text, m[1])) continue;
+      if (twilioCredentials.some((credential) => credential.includes(m[1]))) continue;
+      const value = secretValue(m[1], true, 16);
+      if (value && keyLike(value) && !awsKeys.has(value)) found.push(value);
+    }
+    return [...new Set(found)];
+  }
+
+  const TWILIO_CREDENTIALS_RE =
+    /\b(?:TWILIO_ACCOUNT_SID|accountSid)\s*[:=]\s*["']?(AC[0-9a-fA-F]{32})["']?\s*(?:\r?\n|[,; ]+)\s*(?:TWILIO_AUTH_TOKEN|authToken)\s*[:=]\s*["']?([A-Za-z0-9_-]{16,256})/gi;
+  function findTwilioCredentials(text) {
+    const joined = [];
+    const sourceAt = [];
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === "\r" || text[i] === "\n") {
+        const next = text[i] === "\r" && text[i + 1] === "\n" ? i + 2 : i + 1;
+        if (/[A-Za-z0-9_]/.test(text[i - 1] || "") && /[A-Za-z0-9_]/.test(text[next] || "")) {
+          i = next - 1;
+          continue;
+        }
+      }
+      joined.push(text[i]);
+      sourceAt.push(i);
+    }
+    return [...joined.join("").matchAll(TWILIO_CREDENTIALS_RE)]
+      .filter((m) => looksRandomAnyCase(m[2]))
+      .map((m) => text.slice(sourceAt[m.index], sourceAt[m.index + m[0].length - 1] + 1));
+  }
+
   const PATTERNS = [
     // --- Credentials (high) ---
     // `secret: true` drops placeholder matches. `validate` adds a check specific to that pattern.
@@ -3648,9 +3976,7 @@
       secret: true,
       name: "AWS Access Key",
       severity: "high",
-      // ABIA (AWS STS) and ACCA (context credentials) are rarer than AKIA/ASIA but just as real; AI-Prompt-Redaction
-      // (MIT, Aaditya Joshi, see THIRD-PARTY-NOTICES) matches all four.
-      regex: /\b(?:AKIA|ASIA|ABIA|ACCA)[0-9A-Z]{16}\b/g,
+      find: findAwsAccessKeys,
     },
     {
       id: "github_token",
@@ -3658,7 +3984,13 @@
       secret: true,
       name: "GitHub Token",
       severity: "high",
-      regex: /\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{22,})\b/g,
+      regex:
+        /\bgh[pousr]_[A-Za-z0-9]{36,}\b|\bgithub_pat_[A-Za-z0-9_]{22,}(?![A-Za-z0-9_])|\bghs_[0-9]{1,20}_[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}(?![A-Za-z0-9_.-])/g,
+      validate: (m) => {
+        if (!m.startsWith("ghs_")) return true;
+        const appIdEnd = m.indexOf("_", 4);
+        return appIdEnd < 0 || looksRandomAnyCase(m.slice(appIdEnd + 1).replace(/\./g, ""));
+      },
     },
     {
       id: "stripe_secret_key",
@@ -3695,7 +4027,7 @@
       // Same `xai-` prefix shadow-ai-dlp matches (MIT, Erik Sanchez, see THIRD-PARTY-NOTICES), with the same
       // randomness check Clotr already runs on Anthropic and OpenAI keys on top of the prefix match.
       regex: /\bxai-[A-Za-z0-9_-]{16,}/g,
-      validate: (m) => looksRandom(m.replace(/^xai-/, "")),
+      validate: (m) => looksRandom(m.replace(/^xai-/, ""), 16),
     },
     {
       id: "google_api_key",
@@ -3711,10 +4043,211 @@
       secret: true,
       name: "Slack Token",
       severity: "high",
-      regex: /\bxox[abprs]-[A-Za-z0-9-]{10,}\b/g,
+      regex:
+        /(?:\bxox[abprs]-[A-Za-z0-9-]{10,}\b|\bxoxe\.xox[abp]-[A-Za-z0-9-]{20,200}(?![A-Za-z0-9-])|\bxoxe\.xapp-\d-[A-Z0-9]+-\d+-[a-z0-9]{20,100}(?![A-Za-z0-9-])|\bxoxe-\d-[A-Za-z0-9-]{20,200}(?![A-Za-z0-9-])|\bxapp-\d-[A-Z0-9]+-\d+-[a-z0-9]{20,100}(?![A-Za-z0-9-])|\bhttps:\/\/hooks\.slack\.com\/services\/T[A-Za-z0-9_]{1,40}\/B[A-Za-z0-9_]{1,40}\/[A-Za-z0-9_]{16,100}(?![A-Za-z0-9_]))/g,
+      validate: (m) => {
+        if (m.startsWith("xoxe.xapp-")) return looksRandomAnyCase(m.slice(m.lastIndexOf("-") + 1));
+        if (m.startsWith("xapp-")) return looksRandomAnyCase(m.slice(m.lastIndexOf("-") + 1));
+        if (m.startsWith("xoxe-")) return looksRandomAnyCase(m.slice(m.lastIndexOf("-") + 1));
+        if (m.startsWith("xoxe.")) return looksRandomAnyCase(m.slice(m.lastIndexOf("-") + 1));
+        if (m.startsWith("https://hooks.slack.com/")) return looksRandomAnyCase(m.slice(m.lastIndexOf("/") + 1));
+        return true;
+      },
+    },
+    {
+      id: "gitlab_token",
+      group: "credentials",
+      secret: true,
+      name: "GitLab Token",
+      severity: "high",
+      regex:
+        /(?:\bglpat-[A-Za-z0-9_-]{20,300}(?:\.[a-z0-9]{9})?|\bgldt-[A-Za-z0-9_-]{20,300}|\bglcbt-(?:[0-9a-fA-F]{2}_)?[A-Za-z0-9_-]{20,300}|\bglrt-(?:t\d_[A-Za-z0-9_-]{27,300}\.[a-z0-9]{9}|[A-Za-z0-9_-]{20,300})|\bglft-[A-Za-z0-9_-]{20,300}|\bglsoat-[A-Za-z0-9_-]{20,300}|\bglagent-[A-Za-z0-9_-]{50,1024}|\bgloas-[A-Za-z0-9_-]{64})(?![A-Za-z0-9_-])/g,
+      validate: (m) => {
+        const body = m.replace(/^gl(?:pat|dt|cbt|rt|ft|soat|agent|oas)-?/, "");
+        const randomBody = body
+          .replace(/\.[a-z0-9]{9}$/, "")
+          .replace(/^t\d_/, "")
+          .replace(/^[0-9a-fA-F]{2}_/, "");
+        const normalizedBody = randomBody.replace(/[-_]/g, "");
+        return looksRandomAnyCase(normalizedBody) || looksRandomLetters(normalizedBody);
+      },
+    },
+    {
+      id: "perplexity_key",
+      group: "credentials",
+      secret: true,
+      name: "Perplexity API Key",
+      severity: "high",
+      regex: /\bpplx-[A-Za-z0-9]{16,128}(?![A-Za-z0-9])/g,
+      validate: (m) => looksRandomAnyCase(m.slice(5)),
+    },
+    {
+      id: "digitalocean_token",
+      group: "credentials",
+      secret: true,
+      name: "DigitalOcean Token",
+      severity: "high",
+      regex: /\bd(?:op|oo|or)_v1_[0-9a-fA-F]{64}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(7)),
+    },
+    {
+      id: "huggingface_token",
+      group: "credentials",
+      secret: true,
+      name: "Hugging Face Token",
+      severity: "high",
+      regex: /\b(?:hf_|api_org_)[A-Za-z]{34}\b/g,
+      validate: (m) => looksRandomLetters(m.slice(m.startsWith("hf_") ? 3 : 8)),
+    },
+    {
+      id: "heroku_token",
+      group: "credentials",
+      secret: true,
+      name: "Heroku Token",
+      severity: "high",
+      regex: /\bHRKU-[A-Za-z0-9_-]{60}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(5)),
+    },
+    {
+      id: "onepassword_token",
+      group: "credentials",
+      secret: true,
+      name: "1Password Token",
+      severity: "high",
+      regex:
+        /(?:\bops_eyJ[A-Za-z0-9+/=_-]{250,4096}(?![A-Za-z0-9+/=_-])|\bA3-[A-Z0-9]{6}-(?:[A-Z0-9]{11}|[A-Z0-9]{6}-[A-Z0-9]{5})-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}\b)/g,
+      validate: (m) => looksRandomAnyCase(m.startsWith("ops_") ? m.slice(4) : m.replace(/-/g, "").slice(2)),
+    },
+    {
+      id: "cloudflare_origin_ca_key",
+      group: "credentials",
+      secret: true,
+      name: "Cloudflare Origin CA Key",
+      severity: "high",
+      regex: /\bv1\.0-[a-f0-9]{24}-[a-f0-9]{146}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(5).replace(/-/g, "")),
+    },
+    {
+      id: "twilio_credentials",
+      group: "credentials",
+      secret: true,
+      name: "Twilio Credentials",
+      severity: "high",
+      find: findTwilioCredentials,
+    },
+    // Developer tools' tokens, each in the shape its provider documents. A key or token label in front still
+    // names the provider, since the labelled-key check leaves out any value one of these regexes recognizes.
+    {
+      id: "sentry_token",
+      group: "credentials",
+      secret: true,
+      name: "Sentry Auth Token",
+      severity: "high",
+      // User, app and integration tokens are 64 hex. An organization token is base64 JSON about the org, then
+      // "_" and a 43-character base64 secret.
+      regex: /\bsntry(?:[uai]_[0-9a-f]{64}\b|s_eyJ[A-Za-z0-9+/]{20,1000}={0,2}_[A-Za-z0-9+/]{43}(?![A-Za-z0-9+/=_-]))/g,
+      validate: (m) => (m.startsWith("sntrys_") ? looksRandom(m.slice(-43)) : looksRandomAnyCase(m.slice(7))),
+    },
+    {
+      id: "grafana_token",
+      group: "credentials",
+      secret: true,
+      name: "Grafana Token",
+      severity: "high",
+      // A service account token ends in "_" and an 8-hex checksum. A Grafana Cloud token is one base64 run.
+      regex: /\bgl(?:sa_[A-Za-z0-9]{32}_[0-9a-f]{8}\b|c_[A-Za-z0-9+/]{32,400}={0,3}(?![A-Za-z0-9+/=]))/g,
+      validate: (m) => looksRandom(m.startsWith("glsa_") ? m.slice(5, 37) : m.slice(4).replace(/=+$/, "")),
+    },
+    {
+      id: "vault_token",
+      group: "credentials",
+      secret: true,
+      name: "HashiCorp Vault Token",
+      severity: "high",
+      // Service, batch and recovery tokens. Vault only promises 24 characters or more after the prefix.
+      regex: /\bhv[sbr]\.[A-Za-z0-9_-]{24,1000}(?![A-Za-z0-9_-])/g,
+      validate: (m) => looksRandom(m.slice(4), 24),
+    },
+    {
+      id: "replicate_token",
+      group: "credentials",
+      secret: true,
+      name: "Replicate API Token",
+      severity: "high",
+      regex: /\br8_[A-Za-z0-9]{37}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(3)),
+    },
+    {
+      id: "linear_key",
+      group: "credentials",
+      secret: true,
+      name: "Linear API Key",
+      severity: "high",
+      regex: /\blin_api_[A-Za-z0-9]{40}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(8)),
+    },
+    {
+      id: "postman_key",
+      group: "credentials",
+      secret: true,
+      name: "Postman API Key",
+      severity: "high",
+      regex: /\bPMAK-[0-9a-fA-F]{24}-[0-9a-fA-F]{34}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(5).replace("-", "")),
+    },
+    {
+      id: "shopify_token",
+      group: "credentials",
+      secret: true,
+      name: "Shopify Access Token",
+      severity: "high",
+      // Admin API, custom app and delegate access tokens, and an app's shared secret.
+      regex: /\bshp(?:at|ca|pa|ss)_[0-9a-fA-F]{32}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(6)),
+    },
+    {
+      id: "atlassian_token",
+      group: "credentials",
+      secret: true,
+      name: "Atlassian API Token",
+      severity: "high",
+      // An account's API token or an organization's admin key. Atlassian treats the body as opaque and may change
+      // its length, so the length here is a range around today's tokens, which end in "=" and an 8-character
+      // checksum.
+      regex: /\bAT[AC]TT3[A-Za-z0-9_=-]{150,250}=[A-Za-z0-9]{8}(?![A-Za-z0-9_=-])/g,
+      validate: (m) => looksRandom(m.slice(6, -9)),
+    },
+    {
+      id: "netlify_token",
+      group: "credentials",
+      secret: true,
+      name: "Netlify Access Token",
+      severity: "high",
+      // Personal, CLI, OAuth, app and build tokens.
+      regex: /\bnf[pcoub]_[A-Za-z0-9_]{36}(?![A-Za-z0-9_])/g,
+      validate: (m) => looksRandomAnyCase(m.slice(4)),
+    },
+    {
+      id: "pulumi_token",
+      group: "credentials",
+      secret: true,
+      name: "Pulumi Access Token",
+      severity: "high",
+      regex: /\bpul-[a-z0-9]{40}\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(4)),
+    },
+    {
+      id: "databricks_token",
+      group: "credentials",
+      secret: true,
+      name: "Databricks Access Token",
+      severity: "high",
+      // Some end in "-" and a digit.
+      regex: /\bdapi[0-9a-fA-F]{32}(?:-\d)?\b/g,
+      validate: (m) => looksRandomAnyCase(m.slice(4, 36)),
     },
     // Covers the keys from several other services under one Settings row: Hugging Face, npm, PyPI,
-    // GitLab, SendGrid, Twilio, Mailgun, Shopify, DigitalOcean, Telegram and Discord bots, Azure storage
+    // GitLab, SendGrid, Twilio, Mailgun, DigitalOcean, Telegram and Discord bots, Azure storage
     // and service-bus keys, and Slack or Discord webhook URLs, since anyone with one of those URLs can
     // post as the bot that owns it.
     {
@@ -3730,25 +4263,7 @@
       secret: true,
       name: "Service Access Token",
       severity: "high",
-      regex: new RegExp(
-        [
-          String.raw`\bhf_[A-Za-z0-9]{30,}\b`,
-          String.raw`\bnpm_[A-Za-z0-9]{36}\b`,
-          String.raw`\bpypi-AgEIcHlwaS5vcmc[A-Za-z0-9_-]{50,}`,
-          String.raw`\bglpat-[A-Za-z0-9_-]{20,}`,
-          String.raw`\bSG\.[A-Za-z0-9_-]{22}\.[A-Za-z0-9_-]{43}\b`,
-          String.raw`\bSK[0-9a-fA-F]{32}\b`,
-          String.raw`\bkey-[0-9a-f]{32}\b`,
-          String.raw`\bshp(?:at|ca|pa|ss)_[0-9a-fA-F]{32}\b`,
-          String.raw`\bdop_v1_[0-9a-f]{64}\b`,
-          String.raw`\b\d{8,10}:AA[A-Za-z0-9_-]{33}\b`,
-          String.raw`\b[MN][A-Za-z0-9]{23,25}\.[A-Za-z0-9_-]{6}\.[A-Za-z0-9_-]{27,38}\b`,
-          String.raw`\b(?:AccountKey|SharedAccessKey)=[A-Za-z0-9+/]{40,88}={0,2}`,
-          String.raw`https://hooks\.slack\.com/(?:services|workflows|triggers)/[A-Za-z0-9/_-]{20,120}`,
-          String.raw`https://(?:ptb\.|canary\.)?discord(?:app)?\.com/api/webhooks/\d{5,25}/[A-Za-z0-9_-]{20,100}`,
-        ].join("|"),
-        "g",
-      ),
+      find: findServiceTokens,
     },
 
     {
@@ -3758,7 +4273,7 @@
       severity: "high",
       find: findConnectionStrings,
     },
-    { id: "jwt", group: "credentials", name: "Login Token (JWT)", severity: "high", regex: JWT_RE },
+    { id: "jwt", group: "credentials", secret: true, name: "Login Token (JWT)", severity: "high", regex: JWT_RE },
     { id: "internal_ip", group: "credentials", name: "Internal IP Address", severity: "medium", find: findInternalIPs },
     { id: "internal_host", group: "credentials", name: "Internal Hostname", severity: "medium", regex: HOST_RE },
     {
