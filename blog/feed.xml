@@ -5,7 +5,15 @@
   <link href="https://clotr.app/blog/" />
   <link href="https://clotr.app/blog/feed.xml" rel="self" />
   <id>https://clotr.app/blog/</id>
-  <updated>2026-10-15T00:00:00Z</updated>
+  <updated>2026-10-21T00:00:00Z</updated>
+  <entry>
+    <title>It's the little things.</title>
+    <link href="https://clotr.app/blog/its-the-little-things.html" />
+    <id>https://clotr.app/blog/its-the-little-things.html</id>
+    <updated>2026-10-21T00:00:00Z</updated>
+    <summary>It's been a few days since I posted. Mostly because I've been head down, partly because the last stretch taught me a couple of things I wanted to sit with before writing them up. Basically:</summary>
+    <author><name>Alex</name></author>
+  </entry>
   <entry>
     <title>Smarter scans, and an 80 hour estimate.</title>
     <link href="https://clotr.app/blog/smarter-scans.html" />

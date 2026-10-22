@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>It's the little things.</title>
+    <meta name="description" content="It's been a few days since I posted. Mostly because I've been head down, partly because the last stretch taught me a couple of things I wanted to sit with before writing them up. Basically:" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/blog/its-the-little-things.html" />
+    <meta property="og:title" content="It's the little things." />
+    <meta property="og:description" content="It's been a few days since I posted. Mostly because I've been head down, partly because the last stretch taught me a couple of things I wanted to sit with before writing them up. Basically:" />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="It's the little things." />
+    <meta name="twitter:description" content="It's been a few days since I posted. Mostly because I've been head down, partly because the last stretch taught me a couple of things I wanted to sit with before writing them up. Basically:" />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="alternate" type="application/atom+xml" href="feed.xml" />
+    <link rel="stylesheet" href="../kit/tokens.css" />
+    <link rel="stylesheet" href="../kit/components.css" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="blog.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="../index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="../download.html">Download</a>
+            <a href="../teams.html">Teams</a>
+            <a href="../how-it-works.html">How it works</a>
+            <a href="index.html" aria-current="page">Blog</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap blog-page">
+        <section class="bench-post" aria-labelledby="post-title">
+          <aside class="bench-notes">
+            <img class="bench-icon" src="../assets/icon.svg" width="48" height="48" alt="" />
+            <a class="back" href="index.html">← All posts</a>
+            <time datetime="2026-10-21">21 October 2026</time>
+          </aside>
+          <article class="bench-entry">
+            <h1 id="post-title">It's the little things.</h1>
+            <p class="measure">It's been a few days since I posted. Mostly because I've been head down, partly because the last stretch taught me a couple of things I wanted to sit with before writing them up. Basically:</p>
+            <h2>Rushing a fix</h2>
+            <p class="measure">An outside contributor found a real problem in 1.4.1. When you pasted certain private keys and hit Cover it, part of the key could be left behind in your message. For a tool whose whole job is keeping that stuff out of an AI chat, that's promise-breaking, and I treated it that way. I fixed, tested, and shipped it as fast as I reasonably could.</p>
+            <p class="measure">That's where I messed up first. In my haste to get the fix out, I overlooked the kind of attention to detail I usually pride myself on.</p>
+            <p class="measure">Once the release was out and the anxiety passed, my brain naturally started to wander again, and that's when things started to sink in. What if the key's last line is missing? What if it's sitting inside a web address? What about PRIVATE_KEY=0x and a long string of hex in a .env file? I went looking, and between my own digging and a long run of test attempts against the public version, I found and fixed nine shapes where 'Cover it' could leave part of a secret behind.</p>
+            <p class="measure">All nine are fixed in 1.5.0, each with its own test.</p>
+            <p class="measure">The lesson for me is that a fix isn't worth much if it leaves more problems than it solves. Taking my time and paying attention to the details is the actual job. It's the little things (Or so Denzel said).</p>
+            <h2>Dead buttons in Clotr for Windows</h2>
+            <p class="measure">On the Windows side I found more than a handful of buttons that didn't do anything. Six of them, to be exact. I most likely broke them while I was working on the export feature, and nothing told me, because nothing was checking lol.</p>
+            <p class="measure">I built a new test that checks every button in the app is actually connected to the thing it's supposed to do.</p>
+            <p class="measure">I also found Clotr for Windows could set up its connection to your browser before you'd agreed to it. Nothing was sent anywhere, but the connection point was registered before you said yes, and that's the wrong order. It now waits for your consent.</p>
+            <h2>What's next</h2>
+            <p class="measure">I'm freezing releases for a little bit. This is the culmination of over a year of solo development, and I'm getting some really valuable community input. I want to make sure all my 'i's are dotted and 't's crossed before I do much else. A new term at school is starting, so I'll need to shift focus a bit more.</p>
+            <p class="measure">If you find something that looks wrong, please tell me. The individual that found the issues in 1.4.1 really made my week. A lot of what I'm doing is a product of therapy, so the validation of at least one person seeing the project's worth does more than I could put into words. Your feedback matters.</p>
+            <p class="reply">To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.</p>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <p class="trust-badges">
+          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"><img src="../assets/badges/tests.svg" alt="Tests: passing" /></a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later" /></a>
+          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score" /></a>
+          <a href="https://www.bestpractices.dev/projects/15419"><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level" /></a>
+        </p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="index.html">Blog</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
