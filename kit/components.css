@@ -40,7 +40,7 @@ img {
   top: 0;
   padding: var(--s-2) var(--s-3);
   background: var(--main);
-  color: #fff;
+  color: var(--btn-text);
   text-decoration: none;
 }
 .skip:focus {
@@ -89,7 +89,7 @@ button:focus-visible {
 }
 .btn.on-field {
   background: var(--main);
-  color: #fff;
+  color: var(--btn-text);
 }
 .btn.small {
   font-size: var(--text-sm);

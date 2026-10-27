@@ -99,7 +99,17 @@
 
           <div id="sc-ask" class="ask">
             <label for="sc-message" class="box-label">The message you got</label>
-            <textarea id="sc-message" rows="7" autocomplete="off" spellcheck="false" placeholder="Paste it here"></textarea>
+            <p class="note">
+              Clotr checks the first 100,000 characters. For a longer message, paste the part you want checked.
+            </p>
+            <textarea
+              id="sc-message"
+              rows="7"
+              maxlength="100000"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Paste it here"
+            ></textarea>
             <p id="sc-empty-note" class="note" role="status" hidden>Paste a message first.</p>
             <div class="actions">
               <button id="sc-check-it" class="btn primary" type="button">Check it</button>
@@ -232,6 +242,7 @@
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
           <a href="blog/index.html">Blog</a>
+          <a href="developers.html">For developers</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>

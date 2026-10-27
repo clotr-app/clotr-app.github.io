@@ -70,10 +70,11 @@
 
         <section class="sec" aria-labelledby="leaves-title">
           <div class="head">
-            <h2 id="leaves-title">What leaves your computer</h2>
+            <h2 id="leaves-title">What Clotr sends</h2>
             <p class="lede">
-              Nothing. Clotr reads what you type, in the page, on your device, and keeps a short record of what
-              kind of thing it found. It has no server to send anything to, and nothing it does needs an account.
+              Clotr has no server, and keeps its short record on your device. If you choose to send a message in a chat,
+              it still goes to that AI service as usual. Clotr checks what you type in the page and stores only what
+              kind of thing it found, the site and your choice; it doesn't need an account.
             </p>
           </div>
           <ul class="promises">
@@ -87,7 +88,8 @@
               <p>
                 Read <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">the rule test</a>
                 named "100% local: no network calls, no remote code." It fails the build the moment anyone adds code
-                that could send data out, and it checks Clotr for Windows the same way.
+                to the browser extension that could send data out. Clotr for Windows has a test of its own, but its
+                source isn't public yet.
               </p>
             </li>
             <li>
@@ -114,9 +116,8 @@
             </li>
             <li>
               <p>
-                The team pack, for organizations, is the one thing Clotr sells, and it changes nothing about how the
-                free extension behaves. Its terms are on the <a href="teams.html">Clotr for teams</a> page of this
-                site.
+                Clotr is free, at home and at work. I'm drafting a rollout kit for small offices, and nothing is for
+                sale yet. The <a href="teams.html">Clotr for teams</a> page has more.
               </p>
             </li>
             <li>
@@ -206,8 +207,9 @@
           <div class="head">
             <h2 id="code-title">The code</h2>
             <p class="lede">
-              Clotr is open source under AGPL-3.0-or-later, and every release can be rebuilt from that source, byte
-              for byte.
+              The browser extension and the developer tools are open source under AGPL-3.0-or-later, and every
+              extension release can be rebuilt from that source, byte for byte. Clotr for Windows is free, and its
+              source isn't public yet, but it runs the same engine.
             </p>
           </div>
           <ul class="promises">
@@ -231,7 +233,7 @@
         <section class="sec" aria-labelledby="check-title">
           <div class="head">
             <h2 id="check-title">Check it yourself</h2>
-            <p class="lede">Three ways to see this working, not just read about it, in about ten minutes.</p>
+            <p class="lede">Check Clotr yourself in about ten minutes.</p>
           </div>
           <ol class="steps measure">
             <li>
@@ -274,9 +276,8 @@
             </li>
             <li>
               <p>
-                A site that's actively hostile to Clotr, not just an AI chat behaving normally, can remove its
-                warning from the page. When that happens Clotr notices and stops holding messages there instead of
-                failing silently, which you can read about in the "Accepted limits" section of
+                Some sites can remove Clotr's warning from the page. When Clotr detects that, it stops holding
+                messages there so you can still send. You can read about it in the "Accepted limits" section of
                 <a href="https://github.com/clotr-app/clotr/blob/main/docs/security-review.md">the security
                 review</a>.
               </p>
@@ -319,6 +320,7 @@
         <nav aria-label="Project">
           <a href="https://github.com/clotr-app/clotr">Code</a>
           <a href="blog/index.html">Blog</a>
+          <a href="developers.html">For developers</a>
           <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
           <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
         </nav>

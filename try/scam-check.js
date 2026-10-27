@@ -6,6 +6,7 @@
 
 (() => {
   const { detect, scamSigns, scamHasLink } = globalThis.Clotr;
+  const MAX_MESSAGE_LENGTH = 100000;
   const $ = (id) => document.getElementById(id);
   const el = (tag, props = {}, children = []) => {
     const node = document.createElement(tag);
@@ -271,9 +272,13 @@
     (count ? $("sc-found-title") : $("sc-none-title")).focus();
   }
 
-  function check(text) {
+  function check(input) {
     $("sc-failed").hidden = true;
     $("sc-empty-note").hidden = true;
+    const text = input.length > MAX_MESSAGE_LENGTH ? input.slice(0, MAX_MESSAGE_LENGTH) : input;
+    if (input.length > MAX_MESSAGE_LENGTH) {
+      $("sc-message").value = text;
+    }
     if (!text.trim()) {
       $("sc-empty-note").hidden = false;
       $("sc-message").focus();

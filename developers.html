@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Clotr for developers</title>
+    <meta
+      name="description"
+      content="Clotr Guard adds local hooks for coding assistants; Clotr also has extensions for VS Code, Open VSX and JetBrains."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/developers.html" />
+    <meta property="og:title" content="Clotr for developers" />
+    <meta
+      property="og:description"
+      content="Clotr Guard adds local hooks for coding assistants; Clotr also has extensions for VS Code, Open VSX and JetBrains."
+    />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Clotr for developers" />
+    <meta
+      name="twitter:description"
+      content="Clotr Guard adds local hooks for coding assistants; Clotr also has extensions for VS Code and JetBrains."
+    />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="stylesheet" href="kit/tokens.css" />
+    <link rel="stylesheet" href="kit/components.css" />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="download.html">Download</a>
+            <a href="teams.html">Teams</a>
+            <a href="how-it-works.html">How it works</a>
+            <a href="blog/index.html">Blog</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="sec" aria-labelledby="dev-title">
+          <h1 id="dev-title">For developers</h1>
+          <p class="lede">
+            The engine that watches AI chats in the browser also runs where you write code. These tools are free,
+            open source under AGPL-3.0-or-later, and they do their checking on your own machine.
+          </p>
+        </section>
+
+        <section class="sec" aria-labelledby="tools-title">
+          <div class="head">
+            <h2 id="tools-title">Developer tools</h2>
+          </div>
+          <ul class="promises">
+            <li>
+              <p>
+                The <a href="https://marketplace.visualstudio.com/items?itemName=clotr-app.clotr">VS Code extension</a>
+                is also on <a href="https://open-vsx.org/extension/clotr-app/clotr">Open VSX</a> and flags credentials
+                in open files; install with <code>code --install-extension clotr-app.clotr</code> or
+                <code>codium --install-extension clotr-app.clotr</code> in VSCodium.
+              </p>
+            </li>
+            <li>
+              <p>
+                The JetBrains plugin source and <a href="https://github.com/clotr-app/clotr/blob/main/apps/jetbrains/README.md">README</a>
+                are at version 0.1.1. Its Marketplace page isn't live yet. The README explains its preview status and how
+                to try it from a clone.
+              </p>
+            </li>
+            <li>
+              <p>
+                <a href="https://www.npmjs.com/package/clotr-guard">Clotr Guard on npm</a> is a CLI with prompt hooks
+                for Claude Code, Cursor, Gemini CLI, Codex CLI and Windsurf (and Cline on macOS and Linux), file-read hooks in Claude Code, Cursor,
+                Gemini CLI and Windsurf, a Git pre-commit check and the <code>clotr-mcp</code> server; install with
+                <code>npm install -g clotr-guard</code>, then run <code>clotr-guard setup claude</code> or
+                <code>clotr-guard setup git</code>.
+                The MCP server only checks when your assistant calls it; it doesn't watch prompts on its own.
+              </p>
+            </li>
+            <li>
+              <p>
+                The <a href="https://www.npmjs.com/package/clotr-engine"><code>clotr-engine</code> package on npm</a>
+                is Clotr's detection engine for scripts and tools; install with <code>npm install clotr-engine</code>.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="sec" aria-labelledby="source-title">
+          <div class="head">
+            <h2 id="source-title">The source</h2>
+            <p class="lede">
+              It's all at <a href="https://github.com/clotr-app/clotr">github.com/clotr-app/clotr</a>, and each
+              tool's README links the tests behind what it says. If Guard misses a key or warns about nothing,
+              <a href="https://github.com/clotr-app/clotr/issues">tell me</a>.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="blog/index.html">Blog</a>
+          <a href="developers.html">For developers</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
