@@ -5,7 +5,15 @@
   <link href="https://clotr.app/blog/" />
   <link href="https://clotr.app/blog/feed.xml" rel="self" />
   <id>https://clotr.app/blog/</id>
-  <updated>2026-10-21T00:00:00Z</updated>
+  <updated>2026-10-28T00:00:00Z</updated>
+  <entry>
+    <title>One version everywhere, and everything that fought it.</title>
+    <link href="https://clotr.app/blog/one-version-everywhere.html" />
+    <id>https://clotr.app/blog/one-version-everywhere.html</id>
+    <updated>2026-10-28T00:00:00Z</updated>
+    <summary>1.6.0 is out now and I want to make a sigh of relief, but I know more refinement is required. It's the biggest release Clotr has had by a mile, I worked on the pattern.js recognition and...</summary>
+    <author><name>Alex</name></author>
+  </entry>
   <entry>
     <title>It's the little things.</title>
     <link href="https://clotr.app/blog/its-the-little-things.html" />

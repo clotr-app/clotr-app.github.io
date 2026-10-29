@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>One version everywhere, and everything that fought it.</title>
+    <meta name="description" content="1.6.0 is out now and I want to make a sigh of relief, but I know more refinement is required. It's the biggest release Clotr has had by a mile, I worked on the pattern.js recognition and..." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clotr.app/blog/one-version-everywhere.html" />
+    <meta property="og:title" content="One version everywhere, and everything that fought it." />
+    <meta property="og:description" content="1.6.0 is out now and I want to make a sigh of relief, but I know more refinement is required. It's the biggest release Clotr has had by a mile, I worked on the pattern.js recognition and..." />
+    <meta property="og:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="One version everywhere, and everything that fought it." />
+    <meta name="twitter:description" content="1.6.0 is out now and I want to make a sigh of relief, but I know more refinement is required. It's the biggest release Clotr has had by a mile, I worked on the pattern.js recognition and..." />
+    <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="../assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png" sizes="180x180" />
+    <link rel="alternate" type="application/atom+xml" href="feed.xml" />
+    <link rel="stylesheet" href="../kit/tokens.css" />
+    <link rel="stylesheet" href="../kit/components.css" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="blog.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to the content</a>
+    <header class="top field">
+      <div class="wrap">
+        <nav>
+          <a href="../index.html" aria-label="Clotr, home">
+            <img class="wordmark" src="../assets/wordmark.svg" alt="Clotr" width="86" height="32" />
+          </a>
+          <div class="links">
+            <a href="../download.html">Download</a>
+            <a href="../teams.html">Teams</a>
+            <a href="../how-it-works.html">How it works</a>
+            <a href="index.html" aria-current="page">Blog</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap blog-page">
+        <section class="bench-post" aria-labelledby="post-title">
+          <aside class="bench-notes">
+            <img class="bench-icon" src="../assets/icon.svg" width="48" height="48" alt="" />
+            <a class="back" href="index.html">← All posts</a>
+            <time datetime="2026-10-28">28 October 2026</time>
+          </aside>
+          <article class="bench-entry">
+            <h1 id="post-title">One version everywhere, and everything that fought it.</h1>
+            <p class="measure">1.6.0 is out now and I want to make a sigh of relief, but I know more refinement is required. It's the biggest release Clotr has had by a mile, I worked on the pattern.js recognition and detector.js for longer than I can imagine, and the tools are just an extension of the engine I've been waiting to release. The browser extension, Clotr for Windows, a VS Code extension, a JetBrains plugin and Guard for AI coding assistants all shipped at once.</p>
+            <p class="measure">I don't like pushing that many lines in a single commit, so I'm figuring out a workflow that assists with that.</p>
+            <p class="measure">Clotr for Windows jumped straight from 1.0.2 to 1.6.0, and its source is public for the first time. Versioning numbers are less a representation of upgrades and more a representation of my understanding of Git/Professional workflows.</p>
+            <p class="measure">Getting there was a lot of small walls, there's at least 4 cases of Coor's Light in my trashcan to represent my effort (lol, buy me a beer). Here's most of them. Drafted by Claude, revised by me the real human student. So, as usual, forgive the atypical presentations.</p>
+            <h2>The bug I found on myself</h2>
+            <p class="measure">A few days before the release I copied an email I was writing to my math professor. It had a cipher code in it, and Clotr decided that was two phone numbers. Okay, yeah, makes sense, it looks like one. The real problem was the warning box. There wasn't a clean way to just close it and move on without Clotr changing something. The usability dropped for those that don't understand tech, and that's the exact opposite of what I want. I want people to not think about it, and just gain protection.</p>
+            <h2>The extension nobody launched</h2>
+            <p class="measure">I uploaded the VS Code extension quietly, no post, no announcement. It got over 100 downloads in one night. Then 150, then 266. Some of that is probably bots, but either way it's out there and being passed around, so I made it the priority. I want to be useful, and this seems like the best way right now to be effective.</p>
+            <p class="measure">Getting the update up turned into its own evening, I think I 'watched' at least 3 Transformer movies, despite being a racist P.O.S, I think Markie Mark did decent.</p>
+            <h2>Too big to review</h2>
+            <p class="measure">Shipping every developer tool at once meant about 60,000 new lines in the public repo. When I pointed my code review at everything that changed, it flat out refused. 1,000 files and about 150,000 changed lines, against a limit of 8,000. I'm one guy, and my army of AI was telling me it couldn't scope my concerns. I was more than a little, flustered? Confused? Hurt? Maybe all three at once.</p>
+            <p class="measure">So I broke it up and ran a security scan on each part on its own through claude-security, focusing as small a section of the engine/app/extension/etc. as I could. Everything those scans found is fixed and has its own test.</p>
+            <p class="measure">The bigger lesson is that one giant release is hard to check and harder to trust. Next, I want each product to version and release on its own. So ideally a change to the Windows app doesn't drag 60,000 lines of editor plugins along with it. The majority of the release was just Clotr for Windows releasing that I was holding locally.</p>
+            <h2>Five stores in one afternoon</h2>
+            <p class="measure">Once it was tagged, I had to update every store by hand. This took an entire day in and of itself. I honestly didn't realize how stressful distribution could be.</p>
+            <p class="measure">The guide I'd made for it was harder to follow than the stores themselves, so I threw it out and went one store at a time with just the text I needed for each. There's probably a lot of discrepancies I still need to fix but that's what refinement and optimization are for.</p>
+            <h2>What every review missed</h2>
+            <p class="measure">After all of that, I forgot to edit the README because it still said Clotr for Windows' source wasn't public yet, that the JetBrains page wasn't live, and the privacy policy still named the old version. The Microsoft Store's &quot;What's new&quot; shows the old notes too.</p>
+            <p class="measure">None of that is a code problem, which is exactly why the code reviews didn't catch it (DERRR). They checked what Clotr does, not what the pages say about it. The fix is a small pull request, and checking those claims against what's actually live is going on my release list.</p>
+            <p class="measure">As for developing my own workflow, I've got a lot of gating and fine tuning to go through over the next few weeks. I just started a new term at school, so a little of me is pressed for time (though I always find it, somehow. Lol.)</p>
+            <h2>The test that hangs</h2>
+            <p class="measure">The last wall, and the most annoying one, is a browser test that sometimes just hangs in Firefox. Nothing is broken, but a test that hangs fails the check, and a failed check blocks every pull request behind it. I've fixed it once already and I'm still watching it.</p>
+            <p class="measure">The browser test can carry a testing time of over 20-30 minutes, so even if I compile regularly I'm still looking towards a long pipeline.</p>
+            <h2>What's next</h2>
+            <p class="measure">Clotr Guard is getting listed in the official directory of AI tool servers.</p>
+            <p class="measure">If you're one of the 340 that downloaded from VSX, thank you. If something looks wrong, tell me.</p>
+            <p class="measure">One very big hurdle down, and more than a few small ones to go.</p>
+            <p class="reply">To reply, open an issue or a discussion on <a href="https://github.com/clotr-app/clotr">GitHub</a>.</p>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bottom">
+      <div class="wrap">
+        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+        <p class="trust-badges">
+          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"><img src="../assets/badges/tests.svg" alt="Tests: passing" /></a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"><img src="../assets/badges/license.svg" alt="License: AGPL-3.0-or-later" /></a>
+          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"><img src="../assets/badges/scorecard.svg" alt="OpenSSF Scorecard score" /></a>
+          <a href="https://www.bestpractices.dev/projects/15419"><img src="../assets/badges/best-practices.svg" alt="OpenSSF Best Practices level" /></a>
+        </p>
+        <nav aria-label="Project">
+          <a href="https://github.com/clotr-app/clotr">Code</a>
+          <a href="index.html">Blog</a>
+          <a href="../developers.html">For developers</a>
+          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
