@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Get Clotr</title>
@@ -13,139 +13,145 @@
       name="description"
       content="Get Clotr's browser extension for Chrome, Edge or Firefox, see Clotr for Windows, or help test Clotr for Android."
     />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html" aria-current="page">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
       </div>
     </header>
 
     <main id="main">
-      <section class="products" aria-labelledby="download-title">
-        <div class="wrap products-head">
-          <h1 id="download-title">Download</h1>
-        </div>
+      <div class="wrap page">
+        <h1 id="download-title" class="page-title">Download</h1>
         <div class="product-list">
-          <article class="product" id="extension" aria-labelledby="ext-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">Try it in a minute</p>
-                          <h3 id="ext-title">The browser extension</h3>
-                          <p class="say">The extension, from your browser's own store. Brave uses the Chrome Web Store.</p>
-                          <p class="buttons store-badges">
-                            <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
-                              <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
-                            </a>
-                            <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
-                              <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
-                            </a>
-                            <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
-                              <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
-                            </a>
-                          </p>
-                          <p class="fine">On a computer. <a href="extension.html">More about the extension</a></p>
-                        </div>
-                        <figure class="product-shot">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
-                            <img
-                              src="assets/hero/warning-light.png"
-                              width="850"
-                              height="470"
-                              alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. Two buttons: Remove the place, keep the photo, and OK."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
+          <article class="product card" id="extension" aria-labelledby="ext-title">
+            <div class="product-copy">
+              <p class="eyebrow">Try it in a minute</p>
+              <h2 id="ext-title">The browser extension</h2>
+              <p class="say">The extension, from your browser's own store. Brave uses the Chrome Web Store.</p>
+              <p class="store-badges">
+                <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
+                  <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
+                </a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
+                  <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
+                </a>
+                <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
+                  <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
+                </a>
+              </p>
+              <p class="more">On a computer. <a class="arrow" href="extension.html">More about the extension</a></p>
+            </div>
+            <figure class="frame bare">
+              <img src="assets/catch/catch-chat.png" width="534" height="309" alt="Clotr’s warning naming a phone number in the message, with the choices Clot this leak and Leave it alone." />
+            </figure>
+          </article>
 
-          <article class="product alt" id="windows" aria-labelledby="win-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">The full set, on your PC</p>
-                          <h3 id="win-title">Clotr for Windows</h3>
-                          <p class="say">Clotr for Windows, from the Microsoft Store, for Windows 10 and 11.</p>
-                          <p class="buttons when-store">
-                            <a class="btn" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
-                            <a class="btn ghost" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
-                          </p>
-                          <p class="fine"><a href="windows.html">See Clotr for Windows</a></p>
-                        </div>
-                        <figure class="product-shot">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-scan-dark.png" />
-                            <img
-                              src="assets/apps/windows-scan-light.png"
-                              width="640"
-                              height="400"
-                              alt="Clotr for Windows' Scan screen shows a folder map from This PC through Desktop, Documents and Downloads. A card points at aws-credentials.csv with an AWS Access Key, and secrets.json, .env and IMG_0912.jpg appear below as worth a look, with seven more listed."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
+          <article class="product card" id="windows" aria-labelledby="win-title">
+            <div class="product-copy">
+              <p class="eyebrow">The full set, on your PC</p>
+              <h2 id="win-title">Clotr for Windows</h2>
+              <p class="say">Clotr for Windows, from the Microsoft Store, for Windows 10 and 11.</p>
+              <p class="actions when-store">
+                <a class="btn" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
+                <a class="btn plain" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
+              </p>
+              <p class="more"><a class="arrow" href="windows.html">See Clotr for Windows</a></p>
+            </div>
+            <figure class="frame bare">
+              <img class="for-day" src="assets/apps/windows-scan-light.png" width="640" height="400" alt="Clotr for Windows' Scan screen shows a folder map from This PC through Desktop, Documents and Downloads. A card points at aws-credentials.csv with an AWS Access Key, and secrets.json, .env and IMG_0912.jpg appear below as worth a look, with seven more listed." />
+              <img class="for-night" src="assets/apps/windows-scan-dark.png" width="640" height="400" alt="Clotr for Windows' Scan screen shows a folder map from This PC through Desktop, Documents and Downloads. A card points at aws-credentials.csv with an AWS Access Key, and secrets.json, .env and IMG_0912.jpg appear below as worth a look, with seven more listed." />
+            </figure>
+          </article>
 
-          <article class="product" id="android" aria-labelledby="and-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">Preview, testers wanted</p>
-                          <h3 id="and-title">Clotr for Android</h3>
-                          <p class="say">Clotr for Android is in testing. Email to join.</p>
-                          <p class="buttons">
-                            <a class="btn" href="android.html#join">Help test it</a>
-                          </p>
-                          <p class="fine"><a href="android.html">See the Android preview</a></p>
-                        </div>
-                        <figure class="product-shot phone">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-home-dark.png" />
-                            <img
-                              src="assets/apps/android-home-light.png"
-                              width="412"
-                              height="800"
-                              alt="Clotr for Android's Home screen. Right now, your last check of your files found something worth a look, with a See what to do button. Below it, the keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
+          <article class="product card" id="android" aria-labelledby="and-title">
+            <div class="product-copy">
+              <p class="eyebrow">Preview, testers wanted</p>
+              <h2 id="and-title">Clotr for Android</h2>
+              <p class="say">Clotr for Android is in testing. Email to join.</p>
+              <p class="actions">
+                <a class="btn" href="android.html#join">Help test it</a>
+              </p>
+              <p class="more"><a class="arrow" href="android.html">See the Android preview</a></p>
+            </div>
+            <div class="frame phones boxed">
+              <figure>
+                <img class="for-day" src="assets/apps/android-home-light.png" width="412" height="800" alt="Home. Right now, your last check of your files found something worth a look, with a See what to do button. The keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files." />
+                <img class="for-night" src="assets/apps/android-home-dark.png" width="412" height="800" alt="Home. Right now, your last check of your files found something worth a look, with a See what to do button. The keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files." />
+              </figure>
+              <figure>
+                <img class="for-day" src="assets/apps/android-scan-light.png" width="412" height="800" alt="Check my files part way through a Quick scan. Read 10 of 24 files, found so far 2, with a Stop button. Below, Downloads and Pictures each have 1 found, and Documents and five more folders wait their turn." />
+                <img class="for-night" src="assets/apps/android-scan-dark.png" width="412" height="800" alt="Check my files part way through a Quick scan. Read 10 of 24 files, found so far 2, with a Stop button. Below, Downloads and Pictures each have 1 found, and Documents and five more folders wait their turn." />
+              </figure>
+              <figure>
+                <img class="for-day" src="assets/apps/android-results-light.png" width="412" height="800" alt="Results. 5 files need a look, out of 4,812. What to do first, 1 of 5 done. Step one, move the money in this crypto wallet to a new wallet, then delete the file, with How to do this open and its five steps, for wallet backup.txt in Downloads." />
+                <img class="for-night" src="assets/apps/android-results-dark.png" width="412" height="800" alt="Results. 5 files need a look, out of 4,812. What to do first, 1 of 5 done. Step one, move the money in this crypto wallet to a new wallet, then delete the file, with How to do this open and its five steps, for wallet backup.txt in Downloads." />
+              </figure>
+            </div>
+          </article>
         </div>
-        <p class="wrap later">Safari and iPhone come later, once Android is out.</p>
-      </section>
+        <p class="later">Safari and iPhone come later, once Android is out.</p>
+      </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

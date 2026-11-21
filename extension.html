@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Clotr's browser extension, for Chrome, Edge and Firefox</title>
@@ -30,173 +30,204 @@
       content="Free from your browser's own store. Clotr warns you before a private detail goes into an AI chat."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html" aria-current="page">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
-        <section class="hero" aria-labelledby="hero-title">
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap page">
+        <section class="page-hero" aria-labelledby="hero-title">
           <div class="copy">
+            <p class="eyebrow">Chrome &middot; Edge &middot; Firefox &middot; Brave</p>
             <h1 id="hero-title">The browser extension</h1>
             <p class="lede">
               The lightest way to try Clotr. Add it from your browser's own store, open an AI chat, and it starts
               reading the message box as you type.
             </p>
-            <p class="buttons">
-              <a
-                class="btn on-field install-chrome"
-                href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab"
+            <p class="actions">
+              <a class="btn install-chrome" href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab"
                 >Get the extension</a
               >
-              <a
-                class="btn on-field install-firefox"
-                href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/"
+              <a class="btn install-firefox" href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/"
                 >Get the extension</a
               >
-              <a class="btn ghost" href="try.html">Try it in this page first</a>
             </p>
             <p class="fine install-edge">
               On Edge?
               <a href="https://microsoftedge.microsoft.com/addons/detail/clotr-clot-your-data-lea/hbangnmofjeaieaeamlncpcfmhbclbkj">Get it from Edge Add-ons</a>.
             </p>
-            <p class="fine install-phone">
-              The extension runs on Chrome, Brave, Edge and Firefox on a computer. For a phone, see
+            <p class="fine runs-on">
+              Runs on Chrome, Brave, Edge and Firefox on a computer. For a phone, see
               <a href="android.html">the Android preview</a>.
             </p>
           </div>
-          <figure class="shot">
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
-              <img
-                src="assets/hero/warning-light.png"
-                width="850"
-                height="470"
-                alt="An AI chat with “What colour should I paint my kitchen?” typed in the message box, a photo attached, and Clotr’s warning in the corner: Before you send this. The photo “kitchen.jpg” has the place it was taken saved inside it. If you send it, that place can go with it. Two buttons: Remove the place, keep the photo, and OK."
-              />
-            </picture>
+          <figure class="frame">
+            <img src="assets/catch/catch-chat.png" width="534" height="309" alt="Clotr’s warning naming a phone number in the message, with the choices Clot this leak and Leave it alone." />
           </figure>
         </section>
-      </div>
-    </header>
 
-    <main id="main">
-      <div class="wrap">
-        <section class="sec" id="stores" aria-labelledby="stores-title">
-          <h2 id="stores-title">Pick your browser's store</h2>
-          <p class="store-badges">
-            <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
-              <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
-            </a>
-            <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
-              <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
-            </a>
-            <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
-              <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
-            </a>
-          </p>
-          <p class="sec-note">
+        <section class="block" id="stores" aria-labelledby="stores-title">
+          <h2 class="marked" id="stores-title">Pick your browser's store</h2>
+          <ul class="cards store-cards">
+            <li class="card">
+              <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
+                <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
+              </a>
+            </li>
+            <li class="card">
+              <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
+                <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
+              </a>
+            </li>
+            <li class="card">
+              <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
+                <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
+              </a>
+            </li>
+          </ul>
+          <p class="more">
             Brave uses the Chrome Web Store. Once it's added, pin Clotr to your toolbar. A welcome page opens with a
             practice box and asks which email and chat apps you use, since those stay off until you choose them.
           </p>
         </section>
 
-        <section class="sec looks" aria-labelledby="looks-title">
-          <h2 id="looks-title">What it looks for</h2>
-          <dl>
-            <div>
-              <dt>Passwords and keys</dt>
-              <dd>API keys, tokens, webhook links, connection strings and seed phrases.</dd>
-            </div>
-            <div>
-              <dt>Card and bank numbers</dt>
-              <dd>Card numbers, Social Security and ITIN numbers, bank accounts, IBANs and medical record numbers.</dd>
-            </div>
-            <div>
-              <dt>Personal details</dt>
-              <dd>However you write them, in digits, number words, misspellings or a mix.</dd>
-            </div>
-            <div>
-              <dt>What scammers ask for</dt>
-              <dd>Texted sign-in codes, card security codes and remote-access codes.</dd>
-            </div>
-            <div>
-              <dt>Your own list</dt>
-              <dd>Names and details you add yourself, kept only as a scrambled code instead of the words.</dd>
-            </div>
-            <div>
-              <dt>Text in files</dt>
-              <dd>Text, PDF, Word, Excel and PowerPoint files you attach, and the place saved inside a photo.</dd>
-            </div>
-          </dl>
+        <section class="block" aria-labelledby="looks-title">
+          <h2 class="marked" id="looks-title">What it looks for</h2>
+          <ul class="cards">
+            <li class="card">
+              <h3>Passwords and keys</h3>
+              <p>API keys, tokens, webhook links, connection strings and seed phrases.</p>
+            </li>
+            <li class="card">
+              <h3>Card and bank numbers</h3>
+              <p>Card numbers, Social Security and ITIN numbers, bank accounts, IBANs and medical record numbers.</p>
+            </li>
+            <li class="card">
+              <h3>Personal details</h3>
+              <p>However you write them, in digits, number words, misspellings or a mix.</p>
+            </li>
+            <li class="card">
+              <h3>What scammers ask for</h3>
+              <p>Texted sign-in codes, card security codes and remote-access codes.</p>
+            </li>
+            <li class="card">
+              <h3>Your own list</h3>
+              <p>Names and details you add yourself, kept only as a scrambled code instead of the words.</p>
+            </li>
+            <li class="card">
+              <h3>Text in files</h3>
+              <p>Text, PDF, Word, Excel and PowerPoint files you attach, and the place saved inside a photo.</p>
+            </li>
+          </ul>
           <p class="more">
             It's on for 19 AI chat sites out of the box. Email and chat sites only when you switch them on.
-            <a href="how-it-works.html">How it works</a>
+            <a class="arrow" href="how-it-works.html">How it works</a>
           </p>
         </section>
 
-        <section class="sec" aria-labelledby="hand-title">
-          <h2 id="hand-title">Or install it by hand</h2>
-          <p class="say">
-            Firefox gets the newest version straight from its store. On Chrome, Brave or Edge you can load the newest
-            release yourself before the store catches up.
-          </p>
-          <ol class="steps">
-            <li>
-              Download the latest <code>clotr-&lt;version&gt;.zip</code> from
-              <a href="https://github.com/clotr-app/clotr/releases">Releases</a> and unzip it.
-            </li>
-            <li>
-              Open <code>chrome://extensions</code> (<code>brave://extensions</code> or
-              <code>edge://extensions</code>) and switch on Developer mode.
-            </li>
-            <li>Click <strong>Load unpacked</strong> and pick the folder you unzipped.</li>
-          </ol>
-          <p class="sec-link">
-            <a class="btn text" href="https://github.com/clotr-app/clotr/releases">Follow the releases on GitHub</a>
-          </p>
+        <section class="block" aria-labelledby="hand-title">
+          <h2 class="marked" id="hand-title">Or install it by hand</h2>
+          <div class="card roomy">
+            <p>
+              Firefox gets the newest version straight from its store. On Chrome, Brave or Edge you can load the newest
+              release yourself before the store catches up.
+            </p>
+            <ol class="nums">
+              <li>
+                Download the latest <code>clotr-&lt;version&gt;.zip</code> from
+                <a href="https://github.com/clotr-app/clotr/releases">Releases</a> and unzip it.
+              </li>
+              <li>
+                Open <code>chrome://extensions</code> (<code>brave://extensions</code> or
+                <code>edge://extensions</code>) and switch on Developer mode.
+              </li>
+              <li>Click Load unpacked and pick the folder you unzipped.</li>
+            </ol>
+            <p class="more">
+              <a class="arrow" href="https://github.com/clotr-app/clotr/releases">Follow the releases on GitHub</a>
+            </p>
+          </div>
         </section>
 
-        <section class="sec" aria-labelledby="more-title">
-          <h2 id="more-title">Want more than the browser?</h2>
-          <p class="say">
+        <section class="block" aria-labelledby="more-title">
+          <h2 class="marked" id="more-title">Want more than the browser?</h2>
+          <p>
             <a href="windows.html">Clotr for Windows</a> watches the AI desktop apps and checks the files already on
             your PC. <a href="android.html">Clotr for Android</a> is a preview, and it needs testers.
           </p>
+          <ul class="tiles two more-tiles" aria-label="The other apps">
+            <li>
+              <a class="tile" href="windows.html"><img src="assets/doors/door-windows.svg" alt="" width="52" height="52" /><span><b>Windows</b><small>Microsoft Store</small></span></a>
+            </li>
+            <li>
+              <a class="tile" href="android.html"><img src="assets/doors/door-android.svg" alt="" width="52" height="52" /><span><b>Android</b><small>Coming soon</small></span></a>
+            </li>
+          </ul>
         </section>
       </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

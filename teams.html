@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Clotr for teams</title>
@@ -30,150 +30,152 @@
       content="Clotr is free at work too. An administrator can set its policy through supported browser management. Clotr reports no prompts or findings to the organization."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html">Download</a>
             <a href="teams.html" aria-current="page">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
       </div>
     </header>
 
     <main id="main">
-      <div class="wrap">
-        <section id="teams" class="sec" aria-labelledby="hero-title">
-          <h1 id="hero-title">Clotr for teams</h1>
-          <p class="lede">
-            Clotr is free at work too. An administrator can set its policy through supported browser management;
-            the organization still uses the same free Clotr as everyone else. Clotr reports no prompts or findings
-            to the organization.
-          </p>
-          <div class="card box sec-note">
-            <h2>What an organization never sees</h2>
+      <div class="wrap page teams-page">
+        <section id="teams" class="page-hero" aria-labelledby="hero-title">
+          <div class="copy">
+            <h1 id="hero-title">Clotr for teams</h1>
+            <p class="lede">
+              Clotr is free at work too. An administrator can set its policy through supported browser management;
+              the organization still uses the same free Clotr as everyone else. Clotr reports no prompts or findings
+              to the organization.
+            </p>
+            <p class="actions">
+              <a class="btn" href="https://github.com/clotr-app/clotr/blob/main/docs/team-rollout.md">Roll it out to a team</a>
+              <a class="btn plain" href="mailto:alex@clotr.app?subject=Clotr%20for%20a%20team">Email me about a team</a>
+            </p>
+          </div>
+          <div class="card never">
+            <h2 class="eyebrow">What an organization never sees</h2>
+            <ul>
+              <li>What your people type</li>
+              <li>What Clotr caught</li>
+              <li>When</li>
+            </ul>
             <p>
-              What your people type, what Clotr caught, or when. Clotr does not report prompts, findings, or staff
-              activity to the organization, and it has no admin dashboard.
+              Clotr does not report prompts, findings, or staff activity to the organization, and it has no admin
+              dashboard.
             </p>
           </div>
         </section>
 
-        <section class="sec" aria-labelledby="roll-title">
-          <div class="head">
-            <h2 id="roll-title">Roll it out</h2>
-            <p class="lede">
-              Ready-made presets for developer credentials, configured client/matter details, clinics and tax
-              offices, plus a printable page that shows the policy Clotr read on that computer. A team can add its
-              own kinds of detail, like a matter
-              number, and when its policy asks before sending, attached files wait for an answer too.
-            </p>
-            <p class="lede">
-              A team's own watch words, formats and labels arrive through its browser or device-management policy,
-              the same way IT sets anything else. Clotr turns watch words into fingerprints before it matches them,
-              but the policy itself stays readable to whoever manages it, and each computer may keep a readable copy.
-              Labels show up in warnings and on the policy page, which can also show the watch words when someone
-              asks it to. So keep labels general and use made-up examples, unless your office has decided real client
-              names are fine there.
-            </p>
-            <p class="sec-link">
-              <a class="btn text" href="https://github.com/clotr-app/clotr/blob/main/docs/team-rollout.md"
-                >Roll it out to a team</a
-              >
-            </p>
-          </div>
-        </section>
-
-        <section class="sec" aria-labelledby="why-title">
-          <div class="head">
-            <h2 id="why-title">Why teams matter to Clotr</h2>
-            <p class="say">
-              I'm building Clotr toward a privacy engine people can rely on everywhere they type, and teams are what
-              drive that work. When an office needs Clotr to catch something new, it lands in the engine everyone
-              gets for free. Clotr is funded by me personally, and anything teams contribute goes into development.
-              Teamwork lifts us all.
-            </p>
-          </div>
-        </section>
-
-        <section class="sec" aria-labelledby="help-title">
-          <div class="head">
-            <h2 id="help-title">Help putting it in place</h2>
-            <p class="lede">
-              I'm working on a small-office rollout kit, with an AI-use section you can edit, deployment notes and
-              staff exercises. It's still a draft. Nobody who does this for a living has reviewed it, it hasn't been
-              tried with a real IT admin, and there's nothing for sale yet. If a kit like this would help your team,
-              email me about what you need done, and please leave out client information and prompts.
-            </p>
-            <p class="sec-link">
-              <a class="btn text" href="mailto:alex@clotr.app?subject=Clotr%20for%20a%20team"
-                >Email me about a team</a
-              >
-            </p>
-          </div>
-        </section>
-
-        <section class="sec" aria-labelledby="follow-title">
-          <div class="head">
-            <h2 id="follow-title">Keep up with it</h2>
-            <p class="lede">
-              Every release is on GitHub with a plain list of what changed, so watching the repository's releases is
-              the easiest way to follow along. If you'd rather hear when the team pack is ready, say so in an email
-              and I'll write back when it is.
-            </p>
-            <p class="sec-link">
-              <a class="btn text" href="https://github.com/clotr-app/clotr/releases">See the releases on GitHub</a>
-            </p>
-          </div>
-          <p class="say sec-note">
-            Clotr is free software under AGPL-3.0-or-later, and a team runs it under the same license as everyone else.
+        <section class="block" aria-labelledby="roll-title">
+          <h2 class="marked" id="roll-title">Roll it out</h2>
+          <p>
+            Ready-made presets for developer credentials, configured client/matter details, clinics and tax offices, plus a printable page that shows the policy Clotr read on that computer. A team can add its own kinds of detail, like a matter number, and when its policy asks before sending, attached files wait for an answer too.
+          </p>
+          <p>
+            A team's own watch words, formats and labels arrive through its browser or device-management policy, the same way IT sets anything else. Clotr turns watch words into fingerprints before it matches them, but the policy itself stays readable to whoever manages it, and each computer may keep a readable copy.
+          </p>
+          <p>
+            Labels show up in warnings and on the policy page, which can also show the watch words when someone asks it to. So keep labels general and use made-up examples, unless your office has decided real client names are fine there.
+          </p>
+          <p class="more">
+            <a class="arrow" href="https://github.com/clotr-app/clotr/blob/main/docs/team-rollout.md">Roll it out to a team</a>
           </p>
         </section>
+
+        <section class="block" aria-labelledby="why-title">
+          <h2 class="marked" id="why-title">Why teams matter to Clotr</h2>
+          <p>
+            I'm building Clotr toward a privacy engine people can rely on everywhere they type, and teams are what drive that work. When an office needs Clotr to catch something new, it lands in the engine everyone gets for free. Clotr is funded by me personally, and anything teams contribute goes into development. Teamwork lifts us all.
+          </p>
+          <p class="more">
+            <a class="arrow" href="https://github.com/clotr-app/clotr/blob/main/ADOPTERS.md">Tell me your team uses Clotr</a>
+          </p>
+        </section>
+
+        <section class="block" aria-labelledby="help-title">
+          <h2 class="marked" id="help-title">Help putting it in place</h2>
+          <p>
+            I'm working on a small-office rollout kit, with an AI-use section you can edit, deployment notes and staff exercises. It's still a draft. Nobody who does this for a living has reviewed it, it hasn't been tried with a real IT admin, and there's nothing for sale yet. If a kit like this would help your team, email me about what you need done, and please leave out client information and prompts.
+          </p>
+          <p class="more">
+            <a class="arrow" href="mailto:alex@clotr.app?subject=Clotr%20for%20a%20team">Email me about a team</a>
+          </p>
+        </section>
+
+        <section class="block" aria-labelledby="follow-title">
+          <h2 class="marked" id="follow-title">Keep up with it</h2>
+          <p>
+            Every release is on GitHub with a plain list of what changed, so watching the repository's releases is the easiest way to follow along.
+          </p>
+          <p class="more">
+            <a class="arrow" href="https://github.com/clotr-app/clotr/releases">See the releases on GitHub</a>
+          </p>
+        </section>
+
+        <p class="under">
+          Clotr is free software under AGPL-3.0-or-later, and a team runs it under the same license as everyone else.
+        </p>
       </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <p class="trust-badges">
-          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
-            ><img src="assets/badges/tests.svg" alt="Tests: passing"
-          /></a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
-            ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
-          /></a>
-          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
-            ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
-          /></a>
-          <a href="https://www.bestpractices.dev/projects/15419"
-            ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
-          /></a>
-        </p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

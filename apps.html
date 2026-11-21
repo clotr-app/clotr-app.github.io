@@ -5,34 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Clotr for Windows and Android</title>
     <meta name="description" content="Clotr for Windows and Clotr for Android each have their own page." />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html" aria-current="page">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
       </div>
@@ -53,15 +50,44 @@
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

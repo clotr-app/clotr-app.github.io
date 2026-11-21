@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Clotr for Android, a preview that needs testers</title>
@@ -30,147 +30,111 @@
       content="A keyboard that warns you before a private detail goes into an AI app. Help test it."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html" aria-current="page">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="copy">
-            <p class="eyebrow">Preview</p>
-            <h1 id="hero-title">Clotr for Android</h1>
-            <p class="lede">
-              Clotr on your phone, as a keyboard that knows when you're typing to an AI. It runs in test builds today,
-              and before Google Play lists it, it needs real people using it.
-            </p>
-            <p class="buttons">
-              <a class="btn on-field" href="#join">Help test it</a>
-            </p>
-          </div>
-          <figure class="shot strip-hero">
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-strip-dark.png" />
-              <img
-                src="assets/apps/android-strip-light.png"
-                width="412"
-                height="48"
-                alt="Clotr's warning strip above the phone keyboard. It says the message contains a phone number, with buttons Clot this leak and Leave it alone."
-              />
-            </picture>
-          </figure>
-        </section>
       </div>
     </header>
 
     <main id="main">
-      <div class="wrap">
-        <section class="sec" aria-labelledby="what-title">
-          <h2 id="what-title">What it does</h2>
-          <p class="say">
-            Clotr for Android is a keyboard. Switch it on and pick it as your keyboard, and inside the AI apps it
-            recognizes it reads your message the way the browser extension reads a chat box. A card number or a
-            password brings up a strip above the keys with Clot this leak and Leave it alone. Everywhere else it's an
-            ordinary keyboard, and it skips password boxes.
+      <div class="wrap page">
+        <section class="page-hero solo" aria-labelledby="hero-title">
+          <p class="eyebrow">Preview</p>
+          <h1 id="hero-title">Clotr for Android</h1>
+          <p class="lede short">
+            Clotr on your phone, as a keyboard that knows when you're typing to an AI. It runs in test builds today,
+            and before Google Play lists it, it needs real people using it.
           </p>
-          <p class="say">
-            The app around it checks your phone's files too, with a Quick scan of Downloads, photos and chat apps,
-            and ends on the same What to do first list as the Windows app. It asks for no internet permission, so
-            what Clotr reads or scans stays on the phone.
+          <p class="actions">
+            <a class="btn" href="#join">Help test it</a>
           </p>
-          <div class="phones">
-            <figure class="page-shot">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-home-dark.png" />
-                <img
-                  src="assets/apps/android-home-light.png"
-                  width="412"
-                  height="800"
-                  alt="Home. Right now, your last check of your files found something worth a look, with a See what to do button. The keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files."
-                />
-              </picture>
+        </section>
+
+        <section class="block feature-row" aria-labelledby="what-title">
+          <div>
+            <h2 class="marked" id="what-title">What it does</h2>
+            <p>
+              Clotr for Android is a keyboard. Switch it on and pick it as your keyboard, and inside the AI apps it
+              recognizes it reads your message the way the browser extension reads a chat box. A card number or a
+              password brings up a strip above the keys with Clot this leak and Leave it alone. Everywhere else it's an
+              ordinary keyboard, and it skips password boxes.
+            </p>
+            <p>
+              The app around it checks your phone's files too, with a Quick scan of Downloads, photos and chat apps,
+              and ends on the same What to do first list as the Windows app. It asks for no internet permission, so
+              what Clotr reads or scans stays on the phone.
+            </p>
+          </div>
+          <div class="frame phones">
+            <figure>
+              <img class="for-day" src="assets/apps/android-home-light.png" width="412" height="800" alt="Home. Right now, your last check of your files found something worth a look, with a See what to do button. The keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files." />
+              <img class="for-night" src="assets/apps/android-home-dark.png" width="412" height="800" alt="Home. Right now, your last check of your files found something worth a look, with a See what to do button. The keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files." />
             </figure>
-            <figure class="page-shot">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-scan-dark.png" />
-                <img
-                  src="assets/apps/android-scan-light.png"
-                  width="412"
-                  height="800"
-                  alt="Check my files part way through a Quick scan. Read 10 of 24 files, found so far 2, with a Stop button. Below, Downloads and Pictures each have 1 found, and Documents and five more folders wait their turn."
-                />
-              </picture>
+            <figure>
+              <img class="for-day" src="assets/apps/android-scan-light.png" width="412" height="800" alt="Check my files part way through a Quick scan. Read 10 of 24 files, found so far 2, with a Stop button. Below, Downloads and Pictures each have 1 found, and Documents and five more folders wait their turn." />
+              <img class="for-night" src="assets/apps/android-scan-dark.png" width="412" height="800" alt="Check my files part way through a Quick scan. Read 10 of 24 files, found so far 2, with a Stop button. Below, Downloads and Pictures each have 1 found, and Documents and five more folders wait their turn." />
             </figure>
-            <figure class="page-shot">
-              <picture>
-                <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-results-dark.png" />
-                <img
-                  src="assets/apps/android-results-light.png"
-                  width="412"
-                  height="800"
-                  alt="Results. 5 files need a look, out of 4,812. What to do first, 1 of 5 done. Step one, move the money in this crypto wallet to a new wallet, then delete the file, with How to do this open and its five steps, for wallet backup.txt in Downloads."
-                />
-              </picture>
+            <figure>
+              <img class="for-day" src="assets/apps/android-results-light.png" width="412" height="800" alt="Results. 5 files need a look, out of 4,812. What to do first, 1 of 5 done. Step one, move the money in this crypto wallet to a new wallet, then delete the file, with How to do this open and its five steps, for wallet backup.txt in Downloads." />
+              <img class="for-night" src="assets/apps/android-results-dark.png" width="412" height="800" alt="Results. 5 files need a look, out of 4,812. What to do first, 1 of 5 done. Step one, move the money in this crypto wallet to a new wallet, then delete the file, with How to do this open and its five steps, for wallet backup.txt in Downloads." />
             </figure>
           </div>
         </section>
 
-        <section class="sec" id="join" aria-labelledby="join-title">
-          <div class="join">
-            <h2 id="join-title">Help test it</h2>
-            <p class="say">
-              Google Play wants a new app tested by real people before it goes public. If you have an Android phone
-              and a couple of weeks, that's the part I need help with.
-            </p>
-            <div class="grid2">
-              <div>
-                <h3>What you get</h3>
-                <ul>
-                  <li>Clotr for Android before anyone else, free, installed from Google Play like any app.</li>
-                  <li>A say in what it becomes. If a warning confuses you, I want to hear it before launch.</li>
-                </ul>
-              </div>
-              <div>
-                <h3>What it asks of you</h3>
-                <ul>
-                  <li>An Android phone running Android 10 or newer.</li>
-                  <li>Keeping it installed for about two weeks.</li>
-                  <li>A few lines of feedback, whenever something breaks or reads oddly.</li>
-                </ul>
-              </div>
+        <section class="block" id="join" aria-labelledby="join-title">
+          <h2 class="marked" id="join-title">Help test it</h2>
+          <p>
+            Google Play wants a new app tested by real people before it goes public. If you have an Android phone
+            and a couple of weeks, that's the part I need help with.
+          </p>
+          <div class="cards two join-cards">
+            <div class="card roomy">
+              <h3>What you get</h3>
+              <ul class="dots">
+                <li>Clotr for Android before anyone else, free, installed from Google Play like any app.</li>
+                <li>A say in what it becomes. If a warning confuses you, I want to hear it before launch.</li>
+              </ul>
             </div>
-            <p class="buttons">
-              <a class="btn join-link" href="mailto:support@clotr.app?subject=Android%20tester">Email me to join</a>
-            </p>
-            <p class="fine">
-              Send it from the Google account your phone uses, and I'll reply with the link to the test on Google
-              Play.
-            </p>
+            <div class="card roomy">
+              <h3>What it asks of you</h3>
+              <ul class="dots">
+                <li>An Android phone running Android 10 or newer.</li>
+                <li>Keeping it installed for about two weeks.</li>
+                <li>A few lines of feedback, whenever something breaks or reads oddly.</li>
+              </ul>
+            </div>
           </div>
+          <p class="actions">
+            <a class="btn join-link" href="mailto:support@clotr.app?subject=Android%20tester">Email me to join</a>
+          </p>
+          <p class="under">
+            Send it from the Google account your phone uses, and I'll reply with the link to the test on Google
+            Play.
+          </p>
         </section>
 
-        <section class="sec" aria-labelledby="next-title">
-          <h2 id="next-title">After Android</h2>
-          <p class="say">
+        <section class="block" aria-labelledby="next-title">
+          <h2 class="marked" id="next-title">After Android</h2>
+          <p>
             Safari and iPhone come later, once Android is out and people are using it. Until then,
             <a href="extension.html">the browser extension</a> and <a href="windows.html">Clotr for Windows</a>
             cover the computer.
@@ -181,15 +145,44 @@
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

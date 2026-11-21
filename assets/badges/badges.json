@@ -1,24 +1,24 @@
 {
-  "refreshed": "2026-10-27",
+  "refreshed": "2026-11-21",
   "failures": [],
   "tests": {
     "value": "passing",
-    "checked": "2026-10-27",
+    "checked": "2026-11-21",
     "ok": true
   },
   "license": {
     "value": "AGPL-3.0",
-    "checked": "2026-10-27",
+    "checked": "2026-11-21",
     "ok": true
   },
   "scorecard": {
-    "value": "7.6",
-    "checked": "2026-10-27",
+    "value": "7.1",
+    "checked": "2026-11-21",
     "ok": true
   },
   "bestPractices": {
     "value": "silver",
-    "checked": "2026-10-27",
+    "checked": "2026-11-21",
     "ok": true
   }
 }

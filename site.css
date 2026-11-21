@@ -1,5 +1,5 @@
-/* The website's own layout, on top of kit/tokens.css and kit/components.css. Flat: no gradients, shadows, glass or
-   glows. */
+/* The website's own layout, on top of kit/tokens.css and kit/components.css. The README look's plum fade sits
+   behind Plum; otherwise flat: no shadows, glass or glows. */
 
 body {
   min-height: 100vh;
@@ -42,6 +42,13 @@ main {
 }
 .top .links a[aria-current="page"] {
   font-weight: 700;
+}
+
+/* Pictures come in a light version (Light) and a dark version (Plum and Ember), and only the look's own one shows. */
+:root[data-look="light"] .for-night,
+:root:has(#look-light:checked) .for-night,
+:root:not([data-look="light"]):not(:has(#look-light:checked)) .for-day {
+  display: none !important;
 }
 
 .hero {
@@ -557,5 +564,1177 @@ footer.bottom .trust-badges {
   }
   footer.bottom nav {
     align-self: stretch;
+  }
+}
+
+/* The skip link and the field's main button sit on --main, whose text colour is --main-text in every look. */
+.skip,
+.btn.on-field {
+  color: var(--main-text);
+}
+
+/* ==========================================================================================================
+   The README look (Nov 2026): plum fade, orange marks, Recursive, cards and tiles. Everything below sits on top of
+   the rules above and is shared by every page.
+   ========================================================================================================== */
+
+/* Plum's fade, from the README header's plum down to its dark plum. Light and Ember stay flat. */
+body {
+  background: linear-gradient(180deg, #4a3560 0, #2a1f35 640px, #1a1221 100%) var(--page);
+}
+:root[data-look="light"] body,
+:root:has(#look-light:checked) body,
+:root[data-look="ember"] body,
+:root:has(#look-ember:checked) body {
+  background: var(--page);
+}
+
+/* ---------- Top bar ---------- */
+.top {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.top > .wrap {
+  max-width: 1168px;
+}
+.top nav {
+  min-height: 72px;
+  padding: 0;
+  gap: var(--s-4) var(--s-6);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.brand .brand-icon {
+  width: 34px;
+  height: 34px;
+}
+.brand .wordmark,
+.top .wordmark {
+  height: 29px;
+  width: auto;
+}
+.top .links {
+  gap: var(--s-2) 28px;
+}
+.top .links a,
+.field .top .links a {
+  color: var(--soft);
+  text-decoration: none;
+}
+.top .links a:hover,
+.top .links a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* The old hero band sat on the field colour. Now the hero sits on the page, like the rest. */
+.field {
+  background: none;
+  color: var(--ink);
+}
+.field a {
+  color: var(--link);
+}
+.hero .fine,
+.hero .shot figcaption {
+  color: var(--soft);
+}
+
+/* ---------- Type and links ---------- */
+main a,
+.top a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+main a:hover {
+  text-decoration-color: currentColor;
+}
+.lede,
+.sec p,
+.sec li {
+  color: var(--soft);
+}
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--link);
+  margin: 0 0 var(--s-3);
+  font-weight: 400;
+}
+.field .eyebrow {
+  color: var(--link);
+}
+code,
+kbd {
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: 0.94em;
+  color: var(--ink);
+}
+.arrow::after {
+  content: " \2192";
+}
+
+/* The orange mark before each section heading, the README's quote strip half-line. */
+.marked {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 32px;
+  margin: 0 0 var(--s-5);
+}
+.marked::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--main);
+}
+h3.marked {
+  font-size: 20px;
+  margin: var(--s-6) 0 var(--s-3);
+}
+
+/* ---------- Page layout ---------- */
+.page {
+  padding-top: 56px;
+  padding-bottom: var(--s-6);
+}
+.page-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+  padding: 0 0 var(--s-8);
+}
+.page-hero.solo {
+  display: block;
+  max-width: 760px;
+}
+.page-hero h1 {
+  font-size: 42px;
+  line-height: 1.1;
+}
+/* The two long reading pages keep the bigger heading their own design has. */
+.page-hero.solo:has(+ .with-toc) h1 {
+  font-size: 46px;
+}
+.page-hero .lede {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  margin-top: var(--s-4);
+  max-width: 48ch;
+}
+.page-hero.solo .lede {
+  max-width: none;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-5);
+}
+.page-hero .fine,
+.under {
+  margin-top: var(--s-4);
+  font-size: var(--text-sm);
+  color: var(--soft);
+  max-width: 60ch;
+}
+.block {
+  padding: 0 0 var(--s-8);
+}
+.block > p,
+.block > ul,
+.block > ol {
+  max-width: 760px;
+}
+.block > p + p {
+  margin-top: var(--s-4);
+}
+.block p,
+.block li {
+  color: var(--soft);
+}
+.block > .more {
+  margin-top: var(--s-4);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border-radius: 8px;
+  padding: 13px 22px;
+}
+a.btn,
+main a.btn,
+.field a.btn {
+  color: var(--btn-text);
+  text-decoration: none;
+}
+.btn.plain,
+main a.btn.plain {
+  background: none;
+  color: var(--ink);
+  padding: 13px 0;
+}
+.btn.plain:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Cards, shots, tiles ---------- */
+.card {
+  border-radius: 12px;
+  border-color: var(--rule);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+.card h3 {
+  font-size: 18px;
+  color: var(--ink);
+  margin: 0 0 var(--s-2);
+}
+.card p,
+.card li {
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.cards.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.frame {
+  margin: 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 70%, #4a3560 30%);
+}
+.frame img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.frame.phones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3);
+  padding: 0;
+  background: none;
+}
+.frame.phones img {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tiles.two {
+  grid-template-columns: repeat(2, minmax(0, 236px));
+}
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 84px;
+  padding: 0 16px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--ink);
+  text-decoration: none;
+}
+main a.tile {
+  color: var(--ink);
+  text-decoration: none;
+}
+a.tile:hover {
+  border-color: var(--frame);
+}
+.tile img {
+  flex: none;
+  width: 52px;
+  height: 52px;
+}
+.tile b {
+  display: block;
+  font-family: var(--font-casual);
+  font-variation-settings: var(--casual);
+  font-size: 19px;
+  line-height: 1.2;
+}
+.tile small {
+  display: block;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: 12.5px;
+  color: var(--soft);
+}
+
+/* Lists with orange squares, and numbered steps with orange numbers. */
+.dots,
+.nums {
+  list-style: none;
+  margin: var(--s-4) 0 0;
+  padding: 0;
+}
+.dots li,
+.nums li {
+  position: relative;
+  padding-left: 20px;
+  margin-top: var(--s-3);
+}
+.dots li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--main);
+}
+.nums {
+  counter-reset: n;
+}
+.nums li {
+  counter-increment: n;
+}
+.nums li::before {
+  content: counter(n);
+  position: absolute;
+  left: 0;
+  top: -0.2em;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: var(--text-sm);
+  color: var(--link);
+}
+
+.code {
+  margin: var(--s-4) 0 0;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--side);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* Pages with a list of their sections on the right. */
+.with-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  gap: var(--s-8);
+  align-items: start;
+}
+.toc {
+  position: sticky;
+  top: var(--s-5);
+  border-left: 1px solid var(--rule);
+  padding-left: var(--s-4);
+  font-size: var(--text-sm);
+}
+.toc .eyebrow {
+  margin-bottom: var(--s-3);
+}
+.toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.toc li + li {
+  margin-top: var(--s-2);
+}
+.toc a,
+main .toc a {
+  color: var(--soft);
+  text-decoration: none;
+}
+.toc a:hover {
+  color: var(--ink);
+}
+
+/* ---------- Footer ---------- */
+footer.bottom {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  padding: var(--s-6) 0 var(--s-6);
+  background: none;
+}
+footer.bottom > .wrap {
+  display: block;
+  max-width: 1168px;
+}
+.foot-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-5);
+}
+.foot-row + .foot-row {
+  margin-top: var(--s-5);
+}
+.foot-row nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) 26px;
+  margin-left: auto;
+}
+.foot-row nav a {
+  color: var(--soft);
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+}
+.foot-row nav a:hover {
+  color: var(--ink);
+}
+.foot-free p {
+  color: var(--ink);
+}
+.foot-free p.fine {
+  font-size: var(--text);
+  color: var(--soft);
+}
+.foot-free a {
+  color: var(--link);
+}
+footer.bottom .trust-badges {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+footer.bottom .trust-badges img {
+  height: 22px;
+  width: auto;
+}
+
+/* ---------- The look switch: closed by default, opens on hover, focus or click ---------- */
+.look-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.look-switch legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.look-now {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--frame);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--ink);
+  font: 700 var(--text-sm) / 1 var(--font);
+  cursor: pointer;
+}
+.look-mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+.look-options {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--frame);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+}
+.look-options label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: var(--text-sm);
+  color: var(--soft);
+  cursor: pointer;
+}
+.look-options label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f7f1fb;
+  box-sizing: border-box;
+}
+.look-options label:has(#look-plum)::before {
+  background: none;
+  border: 1.5px solid #b98cf0;
+}
+.look-options label:has(#look-ember)::before {
+  background: #ff6700;
+}
+.look-options label:has(#look-light)::before {
+  border: 1px solid var(--frame);
+}
+.look-options input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.look-options label:has(input:checked) {
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  color: var(--ink);
+  font-weight: 700;
+}
+.look-options label:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+@media (forced-colors: active) {
+  .look-options label:has(input:checked) {
+    outline: 2px solid CanvasText;
+  }
+}
+/* With the script running, the switch shows "Theme: <look>" until it opens. Without it, the looks stay in view. */
+:root[data-look] .look-now {
+  display: inline-flex;
+}
+:root[data-look] .look-switch:not(.open) .look-options {
+  display: none;
+}
+/* Open: the box widens out to the left of the button, which shrinks to its mark. */
+:root[data-look] .look-switch.open .look-now {
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+  font-size: 0;
+  gap: 0;
+  margin-left: 6px;
+  order: 2;
+}
+:root[data-look] .look-switch.open .look-options {
+  order: 1;
+  animation: look-widen 180ms var(--ease);
+}
+@keyframes look-widen {
+  from {
+    clip-path: inset(0 0 0 100% round 8px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-look] .look-switch.open .look-options {
+    animation: none;
+  }
+}
+
+/* ---------- Phone width: one column, the same sections in the same order ---------- */
+@media (max-width: 860px) {
+  .page-hero,
+  .with-toc {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+  .toc {
+    display: none;
+  }
+  .cards,
+  .cards.two,
+  .tiles {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .wrap {
+    padding: 0 16px;
+  }
+  .top nav {
+    min-height: 0;
+    padding: 14px 0;
+    gap: 10px 18px;
+  }
+  .top .links {
+    margin-left: 0;
+    justify-content: flex-start;
+    gap: 6px 18px;
+    font-size: 15px;
+    width: 100%;
+  }
+  .top .links a {
+    padding: 6px 0;
+  }
+  .page {
+    padding-top: var(--s-6);
+    padding-bottom: 0;
+  }
+  .page-hero h1,
+  .page-hero.solo:has(+ .with-toc) h1 {
+    font-size: 34px;
+  }
+  .marked {
+    font-size: 25px;
+  }
+  .cards,
+  .cards.two,
+  .tiles,
+  .tiles.two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .frame.phones {
+    gap: 6px;
+  }
+  .foot-row nav {
+    margin-left: 0;
+    gap: 8px 18px;
+  }
+  .foot-row nav a {
+    padding: 4px 0;
+  }
+  .look-now,
+  .look-options label {
+    min-height: 40px;
+  }
+  .page-hero,
+  .block {
+    padding-bottom: var(--s-7);
+  }
+}
+
+/* ---------- Home ---------- */
+.home {
+  max-width: 1136px;
+  padding-top: 64px;
+  padding-bottom: var(--s-6);
+}
+.home-hero h1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px 24px;
+  font-size: 44px;
+  line-height: 1;
+  text-align: center;
+}
+.home-hero h1 .wordmark-big {
+  height: 63px;
+  width: auto;
+}
+.home-hero h1 span {
+  padding-bottom: 6px;
+}
+.home-hero .sub {
+  margin-top: 18px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.home-hero .sub span {
+  margin: 0 12px;
+}
+.catch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 568px;
+  gap: var(--s-6);
+  align-items: center;
+  margin-top: 22px;
+}
+.home-quote {
+  margin: 0;
+  max-width: 470px;
+}
+.quote-mark {
+  display: block;
+  width: 136px;
+  height: 9px;
+  margin-bottom: 36px;
+  background:
+    linear-gradient(var(--main), var(--main)) 0 0 / 18px 9px no-repeat,
+    linear-gradient(var(--main), var(--main)) 26px 4px / 110px 2px no-repeat;
+  border-radius: 3px;
+}
+.home-quote blockquote {
+  margin: 0;
+}
+.home-quote blockquote p {
+  font-size: 19px;
+  line-height: 1.45;
+  font-style: oblique 10deg;
+  font-variation-settings:
+    "CASL" 0.4,
+    "MONO" 0,
+    "slnt" -10;
+  color: var(--ink);
+}
+.home-quote .who {
+  margin-top: 18px;
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+.catch-tabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.catch-tabs label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 12px;
+  border: 1px solid var(--frame);
+  border-radius: 13px;
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  font-size: 12.5px;
+  color: var(--soft);
+  cursor: pointer;
+}
+.catch-tabs input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.catch-tabs label:has(input:checked) {
+  border-color: var(--main);
+  background: color-mix(in srgb, var(--main) 14%, transparent);
+  color: var(--ink);
+}
+.catch-tabs label:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.catch-shot .frame {
+  background: color-mix(in srgb, #4a3560 70%, var(--surface));
+}
+.catch-shot:has(#catch-chat:checked) .catch-code,
+.catch-shot:has(#catch-code:checked) .catch-chat {
+  display: none;
+}
+.home-tiles {
+  margin-top: 20px;
+}
+.vet {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  margin: 26px 0 0;
+  font-size: var(--text-sm);
+  color: var(--soft);
+  text-align: center;
+}
+.vet img {
+  width: 40px;
+  height: auto;
+}
+.vet b {
+  font-family: var(--font-mono);
+  font-variation-settings: var(--mono-axis);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--soft);
+  font-size: var(--text-xs);
+}
+@media (max-width: 860px) {
+  .catch {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-quote {
+    max-width: none;
+  }
+}
+@media (max-width: 600px) {
+  .home {
+    padding-top: var(--s-6);
+  }
+  .home-hero h1 {
+    font-size: 30px;
+    gap: 6px 14px;
+  }
+  .home-hero h1 .wordmark-big {
+    height: 44px;
+  }
+  .home-hero .sub span {
+    margin: 0 6px;
+  }
+  .catch-tabs {
+    justify-content: flex-start;
+  }
+  .catch-shot .frame {
+    padding: 8px;
+  }
+  .quote-mark {
+    margin-bottom: 20px;
+  }
+}
+
+/* The wordmark has a third version: Plum's lavender letters and Ember's light plum ones. */
+:root[data-look="light"] .for-plum,
+:root:has(#look-light:checked) .for-plum,
+:root[data-look="ember"] .for-plum,
+:root:has(#look-ember:checked) .for-plum,
+:root:not([data-look="ember"]):not(:has(#look-ember:checked)) .for-ember {
+  display: none !important;
+}
+
+/* The footer's own layout, over the older one above. */
+footer.bottom > .wrap {
+  color: var(--ink);
+  font-size: var(--text-sm);
+}
+footer.bottom .foot-row nav {
+  flex-basis: auto;
+  justify-content: flex-end;
+  font-size: var(--text-sm);
+}
+.foot-free p,
+.foot-free p.fine {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.tile {
+  gap: 12px;
+}
+.tile small {
+  font-size: 12px;
+  white-space: nowrap;
+}
+@media (max-width: 600px) {
+  footer.bottom .foot-row nav {
+    justify-content: flex-start;
+    flex-basis: 100%;
+  }
+  .tile small {
+    white-space: normal;
+  }
+}
+
+/* ---------- Extension and shared page pieces ---------- */
+.page-hero .fine + .fine {
+  margin-top: 2px;
+}
+.page-hero .frame {
+  margin-top: 4px;
+}
+ul.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.store-cards .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  padding: var(--s-4);
+}
+.store-cards img {
+  height: 44px;
+  width: auto;
+}
+.more {
+  margin-top: var(--s-4);
+  color: var(--soft);
+  max-width: 760px;
+}
+.card.roomy {
+  padding: 28px 26px;
+}
+.card.roomy p,
+.card.roomy li {
+  font-size: var(--text);
+}
+.card.roomy .nums li {
+  color: var(--ink);
+}
+.more-tiles {
+  margin-top: var(--s-5);
+}
+.block > ul.cards,
+.block > .cards {
+  max-width: none;
+}
+.wrap.page {
+  max-width: 1136px;
+}
+
+/* Text beside a picture, the picture on the right; .flip puts it on the left. */
+.feature-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: start;
+}
+.feature-row > div > p + p {
+  margin-top: var(--s-4);
+}
+.feature-row.flip > figure {
+  order: -1;
+}
+.frame.bare {
+  padding: 0;
+  background: none;
+}
+.frame.bare img {
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+}
+@media (max-width: 860px) {
+  .feature-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+  .feature-row.flip > figure {
+    order: 0;
+  }
+}
+.page-hero .lede.short {
+  max-width: 44ch;
+}
+.feature-row .frame.phones {
+  display: grid;
+}
+.frame.phones img {
+  width: 100%;
+  height: auto;
+}
+.join-cards {
+  margin-top: var(--s-5);
+}
+.card.roomy h3 {
+  font-size: 19px;
+}
+.card .dots li {
+  margin-top: var(--s-3);
+}
+.card h3 a,
+main .card h3 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.card h3 a:hover {
+  text-decoration: underline;
+}
+.tool-cards .card p + .code,
+.tool-cards .code {
+  margin-top: var(--s-4);
+}
+.card .under {
+  margin-top: var(--s-4);
+}
+pre.code code {
+  font-size: inherit;
+}
+
+/* ---------- Download ---------- */
+.page-title {
+  font-size: 42px;
+  margin-bottom: var(--s-6);
+}
+.product-list {
+  display: grid;
+  gap: var(--s-5);
+}
+.product.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-7);
+  align-items: center;
+  padding: 40px;
+  margin: 0;
+}
+.product.card h2 {
+  font-size: 28px;
+  margin-bottom: var(--s-4);
+}
+.product .say {
+  color: var(--soft);
+  max-width: 46ch;
+}
+.product .store-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: var(--s-5);
+}
+.product .store-badges img {
+  height: 44px;
+  width: auto;
+}
+.frame.phones.boxed {
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--side);
+}
+.later {
+  margin-top: var(--s-6);
+  color: var(--soft);
+}
+@media (max-width: 860px) {
+  .product.card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-5);
+    padding: 24px 20px;
+  }
+}
+@media (max-width: 600px) {
+  .page-title {
+    font-size: 34px;
+  }
+  .frame.phones.boxed {
+    padding: 8px;
+  }
+}
+.product .eyebrow,
+.card .eyebrow {
+  color: var(--link);
+}
+
+/* ---------- Long pages: How it works, What Clotr does ---------- */
+.doc > .block {
+  padding-bottom: var(--s-7);
+}
+.doc .block > p,
+.doc .block > ul,
+.doc .block > ol {
+  max-width: none;
+}
+.doc .block > p + p,
+.doc .block > ul + p,
+.doc .block > p + ul {
+  margin-top: var(--s-4);
+}
+.doc .card.box {
+  margin-top: var(--s-4);
+}
+.doc .card.box p {
+  font-size: var(--text);
+}
+.doc .card.box .fine {
+  margin-top: var(--s-3);
+  font-size: var(--text-sm);
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+  list-style: none;
+  margin: 0 0 var(--s-5);
+  padding: 0;
+}
+.stats b {
+  display: block;
+  font-family: var(--font-casual);
+  font-variation-settings: var(--casual);
+  font-size: 26px;
+  color: var(--ink);
+}
+.stats span {
+  font-size: var(--text-sm);
+  color: var(--soft);
+}
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.doc .score {
+  color: var(--soft);
+}
+.doc .score + p {
+  margin-top: var(--s-4);
+}
+
+/* ---------- Teams ---------- */
+.card.never {
+  padding: 28px;
+  background: linear-gradient(135deg, color-mix(in srgb, #4a3560 60%, var(--surface)), var(--surface));
+}
+:root[data-look="light"] .card.never,
+:root:has(#look-light:checked) .card.never {
+  background: var(--surface);
+}
+.card.never ul {
+  list-style: none;
+  margin: 0 0 var(--s-4);
+  padding: 0;
+}
+.card.never li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-family: var(--font-casual);
+  font-variation-settings: var(--casual);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--ink);
+}
+.card.never li::before {
+  content: "\00d7";
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--main) 22%, transparent);
+  color: var(--link);
+  font-size: 15px;
+}
+.teams-page .block > p {
+  max-width: 760px;
+}
+.teams-page .under {
+  margin-top: 0;
+}
+.frame.phones figure {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: visible;
   }
 }

@@ -1,5 +1,8 @@
-/* Clotr's suite look: the tokens. Plum on steel, light and dark, flat (no glass/lift/sheen). Names are shared
-   with the extension's popup.css and Clotr for Windows' settings.css where they mean the same thing. */
+/* The website's three looks, Light, Plum and Ember, picked with the switch in the footer (look.js keeps the
+   pick). The colours come from Clotr for Android's three looks, apps/android/clotr/src/main/java/app/clotr/ui/
+   ClotrColors.kt (ClotrThemes.Light and .Ember), so the site and the apps match; Plum is the README's dark plum. Tokens
+   with no Android counterpart (the field, the warning's paper) keep the site's own values. Plum is the base: a first visit,
+   or a browser with no script, shows it. No look follows the computer's dark mode or the time of day. */
 
 @font-face {
   font-family: "Recursive";
@@ -9,30 +12,33 @@
   font-display: swap;
 }
 
+/* Plum: the README look, dark plum with orange and lavender (plum #4A3560, dark plum #22192B and #1A1221, orange
+   #FF6700, lavender #F7F1FB). The page's plum fade lives in site.css. */
 :root {
   color-scheme: dark;
-  --page: #1e1f22;
-  --side: #24272b;
-  --surface: #1e1f22;
-  --ink: #ececec;
-  --soft: #a9aeb4;
-  --rule: #34373c;
-  --frame: #3a3d42;
+  --page: #22192b;
+  --side: #1a1221;
+  --surface: #2a1f35;
+  --ink: #f7f1fb;
+  --soft: #bcaec9;
+  --rule: #45355a;
+  --frame: #93819f;
   --field: #c2c7cc;
   --field-ink: #5b3a63;
-  --main: #5b3a63;
-  --btn: #5b3a63;
-  --btn-text: #ffffff;
-  --link: #c9a6d6;
-  --focus: #c9a6d6;
-  --alarm: #f2a0b8;
-  --caught-hi: #f7bcd8;
-  --caught-line: #9c2b4a;
-  --warn-paper: #d9dde1;
-  --warn-edge: #9ea4ab;
-  --warn-ink: #1f2226;
-  --warn-label: #5b3a63;
-  --warn-label-ink: #ffffff;
+  --main: #ff6700;
+  --main-text: #1a1221;
+  --btn: #ff6700;
+  --btn-text: #1a1221;
+  --link: #ff8f4d;
+  --focus: #ff9a60;
+  --alarm: #ff8a80;
+  --caught-hi: #4a2a2c;
+  --caught-line: #ff8a80;
+  --warn-paper: #463822;
+  --warn-edge: #f4c25c;
+  --warn-ink: #f7f1fb;
+  --warn-label: #ff9a60;
+  --warn-label-ink: #0b0b0b;
 
   --font: "Recursive", system-ui, "Segoe UI", sans-serif;
   --font-casual: "Recursive", system-ui, sans-serif;
@@ -71,31 +77,60 @@
   --t-fast: 0.15s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    color-scheme: light;
-    --page: #ffffff;
-    --side: #f3f4f5;
-    --surface: #ffffff;
-    --ink: #1f2226;
-    --soft: #5e6670;
-    --rule: #dde0e3;
-    --frame: #d3d6da;
-    --link: #5b3a63;
-    --alarm: #9c2b4a;
-    --focus: #5b3a63;
-  }
-}
-:root[data-theme="light"] {
+/* Light: warm paper and orange (ClotrThemes.Light). */
+:root[data-look="light"],
+:root:has(#look-light:checked) {
   color-scheme: light;
-  --page: #ffffff;
-  --side: #f3f4f5;
-  --surface: #ffffff;
-  --ink: #1f2226;
-  --soft: #5e6670;
-  --rule: #dde0e3;
-  --frame: #d3d6da;
-  --link: #5b3a63;
-  --alarm: #9c2b4a;
-  --focus: #5b3a63;
+  --page: #fdf8f2;
+  --side: #f9f0e7;
+  --surface: #fffdfa;
+  --ink: #2b1f17;
+  --soft: #75655a;
+  --rule: #eee2d6;
+  --frame: #a89a8d;
+  --field: #eee2d6;
+  --field-ink: #5b3a63;
+  --main: #5b3a63;
+  --main-text: #ffffff;
+  --btn: #ff6700;
+  --btn-text: #2b1206;
+  --link: #b84a0c;
+  --focus: #b84a0c;
+  --alarm: #b3261e;
+  --caught-hi: #fff0e6;
+  --caught-line: #b3261e;
+  --warn-paper: #fbf0d8;
+  --warn-edge: #e3a41f;
+  --warn-ink: #2b1a00;
+  --warn-label: #b84a0c;
+  --warn-label-ink: #ffffff;
+}
+
+/* Ember: dark plum with orange, the emblem's colours (ClotrThemes.Ember). */
+:root[data-look="ember"],
+:root:has(#look-ember:checked) {
+  color-scheme: dark;
+  --page: #2b2135;
+  --side: #1a1221;
+  --surface: #372a44;
+  --ink: #f7f1fb;
+  --soft: #bba9c9;
+  --rule: #4c3b5c;
+  --frame: #93819f;
+  --field: #1a1221;
+  --field-ink: #f7f1fb;
+  --main: #ff6700;
+  --main-text: #0b0b0b;
+  --btn: #ff6700;
+  --btn-text: #0b0b0b;
+  --link: #b98cf0;
+  --focus: #ff9a60;
+  --alarm: #ff8a80;
+  --caught-hi: #4a2a2c;
+  --caught-line: #ff8a80;
+  --warn-paper: #463822;
+  --warn-edge: #f4c25c;
+  --warn-ink: #f7f1fb;
+  --warn-label: #ff9a60;
+  --warn-label-ink: #0b0b0b;
 }

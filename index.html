@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>Clotr warns you before personal details go into an AI chat</title>
@@ -30,9 +30,8 @@
       content="Clotr spots a password, a card number or an ID number before it goes into an AI chat."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
@@ -40,226 +39,120 @@
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home" aria-current="page">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home" aria-current="page"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="copy">
-            <img class="wordmark-big" src="assets/wordmark.svg" alt="Clotr" width="232" height="86" />
-            <h1 id="hero-title">catches it before it's sent.</h1>
-            <p class="lede">
-              A password, a card number or an ID number can end up in an AI chat with one careless paste. Clotr spots
-              it first and asks what you want to do, and all of the checking happens on your own device.
-            </p>
-            <p class="fine">Free and open source. If you choose to send a message, it still goes to the AI service.</p>
-          </div>
-          <figure class="shot popup-shot">
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcset="assets/hero/popup-dark.png" />
-              <img src="assets/hero/popup-light.png" width="420" height="740" alt="Clotr's popup, showing where your details went and this week's counts, on made-up activity." />
-            </picture>
-          </figure>
-        </section>
       </div>
     </header>
 
     <main id="main">
-      <section class="sec quote-sec" aria-label="Why Clotr exists">
-        <div class="wrap">
-          <figure class="pull-quote">
-            <blockquote>
-              <p>
-                Privacy shouldn’t require technical knowledge, expensive tools, or opting out of modern life. It should
-                be the default.
-              </p>
-            </blockquote>
-            <p class="who">u/monarch-03, on r/privacy</p>
-          </figure>
-        </div>
-      </section>
-
-      <section class="sec" aria-labelledby="try-title">
-        <div class="wrap">
-          <h2 id="try-title">Try it, here</h2>
-          <ul class="list">
-            <li>
-              <div>
-                <a href="try.html">Try the warning before you install</a>
-                <small>Paste a made-up detail into a practice chat box and see what Clotr does.</small>
+      <div class="wrap home">
+        <section class="home-hero" aria-labelledby="hero-title">
+          <h1 id="hero-title">
+            <img class="wordmark-big for-day" src="assets/wordmark.svg" alt="Clotr" width="170" height="63" /><img class="wordmark-big for-plum" src="assets/wordmark-plum.svg" alt="Clotr" width="170" height="63" /><img class="wordmark-big for-ember" src="assets/wordmark-ember.svg" alt="Clotr" width="170" height="63" />
+            <span>catches it before it's sent.</span>
+          </h1>
+          <p class="sub">free <span aria-hidden="true">&middot;</span> runs on your device <span aria-hidden="true">&middot;</span> browsers, Windows, Android, code editors</p>
+          <div class="catch">
+            <figure class="home-quote">
+              <span class="quote-mark" aria-hidden="true"></span>
+              <blockquote>
+                <p>
+                  Privacy shouldn’t require technical knowledge, expensive tools, or opting out of modern life. It
+                  should be the default.
+                </p>
+              </blockquote>
+              <p class="who">u/monarch-03, on r/privacy</p>
+            </figure>
+            <div class="catch-shot">
+              <div class="catch-tabs">
+                <label><input type="radio" name="catch" id="catch-chat" autocomplete="off" checked />When you chat</label>
+                <label><input type="radio" name="catch" id="catch-code" autocomplete="off" />When you code</label>
               </div>
-            </li>
-            <li>
-              <div>
-                <a href="try.html#practice">Is this a scam? practice</a>
-                <small>Six made-up scams, and a drill to spot what shouldn't be sent.</small>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
+              <figure class="frame catch-chat">
+                <img src="assets/catch/catch-chat.png" width="534" height="309" alt="Clotr’s warning naming a phone number in the message, with the choices Clot this leak and Leave it alone." />
+              </figure>
+              <figure class="frame catch-code">
+                <img src="assets/catch/catch-code.png" width="534" height="309" alt="VS Code with a Claude chat. A message pasting a made-up .env file was stopped before it was sent: Clotr found a database connection string in it." />
+              </figure>
+            </div>
+          </div>
+        </section>
 
-      <section class="products" aria-label="Clotr&#39;s three apps">
-        <div class="product-list">
-          <article class="product" id="extension" aria-labelledby="ext-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">Try it in a minute</p>
-                          <h3 id="ext-title">The browser extension</h3>
-                          <p class="say">
-                            It reads the chat box on ChatGPT, Claude, Gemini and 16 more AI sites while you type, and catches a
-                            photo that still carries the place it was taken before you attach it.
-                          </p>
-                          <p class="buttons store-badges">
-                            <a href="https://chromewebstore.google.com/detail/gkgpgejhhmmhklaghdnbjbalkmpjnmab">
-                              <img src="assets/stores/chrome-web-store-border.png" width="185" height="56" alt="Available in the Chrome Web Store" />
-                            </a>
-                            <a href="https://microsoftedge.microsoft.com/addons/detail/hbangnmofjeaieaeamlncpcfmhbclbkj">
-                              <img src="assets/stores/edge-addons.png" width="211" height="56" alt="Get it from Microsoft Edge" />
-                            </a>
-                            <a href="https://addons.mozilla.org/firefox/addon/clotr-clot-your-data-leaks/">
-                              <img src="assets/stores/firefox-addons.svg" width="161" height="56" alt="Get the Add-on for Firefox" />
-                            </a>
-                          </p>
-                          <p class="fine">On a computer. Brave uses the Chrome Web Store. <a href="extension.html">More about the extension</a></p>
-                        </div>
-                        <figure class="product-shot">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/hero/warning-dark.png" />
-                            <img
-                              src="assets/hero/warning-light.png"
-                              width="850"
-                              height="470"
-                              alt="An AI chat with a made-up Social Security number in the message box, and Clotr’s warning naming the number with the choices Clot this leak and Leave it alone."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
+        <ul class="tiles home-tiles" aria-label="Get Clotr">
+          <li id="extension">
+            <a class="tile" href="extension.html"><img src="assets/doors/door-extension.svg" alt="" width="52" height="52" /><span><b>Browsers</b><small>Chrome &middot; Edge &middot; Firefox</small></span></a>
+          </li>
+          <li>
+            <a class="tile" href="windows.html"><img src="assets/doors/door-windows.svg" alt="" width="52" height="52" /><span><b>Windows</b><small>Microsoft Store</small></span></a>
+          </li>
+          <li>
+            <a class="tile" href="android.html"><img src="assets/doors/door-android.svg" alt="" width="52" height="52" /><span><b>Android</b><small>Coming soon</small></span></a>
+          </li>
+          <li>
+            <a class="tile" href="developers.html"><img src="assets/doors/door-vscode.svg" alt="" width="52" height="52" /><span><b>Code editors</b><small>VS Code &middot; JetBrains</small></span></a>
+          </li>
+        </ul>
 
-          <article class="product alt" id="windows" aria-labelledby="win-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">The full set, on your PC</p>
-                          <h3 id="win-title">Clotr for Windows</h3>
-                          <p class="say">
-                            A desktop app that warns you before you paste something private into an AI app. Then it goes
-                            further and looks through your files for passwords, ID numbers and photos that give away a place,
-                            and finishes with a short list of what to fix first.
-                          </p>
-                          <p class="buttons when-store">
-                            <a class="btn" href="https://apps.microsoft.com/detail/9P197J2PGJ8X">Get it from Microsoft</a>
-                            <a class="btn ghost" href="https://apps.microsoft.com/detail/9P197J2PGJ8X?mode=direct">Download the installer</a>
-                          </p>
-                          <p class="fine"><a href="windows.html">See Clotr for Windows</a></p>
-                        </div>
-                        <figure class="product-shot">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/apps/windows-scan-dark.png" />
-                            <img
-                              src="assets/apps/windows-scan-light.png"
-                              width="640"
-                              height="400"
-                              alt="Clotr for Windows' Scan screen shows a folder map from This PC through Desktop, Documents and Downloads. A card points at aws-credentials.csv with an AWS Access Key, and secrets.json, .env and IMG_0912.jpg appear below as worth a look, with seven more listed."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
-
-          <article class="product" id="android" aria-labelledby="and-title">
-                      <div class="product-in">
-                        <div class="product-copy">
-                          <p class="eyebrow">Preview, testers wanted</p>
-                          <h3 id="and-title">Clotr for Android</h3>
-                          <p class="say">
-                            A phone keyboard with Clotr's check behind it, for the AI apps you type into, plus the same file
-                            check the Windows app has. It isn't on Google Play yet, and the next step is a small group of people
-                            using it for two weeks.
-                          </p>
-                          <p class="buttons">
-                            <a class="btn" href="android.html#join">Help test it</a>
-                          </p>
-                          <p class="fine"><a href="android.html">See the Android preview</a></p>
-                        </div>
-                        <figure class="product-shot phone">
-                          <picture>
-                            <source media="(prefers-color-scheme: dark)" srcset="assets/apps/android-home-dark.png" />
-                            <img
-                              src="assets/apps/android-home-light.png"
-                              width="412"
-                              height="800"
-                              alt="Clotr for Android's Home screen. Right now, your last check of your files found something worth a look, with a See what to do button. Below it, the keyboard is on with no warnings this week, and My files has 5 to look at from a quick scan of 4,812 files."
-                            />
-                          </picture>
-                        </figure>
-                      </div>
-                    </article>
-        </div>
-        <p class="wrap later">Safari and iPhone come later, once Android is out.</p>
-      </section>
-
-      <section class="sec trust" aria-labelledby="trust-title">
-        <div class="wrap">
-          <h2 id="trust-title">What anyone can check</h2>
-          <ul>
-            <li>
-              There's no network code in Clotr, and a test fails the build if any is added.
-              <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">How the test works</a>
-            </li>
-            <li>
-              Clotr spots private details with plain pattern matching that anyone can read, it never asks an AI
-              service to do it, and there's no account either.
-              <a href="https://github.com/clotr-app/clotr/blob/main/extension/patterns.js">Read the patterns</a>
-            </li>
-            <li>
-              The build is reproducible: clone a release's tag, build it yourself, and its checksum matches the
-              SHA256SUMS.txt published with it.
-              <a href="https://github.com/clotr-app/clotr/releases">Check a release</a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
+        <p class="vet">
+          <img class="for-night" src="assets/eagle-dark.png" alt="" width="40" height="34" /><img class="for-day" src="assets/eagle-light.png" alt="" width="40" height="34" />
+          <b>Veteran owned</b> <span aria-hidden="true">&middot;</span>
+          <span>Free and open source. If you choose to send a message, it still goes to the AI service.</span>
+        </p>
+      </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <p class="trust-badges">
-          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
-            ><img src="assets/badges/tests.svg" alt="Tests: passing"
-          /></a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
-            ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
-          /></a>
-          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
-            ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
-          /></a>
-          <a href="https://www.bestpractices.dev/projects/15419"
-            ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
-          /></a>
-        </p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>

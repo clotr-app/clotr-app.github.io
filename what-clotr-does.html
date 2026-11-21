@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+      content="default-src 'none'; script-src 'self'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
     />
     <meta name="referrer" content="no-referrer" />
     <title>What Clotr does, and doesn't</title>
@@ -30,300 +30,318 @@
       content="Every claim Clotr makes about itself, with the file, the test or the setting a stranger can check it against."
     />
     <meta name="twitter:image" content="https://clotr.app/assets/social-card-1200x630.png" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#1e1f22" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="kit/tokens.css" />
     <link rel="stylesheet" href="kit/components.css" />
     <link rel="stylesheet" href="site.css" />
+    <script src="look.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to the content</a>
-    <header class="top field">
+    <header class="top">
       <div class="wrap">
         <nav>
-          <a href="index.html" aria-label="Clotr, home">
-            <img class="wordmark" src="assets/wordmark.svg" alt="Clotr" width="86" height="32" />
-          </a>
+          <a class="brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
           <div class="links">
             <a href="download.html">Download</a>
             <a href="teams.html">Teams</a>
             <a href="how-it-works.html">How it works</a>
-            <a href="blog/index.html">Blog</a>
           </div>
         </nav>
       </div>
     </header>
 
     <main id="main">
-      <div class="wrap">
-        <section class="sec" aria-labelledby="wcd-title">
+      <div class="wrap page">
+        <section class="page-hero solo" aria-labelledby="wcd-title">
           <h1 id="wcd-title">What Clotr does, and doesn't</h1>
           <p class="lede">
             I'd rather you check this page than believe it. Every line below names the file, the test or the
             setting that backs it, so you can read the same source I'm describing instead of taking my word for it.
           </p>
         </section>
+        <div class="with-toc">
+          <div class="doc">
 
-        <section class="sec" aria-labelledby="leaves-title">
-          <div class="head">
-            <h2 id="leaves-title">What Clotr sends</h2>
-            <p class="lede">
-              Clotr has no server, and keeps its short record on your device. If you choose to send a message in a chat,
-              it still goes to that AI service as usual. Clotr checks what you type in the page and stores only what
-              kind of thing it found, the site and your choice; it doesn't need an account.
-            </p>
-          </div>
-          <ul class="promises">
-            <li>
+            <section class="block" aria-labelledby="leaves-title">
+                        <h2 class="marked" id="leaves-title">What Clotr sends</h2>
               <p>
-                Open <code>chrome://extensions</code>, turn on Developer mode, and click Clotr's
-                <em>service worker</em>. Watch its Network tab while you use an AI chat: it stays empty.
+                Clotr has no server, and keeps its short record on your device. If you choose to send a message in a chat,
+                it still goes to that AI service as usual. Clotr checks what you type in the page and stores what kind
+                of thing it found, the site, your choice and a scrambled code so it can tell when the same thing comes
+                up again; it doesn't need an account.
               </p>
-            </li>
-            <li>
-              <p>
-                Read <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">the rule test</a>
-                named "100% local: no network calls, no remote code." It fails the build the moment anyone adds code
-                to the browser extension that could send data out. Clotr for Windows has a test of its own, and its
-                source is public too.
-              </p>
-            </li>
-            <li>
-              <p>
-                Look at the source yourself: detection runs in
-                <a href="https://github.com/clotr-app/clotr/blob/main/extension/patterns.js">patterns.js</a>, plain
-                text matching with no AI model and no call to one.
-              </p>
-            </li>
-          </ul>
-        </section>
+              <ul class="dots">
+                <li>
+                  <p>
+                    Open <code>chrome://extensions</code>, turn on Developer mode, and click Clotr's
+                    <em>service worker</em>. Watch its Network tab while you use an AI chat: it stays empty.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Read <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">the rule test</a>
+                    named "100% local: no network calls, no remote code." It fails the build the moment anyone adds code
+                    to the browser extension that could send data out. Clotr for Windows has a test of its own, and its
+                    source is public too.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Look at the source yourself: detection runs in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/patterns.js">patterns.js</a>, plain
+                    text matching with no AI model and no call to one.
+                  </p>
+                </li>
+              </ul>
+            </section>
 
-        <section class="sec" aria-labelledby="costs-title">
-          <div class="head">
-            <h2 id="costs-title">What it costs</h2>
-            <p class="lede">
-              Nothing, and there's no account to make it work. The code carries no payment library and no sign-in
-              screen, because there's nowhere for a password to go.
-            </p>
-          </div>
-          <ul class="promises">
-            <li>
-              <p>Search the source for a login page or a billing call: there isn't one.</p>
-            </li>
-            <li>
+            <section class="block" aria-labelledby="costs-title">
+                        <h2 class="marked" id="costs-title">What it costs</h2>
               <p>
-                Clotr is free, at home and at work. I'm drafting a rollout kit for small offices, and nothing is for
-                sale yet. The <a href="teams.html">Clotr for teams</a> page has more.
+                Nothing, and there's no account to make it work. The code carries no payment library and no sign-in
+                screen, because there's nowhere for a password to go.
               </p>
-            </li>
-            <li>
-              <p>
-                It's free software under
-                <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE">AGPL-3.0-or-later</a>: free to use,
-                and free to stay that way, because the license doesn't allow a closed-source fork.
-              </p>
-            </li>
-          </ul>
-        </section>
+              <ul class="dots">
+                <li>
+                  <p>Search the source for a login page or a billing call: there isn't one.</p>
+                </li>
+                <li>
+                  <p>
+                    Clotr is free, at home and at work. I'm drafting a rollout kit for small offices, and nothing is for
+                    sale yet. The <a href="teams.html">Clotr for teams</a> page has more.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    It's free software under
+                    <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE">AGPL-3.0-or-later: free to use</a>,
+                    and free to stay that way, because the license doesn't allow a closed-source fork.
+                  </p>
+                </li>
+              </ul>
+            </section>
 
-        <section class="sec" aria-labelledby="sites-title">
-          <div class="head">
-            <h2 id="sites-title">Which sites it watches</h2>
-            <p class="lede">
-              Clotr watches 19 AI chat sites the moment you install it, and nothing else, until you say so.
-            </p>
-          </div>
-          <ul class="promises">
-            <li>
+            <section class="block" aria-labelledby="sites-title">
+                        <h2 class="marked" id="sites-title">Which sites it watches</h2>
               <p>
-                The 19 are listed in
-                <a href="https://github.com/clotr-app/clotr/blob/main/extension/ai-sites.json">ai-sites.json</a>,
-                and the extension's permissions, visible on its store listing or in your browser's own extension
-                settings, name each one by address. There's no permission that covers "AI sites in general."
+                Clotr watches 19 AI chat sites the moment you install it, and nothing else, until you say so.
               </p>
-            </li>
-            <li>
-              <p>
-                Email and chat apps, Gmail, Outlook, Yahoo Mail, Discord, Slack, WhatsApp, Messenger and Microsoft
-                Teams, stay off until you tick them, on the welcome page or in Settings, and your browser asks you
-                to confirm each one. The list is <code>EVERYDAY_SITES</code> in
-                <a href="https://github.com/clotr-app/clotr/blob/main/extension/sites.js">sites.js</a>.
-              </p>
-            </li>
-            <li>
-              <p>
-                Add any other site yourself, one at a time: clicking <em>Protect this site</em> asks your browser
-                for that one address only, never a broader pattern, in
-                <a href="https://github.com/clotr-app/clotr/blob/main/extension/popup.js">popup.js</a>'s permission
-                request. The manifest declares that Clotr may ask for one site at a time; it's the per-click
-                request, not the manifest line, worth reading if you want to see the actual limit.
-              </p>
-            </li>
-          </ul>
-        </section>
+              <ul class="dots">
+                <li>
+                  <p>
+                    The 19 are listed in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/ai-sites.json">ai-sites.json</a>,
+                    and the extension's permissions, visible on its store listing or in your browser's own extension
+                    settings, name each one by address. There's no permission that covers "AI sites in general."
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Email and chat apps, Gmail, Outlook, Yahoo Mail, Discord, Slack, WhatsApp, Messenger and Microsoft
+                    Teams, stay off until you tick them, on the welcome page or in Settings, and your browser asks you
+                    to confirm each one. The list is <code>EVERYDAY_SITES</code> in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/sites.js">sites.js</a>.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Add any other site yourself, one at a time: clicking <em>Protect this site</em> asks your browser
+                    for that one address only, in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/popup.js">popup.js</a>'s permission
+                    request. The manifest's optional line is <code>https://*/*</code>, because the
+                    <em>Everywhere I type</em> switch, off until you turn it on, asks for every https site at once,
+                    after your browser asks you first. That request is <code>requestEverywhere</code> in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/sites.js">sites.js</a>.
+                  </p>
+                </li>
+              </ul>
+            </section>
 
-        <section class="sec" aria-labelledby="scam-title">
-          <div class="head">
-            <h2 id="scam-title">Scam messages</h2>
-            <p class="lede">
-              "Is this a scam?" is Clotr's own page: paste a message you got by text, email or chat, and it marks
-              the wording that real scams use, in English or Spanish, and says what each sign means. It never tells
-              you a message is safe, because no list knows every scam, and the message you paste is never sent,
-              saved or logged anywhere.
-            </p>
-          </div>
-          <ul class="promises">
-            <li>
+            <section class="block" aria-labelledby="scam-title">
+                        <h2 class="marked" id="scam-title">Scam messages</h2>
               <p>
-                The signs it looks for are plain text matching in
-                <a href="https://github.com/clotr-app/clotr/blob/main/extension/scam-signs.js">scam-signs.js</a>,
-                built from real scam-message research, not a model's guess.
+                "Is this a scam?" is Clotr's own page: paste a message you got by text, email or chat, and it marks
+                the wording that real scams use, in English or Spanish, and says what each sign means. It never tells
+                you a message is safe, because no list knows every scam, and the message you paste is never sent,
+                saved or logged anywhere.
               </p>
-            </li>
-            <li>
-              <p>
-                Run <code>npm test</code> in the source and
-                <a href="https://github.com/clotr-app/clotr/blob/main/tests/scam-signs.test.js">scam-signs.test.js</a>
-                runs the signs over more than 200 scam messages in English and Spanish and more than 200 ordinary
-                ones that only look like a scam. Each message has to get exactly the signs written beside it, no
-                more and no fewer.
-              </p>
-            </li>
-            <li>
-              <p>
-                After a scam, or a near miss, Tourniquet can ask before sending money or an ID number for 30 days,
-                then step back down by itself. It's your own setting, stored on your device, never Clotr's to turn
-                on for you.
-              </p>
-            </li>
-          </ul>
-        </section>
+              <ul class="dots">
+                <li>
+                  <p>
+                    The signs it looks for are plain text matching in
+                    <a href="https://github.com/clotr-app/clotr/blob/main/extension/scam-signs.js">scam-signs.js</a>,
+                    built from real scam-message research, not a model's guess.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Run <code>npm test</code> in the source and
+                    <a href="https://github.com/clotr-app/clotr/blob/main/tests/scam-signs.test.js">scam-signs.test.js</a>
+                    runs the signs over more than 200 scam messages in English and Spanish and more than 200 ordinary
+                    ones that only look like a scam. Each message has to get exactly the signs written beside it, no
+                    more and no fewer.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    After a scam, or a near miss, Tourniquet can ask before sending money or an ID number for 30 days,
+                    then step back down by itself. It's your own setting, stored on your device, never Clotr's to turn
+                    on for you.
+                  </p>
+                </li>
+              </ul>
+            </section>
 
-        <section class="sec" aria-labelledby="code-title">
-          <div class="head">
-            <h2 id="code-title">The code</h2>
-            <p class="lede">
-              The browser extension and the developer tools are open source under AGPL-3.0-or-later, and every
-              extension release can be rebuilt from that source, byte for byte. Clotr for Windows is free and open
-              source too, and it runs the same engine.
-            </p>
-          </div>
-          <ul class="promises">
-            <li>
+            <section class="block" aria-labelledby="code-title">
+                        <h2 class="marked" id="code-title">The code</h2>
               <p>
-                Read it on GitHub: <a href="https://github.com/clotr-app/clotr">github.com/clotr-app/clotr</a>.
-                Nothing about how Clotr decides what to warn about is hidden, licensed separately or kept
-                server-side.
+                The browser extension and the developer tools are open source under AGPL-3.0-or-later, and every
+                extension release can be rebuilt from that source, byte for byte. Clotr for Windows is free and open
+                source too, and it runs the same engine.
               </p>
-            </li>
-            <li>
-              <p>
-                Build the release zip yourself with <code>npm run package</code>, and compare its checksum against
-                the <code>SHA256SUMS.txt</code> published with that release. They match, because the build only
-                ever packages what git tracks.
-              </p>
-            </li>
-          </ul>
-        </section>
+              <ul class="dots">
+                <li>
+                  <p>
+                    Read it on <a href="https://github.com/clotr-app/clotr">GitHub</a>: <a href="https://github.com/clotr-app/clotr">github.com/clotr-app/clotr</a>.
+                    Nothing about how Clotr decides what to warn about is hidden, licensed separately or kept
+                    server-side.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Build the release zip yourself with <code>npm run package</code>, and compare its checksum against
+                    the <code>SHA256SUMS.txt</code> published with that release. They match, because the build only
+                    ever packages what git tracks.
+                  </p>
+                </li>
+              </ul>
+            </section>
 
-        <section class="sec" aria-labelledby="check-title">
-          <div class="head">
-            <h2 id="check-title">Check it yourself</h2>
-            <p class="lede">Check Clotr yourself in about ten minutes.</p>
-          </div>
-          <ol class="steps measure">
-            <li>
-              Before going offline, open the <a href="try.html">practice page</a> and copy its made-up AWS key. Then
-              load Clotr, open DevTools (F12), go to the Network tab and tick <em>Offline</em>, or turn off your
-              computer's network entirely. Open a built-in AI chat and paste the copied key into the message box.
-              The warning still appears, because catching it never needed a connection.
-            </li>
-            <li>
-              Clone the repository, run <code>npm install</code>, then
-              <code>node --test --test-name-pattern="100% local" tests/rules.test.js</code>. It passes by scanning
-              every file Clotr ships for a network call; comment out a guard in
-              <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">rules.test.js</a> yourself
-              and run it again to see it fail instead.
-            </li>
-            <li>
-              Check out the tag of a release you've installed, say <code>git checkout v1.4.1</code>, then run
-              <code>npm run package</code>. It writes <code>dist/clotr-&lt;version&gt;.zip</code> and a line for it
-              in <code>dist/SHA256SUMS.txt</code>. Open that same release on
-              <a href="https://github.com/clotr-app/clotr/releases">GitHub</a> and compare your line against the
-              <code>SHA256SUMS.txt</code> attached there: the same source always produces the same bytes.
-            </li>
-          </ol>
-        </section>
+            <section class="block" aria-labelledby="check-title">
+                        <h2 class="marked" id="check-title">Check it yourself</h2>
+              <p>Check Clotr yourself in about ten minutes.</p>
+              <ol class="nums">
+                <li>
+                  Before going offline, open the extension's practice page and copy its made-up AWS key. Then
+                  load Clotr, open DevTools (F12), go to the Network tab and tick <em>Offline</em>, or turn off your
+                  computer's network entirely. Open a built-in AI chat and paste the copied key into the message box.
+                  The warning still appears, because catching it never needed a connection.
+                </li>
+                <li>
+                  Clone the repository, run <code>npm install</code>, then
+                  <code>node --test --test-name-pattern="100% local" tests/rules.test.js</code>. It passes by scanning
+                  every file Clotr ships for a network call; comment out a guard in
+                  <a href="https://github.com/clotr-app/clotr/blob/main/tests/rules.test.js">rules.test.js</a> yourself
+                  and run it again to see it fail instead.
+                </li>
+                <li>
+                  Check out the tag of a release you've installed, say <code>git checkout v1.4.1</code>, then run
+                  <code>npm run package</code>. It writes <code>dist/clotr-&lt;version&gt;.zip</code> and a line for it
+                  in <code>dist/SHA256SUMS.txt</code>. Open that same release on
+                  <a href="https://github.com/clotr-app/clotr/releases">GitHub</a> and compare your line against the
+                  <code>SHA256SUMS.txt</code> attached there: the same source always produces the same bytes.
+                </li>
+              </ol>
+            </section>
 
-        <section class="sec" aria-labelledby="cant-title">
-          <div class="head">
-            <h2 id="cant-title">What it can't do</h2>
-            <p class="lede">
-              Clotr warns and lets you decide; it isn't a filter that blocks anything on its own, and it can't
-              protect what it can't see.
-            </p>
+            <section class="block" aria-labelledby="cant-title">
+                        <h2 class="marked" id="cant-title">What it can't do</h2>
+              <p>
+                Clotr warns and lets you decide; it isn't a filter that blocks anything on its own, and it can't
+                protect what it can't see.
+              </p>
+              <ul class="dots">
+                <li>
+                  <p>
+                    It never stops a message by itself. Every warning ends in your choice, and the strictest setting a
+                    person, a team or Tourniquet can apply still only asks first.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Some sites can remove Clotr's warning from the page. When Clotr detects that, it stops holding
+                    messages there so you can still send. You can read about it in the "Accepted limits" section of
+                    <a href="https://github.com/clotr-app/clotr/blob/main/docs/security-review.md">the security
+                    review</a>.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    It reads text, not images: a picture's hidden location and a suspicious file name get checked, but a
+                    password written across a photo of a screen doesn't.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    No test set covers every scam or every way a detail can be written. If Clotr misses one, or warns
+                    about nothing, <a href="https://github.com/clotr-app/clotr/issues">tell me</a>.
+                  </p>
+                </li>
+              </ul>
+            </section>
+
           </div>
-          <ul class="promises">
-            <li>
-              <p>
-                It never stops a message by itself. Every warning ends in your choice, and the strictest setting a
-                person, a team or Tourniquet can apply still only asks first.
-              </p>
-            </li>
-            <li>
-              <p>
-                Some sites can remove Clotr's warning from the page. When Clotr detects that, it stops holding
-                messages there so you can still send. You can read about it in the "Accepted limits" section of
-                <a href="https://github.com/clotr-app/clotr/blob/main/docs/security-review.md">the security
-                review</a>.
-              </p>
-            </li>
-            <li>
-              <p>
-                It reads text, not images: a picture's hidden location and a suspicious file name get checked, but a
-                password written across a photo of a screen doesn't.
-              </p>
-            </li>
-            <li>
-              <p>
-                No test set covers every scam or every way a detail can be written. If Clotr misses one, or warns
-                about nothing, <a href="https://github.com/clotr-app/clotr/issues">tell me</a>.
-              </p>
-            </li>
-          </ul>
-        </section>
+          <nav class="toc" aria-labelledby="toc-title">
+            <p class="eyebrow" id="toc-title">On this page</p>
+            <ol>
+              <li><a href="#leaves-title">What Clotr sends</a></li>
+              <li><a href="#costs-title">What it costs</a></li>
+              <li><a href="#sites-title">Which sites it watches</a></li>
+              <li><a href="#scam-title">Scam messages</a></li>
+              <li><a href="#code-title">The code</a></li>
+              <li><a href="#check-title">Check it yourself</a></li>
+              <li><a href="#cant-title">What it can't do</a></li>
+            </ol>
+          </nav>
+        </div>
       </div>
     </main>
 
     <footer class="bottom">
       <div class="wrap">
-        <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
-        <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
-        <p class="trust-badges">
-          <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
-            ><img src="assets/badges/tests.svg" alt="Tests: passing"
-          /></a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
-            ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
-          /></a>
-          <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
-            ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
-          /></a>
-          <a href="https://www.bestpractices.dev/projects/15419"
-            ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
-          /></a>
-        </p>
-        <nav aria-label="Project">
-          <a href="https://github.com/clotr-app/clotr">Code</a>
-          <a href="blog/index.html">Blog</a>
-          <a href="developers.html">For developers</a>
-          <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
-          <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
-        </nav>
+        <div class="foot-row">
+          <a class="brand foot-brand" href="index.html" aria-label="Clotr, home"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34" /><img class="wordmark for-day" src="assets/wordmark.svg" alt="" width="78" height="29" /><img class="wordmark for-plum" src="assets/wordmark-plum.svg" alt="" width="78" height="29" /><img class="wordmark for-ember" src="assets/wordmark-ember.svg" alt="" width="78" height="29" /></a>
+          <nav aria-label="Project">
+            <a href="https://github.com/clotr-app/clotr">Code</a>
+            <a href="developers.html">For developers</a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/PRIVACY.md">Privacy policy</a>
+            <a href="https://github.com/clotr-app/clotr/issues/new/choose">Report a problem</a>
+          </nav>
+          <fieldset class="look-switch">
+            <legend>Theme</legend>
+            <button type="button" class="look-now" aria-expanded="false"><span class="look-mark" aria-hidden="true"></span>Theme: <span class="look-name">Plum</span></button>
+            <span class="look-options">
+              <label><input type="radio" name="look" id="look-light" value="light" autocomplete="off" />Light</label>
+              <label><input type="radio" name="look" id="look-plum" value="plum" autocomplete="off" checked />Plum</label>
+              <label><input type="radio" name="look" id="look-ember" value="ember" autocomplete="off" />Ember</label>
+            </span>
+          </fieldset>
+        </div>
+        <div class="foot-row">
+          <div class="foot-free">
+            <p>Clotr is free. If it helped you, you can <a href="https://buymeacoffee.com/billiambash">buy me a beer</a>.</p>
+            <p class="fine">No GitHub account? Email <a href="mailto:support@clotr.app">support@clotr.app</a>.</p>
+          </div>
+          <p class="trust-badges">
+            <a href="https://github.com/clotr-app/clotr/actions/workflows/test.yml"
+              ><img src="assets/badges/tests.svg" alt="Tests: passing"
+            /></a>
+            <a href="https://github.com/clotr-app/clotr/blob/main/LICENSE"
+              ><img src="assets/badges/license.svg" alt="License: AGPL-3.0-or-later"
+            /></a>
+            <a href="https://scorecard.dev/viewer/?uri=github.com/clotr-app/clotr"
+              ><img src="assets/badges/scorecard.svg" alt="OpenSSF Scorecard score"
+            /></a>
+            <a href="https://www.bestpractices.dev/projects/15419"
+              ><img src="assets/badges/best-practices.svg" alt="OpenSSF Best Practices level"
+            /></a>
+          </p>
+        </div>
       </div>
     </footer>
   </body>
